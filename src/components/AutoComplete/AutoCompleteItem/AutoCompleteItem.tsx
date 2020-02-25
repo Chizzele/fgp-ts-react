@@ -2,11 +2,20 @@ import React, { Component } from 'react'
 import { AutoCompleteItemPropsInterface } from '../../../interfaces';
 
 export class AutoCompleteItem extends Component<AutoCompleteItemPropsInterface> {
+    constructor(props:AutoCompleteItemPropsInterface){
+        super(props);
+        this.state = {
+
+        }
+    }
     render() {
         return (
-            <div>
-                
-            </div>
+            <li
+                className={"autoCompleteDropDownItem"}
+                onMouseDown={(e) => this.props.onClick(e, this.props.searchRow.indexKey, this.props.item)}
+            >
+                {this.props.item.description}
+            </li>
         )
     }
 }

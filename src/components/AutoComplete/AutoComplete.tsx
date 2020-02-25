@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { AutoCompleteItem } from './AutoCompleteItem/AutoCompleteItem' 
+// import { AutoCompleteItem } from './AutoCompleteItem/AutoCompleteItem' 
+
 import { AutoCompletePropsInterface } from '../../interfaces';
 
 export class AutoComplete extends Component<AutoCompletePropsInterface> {
@@ -14,7 +15,7 @@ export class AutoComplete extends Component<AutoCompletePropsInterface> {
     render() {
         return (
             <div className={"col-12 col-md-9"}>
-                <input 
+                {/* <input 
                     placeholder={"start typing substation name..."}
                     className={"w-100 form-control"}
                     type="text" 
@@ -48,7 +49,7 @@ export class AutoComplete extends Component<AutoCompletePropsInterface> {
                             })
                         }
                     </ul>
-                </div>
+                </div> */}
                 
 
             </div>

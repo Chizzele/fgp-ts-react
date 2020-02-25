@@ -1,3 +1,5 @@
+// declare module "*.module.css";
+
 type Todo = {
     id : string;
     text : string;

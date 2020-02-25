@@ -41,6 +41,7 @@ export interface AutoCompleteItemPropsInterface{
     selectHandler : ( id : string ) => void;
     searchRow : AutoCompleteSearchRow;
     item : AutoCompleteDeviceItem;
+    onClick : ( event:React.MouseEvent<HTMLLIElement>, indexKey : number, item:AutoCompleteDeviceItem ) => void;
 }
 
 export interface AutoCompletePropsInterface{

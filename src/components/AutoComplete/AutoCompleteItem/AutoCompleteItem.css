@@ -1,0 +1,15 @@
+/* drop down item */
+.autoCompleteDropDownItem {
+    background: #ebebeb;
+    border: 1px solid #dfdfdf;
+    border-top: 0;
+    padding-left: 10px;
+    cursor: pointer;
+    transition: 0.1s ease;
+    font-size: 1rem;
+}
+
+.autoCompleteDropDownItem:hover{
+    background: #80bdff;
+    color: #353535;
+}
