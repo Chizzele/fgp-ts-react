@@ -69,7 +69,7 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
 
     render() {
         return (
-            <div className={"col-12 col-md-9 pos-fixed"}>
+            <div className={"w-inherit pos-fixed"}>
                 <input 
                     placeholder={this.props.placeHolderText ? this.props.placeHolderText :  ""}
                     className={"w-100 form-control"}

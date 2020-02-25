@@ -5,3 +5,7 @@
 .pos-fixed{
     position: fixed;
 }
+
+.w-inherit{
+    width: inherit
+}

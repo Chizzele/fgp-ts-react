@@ -16,7 +16,8 @@ export interface AutoCompletePropsInterface {
     items: AutoCompleteDeviceItem[];
     matchOn?: string;
     displayField?: string;
-    cb?: (item: AutoCompleteDeviceItem) => void;
+    clickCallBack?: (items: AutoCompleteDeviceItem) => void;
+    changeCallBack?: (item: AutoCompleteDeviceItem[], userInput: string) => void;
 }
 export interface AutoCompleteStateInterface {
     index: number;

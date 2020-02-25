@@ -48,7 +48,8 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "testPathIgnorePatterns": [
-      "build/"
+      "build/", 
+      "src/ext/"
     ]
   },
   "standard": {

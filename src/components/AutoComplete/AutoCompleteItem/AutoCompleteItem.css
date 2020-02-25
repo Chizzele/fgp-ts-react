@@ -16,7 +16,7 @@
 
 .autoCompleteDropDown{
     position: absolute;
-    width: calc(100% - 30px);
+    width: calc(100%);
     height: fit-content;
     z-index: 999999;
     box-shadow: 0 0 0 0.2rem rgba(224,224,224,0.25);
