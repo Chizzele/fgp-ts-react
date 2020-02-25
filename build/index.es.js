@@ -55,6 +55,16 @@ var TestComponent = /** @class */ (function (_super) {
     return TestComponent;
 }(Component));
 
+function configureDisplayField(displayField, item) {
+    var displayKey = displayField;
+    if (item[displayKey]) {
+        return item[displayKey];
+    }
+    else {
+        return item.description;
+    }
+}
+
 var AutoCompleteItem = /** @class */ (function (_super) {
     __extends(AutoCompleteItem, _super);
     function AutoCompleteItem(props) {
@@ -64,7 +74,7 @@ var AutoCompleteItem = /** @class */ (function (_super) {
     }
     AutoCompleteItem.prototype.render = function () {
         var _this = this;
-        return (React.createElement("li", { className: "autoCompleteDropDownItem", onMouseDown: function (e) { return _this.props.onClick(e, _this.props.searchRow.indexKey, _this.props.item); } }, this.props.item.description));
+        return (React.createElement("li", { className: "autoCompleteDropDownItem", onMouseDown: function () { return _this.props.onClick(_this.props.item); } }, this.props.displayField !== undefined ? (configureDisplayField(this.props.displayField, this.props.item)) : (this.props.item.description)));
     };
     return AutoCompleteItem;
 }(Component));
@@ -77,37 +87,58 @@ var AutoComplete = /** @class */ (function (_super) {
             index: _this.props.index,
             searchRow: _this.props.searchRow
         };
+        _this.defaultOnClick = _this.defaultOnClick.bind(_this);
         return _this;
     }
-    AutoComplete.prototype.componentDidMount = function () {
-    };
+    // default blur Action
     AutoComplete.prototype.defaultOnBlurCapture = function () {
-        console.log(arguments);
+        var tmpSearchRow = __assign({}, this.state.searchRow);
+        tmpSearchRow.showOptions = false;
+        this.setState({ searchRow: tmpSearchRow });
     };
-    AutoComplete.prototype.defaultOnChange = function (event, indexKey) {
-        console.log(event.target.value, indexKey);
+    // the default method for handling the input change event
+    AutoComplete.prototype.defaultOnChange = function (event) {
+        // make a copy of the search row
         var tmpSearchRow = __assign({}, this.state.searchRow);
         var userInput = event.target.value;
+        // if there is not a custom matchOn - match on description
         if (this.props.matchOn !== undefined) {
             var matchType = this.props.matchOn;
-            var filteredItems = this.props.items.filter(function (item) { return item[matchType].toLowerCase().indexOf(userInput.toLowerCase()) > 1; });
-            console.log(filteredItems, this.props.items.filter(function (item) { return item.name.toLowerCase().indexOf(userInput.toLowerCase()) > 1; }));
+            var filteredItems = this.props.items.filter(function (item) { return item[matchType].toLowerCase().includes(userInput.toLowerCase()); });
         }
         else {
-            var filteredItems = this.props.items.filter(function (item) { return item.description.toLowerCase().indexOf(userInput.toLowerCase()) > 1; });
+            var filteredItems = this.props.items.filter(function (item) { return item.description.toLowerCase().includes(userInput.toLowerCase()); });
         }
         tmpSearchRow.filteredItems = filteredItems;
         filteredItems.length > 0 ? tmpSearchRow.showOptions = true : tmpSearchRow.showOptions = false;
         tmpSearchRow.value = userInput;
+        tmpSearchRow.confirmed = false;
+        // setting state
         this.setState({ searchRow: tmpSearchRow });
     };
-    AutoComplete.prototype.defaultOnClick = function () {
-        console.log(arguments);
+    AutoComplete.prototype.defaultOnClick = function (item) {
+        var tmpSearchRow = __assign({}, this.state.searchRow);
+        if (this.props.displayField !== undefined) {
+            tmpSearchRow.value = configureDisplayField(this.props.displayField, item);
+        }
+        else {
+            tmpSearchRow.value = item.description;
+        }
+        tmpSearchRow.confirmed = true;
+        tmpSearchRow.showOptions = false;
+        tmpSearchRow.id = item.id;
+        tmpSearchRow.description = item.description;
+        tmpSearchRow.label = item.label;
+        tmpSearchRow.name = item.name;
+        this.setState({ searchRow: tmpSearchRow });
+        if (this.props.cb) {
+            this.props.cb(item);
+        }
     };
     AutoComplete.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: "col-12 col-md-9 pos-fixed" },
-            React.createElement("input", { placeholder: this.props.placeHolderText ? this.props.placeHolderText : "", className: "w-100 form-control", type: "text", onChange: this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : function (e) { return _this.defaultOnChange(e, _this.state.searchRow.indexKey); }, value: this.state.searchRow.value, onBlurCapture: this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : this.defaultOnBlurCapture.bind(this, 'value', this.state.searchRow.indexKey) }),
+            React.createElement("input", { placeholder: this.props.placeHolderText ? this.props.placeHolderText : "", className: "w-100 form-control", type: "text", onChange: this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : function (e) { return _this.defaultOnChange(e); }, value: this.state.searchRow.value, onBlurCapture: this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : function () { return _this.defaultOnBlurCapture(); } }),
             React.createElement("div", { className: this.state.searchRow.showOptions === true &&
                     this.state.searchRow.value != ""
                     ? "autoCompleteDropDown" : "d-none", style: { 'zIndex': (999999 - this.props.index) } },
@@ -115,7 +146,7 @@ var AutoComplete = /** @class */ (function (_super) {
                 // filter only the first 30
                 this.state.searchRow.filteredItems.map(function (filteredItem, index) {
                     if (index < _this.props.threshold) {
-                        return (React.createElement(AutoCompleteItem, { key: index, item: filteredItem, onClick: _this.props.onClick ? _this.props.onClick : _this.defaultOnClick, searchRow: _this.state.searchRow }));
+                        return (React.createElement(AutoCompleteItem, { key: index, item: filteredItem, onClick: _this.props.onClick ? _this.props.onClick : _this.defaultOnClick, searchRow: _this.state.searchRow, displayField: _this.props.displayField }));
                     }
                     else {
                         return (null);

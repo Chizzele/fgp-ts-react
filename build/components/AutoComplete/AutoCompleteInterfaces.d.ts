@@ -2,18 +2,21 @@
 export interface AutoCompleteItemPropsInterface {
     searchRow: AutoCompleteSearchRow;
     item: AutoCompleteDeviceItem;
-    onClick: (event: React.MouseEvent<HTMLLIElement>, indexKey: number, item: AutoCompleteDeviceItem) => void;
+    onClick: (item: AutoCompleteDeviceItem) => void;
+    displayField?: string;
 }
 export interface AutoCompletePropsInterface {
     threshold: number;
     onChange?: (indexKey: string) => void;
-    onBlur?: (id: string) => void;
-    onClick?: (event: React.MouseEvent<HTMLLIElement>, indexKey: number, item: AutoCompleteDeviceItem) => void;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+    onClick?: (item: AutoCompleteDeviceItem) => void;
     index: number;
     searchRow: AutoCompleteSearchRow;
     placeHolderText?: string;
     items: AutoCompleteDeviceItem[];
     matchOn?: string;
+    displayField?: string;
+    cb?: (item: AutoCompleteDeviceItem) => void;
 }
 export interface AutoCompleteStateInterface {
     index: number;

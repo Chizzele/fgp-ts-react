@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { AutoCompleteItem } from './AutoCompleteItem/AutoCompleteItem' 
 // importing the required interfaces
 import { AutoCompletePropsInterface, AutoCompleteStateInterface } from './AutoCompleteInterfaces';
+import { configureDisplayField } from './AutoCompleteHelpers';
 
 export class AutoComplete extends Component<AutoCompletePropsInterface, AutoCompleteStateInterface> {
     constructor(props:AutoCompletePropsInterface){
@@ -10,30 +11,60 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
             index : this.props.index,
             searchRow : this.props.searchRow
         };
+        this.defaultOnClick = this.defaultOnClick.bind(this)
     }
 
-    componentDidMount(){
-    }
-
-
+    // default blur Action
     defaultOnBlurCapture () {
-        console.log(arguments)
-    }
-
-    defaultOnChange (event:React.ChangeEvent<HTMLInputElement>, indexKey:number) {
         let tmpSearchRow = {...this.state.searchRow};
-        const userInput = event.target.value;
-        var filteredItems = this.props.items.filter(
-            (item) => item.description.toLowerCase().indexOf(userInput.toLowerCase()) > 1
-        );
-        tmpSearchRow.filteredItems = filteredItems;
-        filteredItems.length > 0 ? tmpSearchRow.showOptions = true : tmpSearchRow.showOptions = false;
-        tmpSearchRow.value = userInput;
+        tmpSearchRow.showOptions = false
         this.setState({searchRow : tmpSearchRow})
     }
 
-    defaultOnClick () {
-        console.log(arguments)
+    // the default method for handling the input change event
+    defaultOnChange (event:React.ChangeEvent<HTMLInputElement>) {
+        // make a copy of the search row
+        let tmpSearchRow = {...this.state.searchRow};
+        const userInput = event.target.value;
+        // if there is not a custom matchOn - match on description
+        if(this.props.matchOn !== undefined){
+            var matchType = this.props.matchOn
+            var filteredItems = this.props.items.filter(
+                (item) => item[matchType].toLowerCase().includes(userInput.toLowerCase())
+            );
+        }else{
+            var filteredItems = this.props.items.filter(
+                (item) => item.description.toLowerCase().includes(userInput.toLowerCase())
+            );
+        }
+        tmpSearchRow.filteredItems = filteredItems;
+        filteredItems.length > 0 ? tmpSearchRow.showOptions = true : tmpSearchRow.showOptions = false;
+        tmpSearchRow.value = userInput;
+        tmpSearchRow.confirmed = false;
+        // setting state
+        this.setState({searchRow : tmpSearchRow})
+        if(this.props.changeCallBack){
+            this.props.changeCallBack(filteredItems, userInput);
+        }
+    }
+
+    defaultOnClick (item:AutoCompleteDeviceItem) {
+        let tmpSearchRow = {...this.state.searchRow};
+        if(this.props.displayField !== undefined){
+            tmpSearchRow.value = configureDisplayField(this.props.displayField, item)
+        }else{
+            tmpSearchRow.value = item.description
+        }
+        tmpSearchRow.confirmed = true;
+        tmpSearchRow.showOptions = false;
+        tmpSearchRow.id = item.id;
+        tmpSearchRow.description = item.description;
+        tmpSearchRow.label = item.label;
+        tmpSearchRow.name = item.name;
+        this.setState({searchRow : tmpSearchRow})
+        if(this.props.clickCallBack){
+            this.props.clickCallBack(item);
+        }
     }
 
     render() {
@@ -43,9 +74,9 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
                     placeholder={this.props.placeHolderText ? this.props.placeHolderText :  ""}
                     className={"w-100 form-control"}
                     type="text" 
-                    onChange={this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : (e) => this.defaultOnChange(e, this.state.searchRow.indexKey)}
+                    onChange={this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : (e) => this.defaultOnChange(e)}
                     value={this.state.searchRow.value}
-                    onBlurCapture={this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : this.defaultOnBlurCapture.bind(this, 'value', this.state.searchRow.indexKey)}
+                    onBlurCapture={this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : () => this.defaultOnBlurCapture() }
                 />
                 <div 
                     className={ this.state.searchRow.showOptions === true && 
@@ -67,6 +98,7 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
                                             item={filteredItem}
                                             onClick={this.props.onClick ? this.props.onClick : this.defaultOnClick}
                                             searchRow={this.state.searchRow}
+                                            displayField={this.props.displayField}
                                         />
                                     )
                                 }else{

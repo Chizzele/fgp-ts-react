@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { AutoCompleteItemPropsInterface } from '../AutoCompleteInterfaces';
+import { configureDisplayField } from '../AutoCompleteHelpers';
 
 export class AutoCompleteItem extends Component<AutoCompleteItemPropsInterface> {
     constructor(props:AutoCompleteItemPropsInterface){
@@ -8,13 +9,21 @@ export class AutoCompleteItem extends Component<AutoCompleteItemPropsInterface> 
 
         }
     }
+
     render() {
         return (
             <li
                 className={"autoCompleteDropDownItem"}
-                onMouseDown={(e) => this.props.onClick(e, this.props.searchRow.indexKey, this.props.item)}
+                onMouseDown={() => this.props.onClick(this.props.item)}
             >
-                {this.props.item.description}
+                {
+                    this.props.displayField !== undefined ? (
+                        configureDisplayField(this.props.displayField, this.props.item)
+                    ) : (
+                        this.props.item.description
+                    )
+                }
+                
             </li>
         )
     }
