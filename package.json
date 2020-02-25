@@ -7,6 +7,7 @@
   "jsnext:main": "build/index.es.js",
   "scripts": {
     "build": "rollup -c",
+    "start": "rollup -c -w",
     "lint": "standard",
     "format": "prettier-standard --format",
     "test": "jest --coverage"
@@ -33,6 +34,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^2.1.1",
     "rollup-plugin-typescript2": "^0.25.3",
+    "rollup-watch": "^4.3.1",
     "standard": "^14.3.1",
     "standard-prettier": "^1.0.1",
     "ts-jest": "^24.2.0",

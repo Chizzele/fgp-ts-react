@@ -13,3 +13,18 @@
     background: #80bdff;
     color: #353535;
 }
+
+.autoCompleteDropDown{
+    position: absolute;
+    width: calc(100% - 30px);
+    height: fit-content;
+    z-index: 999999;
+    box-shadow: 0 0 0 0.2rem rgba(224,224,224,0.25);
+}
+
+.autoCompleteDropDown ul{
+    list-style: none;
+    text-align: left;
+    margin-bottom: 0;
+    padding: 0;
+}

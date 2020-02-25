@@ -1,19 +1,17 @@
-// declare module "*.module.css";
-
-type Todo = {
-    id : string;
-    text : string;
-    config? : json;
-    isComplete : boolean;
-}
-
-type ApplicationUIConf = {
-    uiId : string;
-    description : string;
-    applicationConf : Todo;
-}
-
+////////BEGIN AUTOCOMPLETE TYPES////////
 type AutoCompleteSearchRow = {
+    name : string;
+    id : string;
+    description : string;
+    confirmed : boolean,
+    value : string;
+    label : string;
+    indexKey : number,
+    filteredItems : AutoCompleteDeviceItem[],
+    showOptions : boolean; //false
+}
+
+type AutoCompleteSearchRowNWP = {
     name : string;
     id : string;
     description : string;
@@ -35,8 +33,9 @@ type AutoCompleteSearchRow = {
 }
 
 type AutoCompleteDeviceItem = {
-    name? : string;
+    name : string;
     id : string;
-    description? : string
-    label? : string
+    description : string
+    label : string
 }
+////////END AUTOCOMPLETE TYPES////////

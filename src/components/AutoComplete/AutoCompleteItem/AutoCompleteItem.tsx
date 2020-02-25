@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AutoCompleteItemPropsInterface } from '../../../interfaces';
+import { AutoCompleteItemPropsInterface } from '../AutoCompleteInterfaces';
 
 export class AutoCompleteItem extends Component<AutoCompleteItemPropsInterface> {
     constructor(props:AutoCompleteItemPropsInterface){

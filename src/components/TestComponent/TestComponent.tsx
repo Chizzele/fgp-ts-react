@@ -1,11 +1,18 @@
-interface Props {}
+import {TestPropsInterface} from '../../interfaces';
+
 import React, { Component } from 'react'
 
-export class TestComponent extends Component<Props> {
+export class TestComponent extends Component<TestPropsInterface> {
+  constructor(props:TestPropsInterface){
+    super(props);
+    this.state = {
+    }
+  }
   render() {
     return (
       <div role='heading'>
-        My First Component
+        {this.props.headingText}
+        {this.props.backupText}
       </div>
     )
   }
