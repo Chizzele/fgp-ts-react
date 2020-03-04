@@ -4237,7 +4237,7 @@ var MonitorApi = /** @class */ (function (_super) {
     function MonitorApi(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            refreshRate: _this.props.refreshRate ? _this.props.refreshRate : 20,
+            refreshRate: _this.props.refreshRate ? _this.props.refreshRate : 20000,
             isUp: "loading"
         };
         _this.checkApiHealth = _this.checkApiHealth.bind(_this);
@@ -4258,7 +4258,9 @@ var MonitorApi = /** @class */ (function (_super) {
         });
     };
     MonitorApi.prototype.componentDidMount = function () {
+        var _this = this;
         this.checkApiHealth();
+        window.setInterval(function () { _this.checkApiHealth(); }, this.state.refreshRate);
     };
     MonitorApi.prototype.render = function () {
         return (React.createElement("div", { className: "" }, this.state.isUp === 'loading' ? (React.createElement(FontAwesomeIcon, { spin: true, icon: "spinner" })) : this.state.isUp === "Up" ? (React.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-green" : "c-fgReact_V0_boldGreen" })) : (React.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-red" : "c-fgReact_V0_dangerRed" }))));

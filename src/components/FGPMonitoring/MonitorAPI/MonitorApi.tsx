@@ -7,7 +7,7 @@ export class MonitorApi extends Component<MonitorAPIPropsInterface, MonitorAPISt
     constructor(props:MonitorAPIPropsInterface){
         super(props);
         this.state = {
-            refreshRate : this.props.refreshRate ? this.props.refreshRate : 20,
+            refreshRate : this.props.refreshRate ? this.props.refreshRate : 20000,
             isUp : "loading"
         };
         this.checkApiHealth = this.checkApiHealth.bind(this);
@@ -29,9 +29,13 @@ export class MonitorApi extends Component<MonitorAPIPropsInterface, MonitorAPISt
 
     componentDidMount(){
         this.checkApiHealth();
+        window.setInterval(
+            () => {this.checkApiHealth()}, this.state.refreshRate
+        )
     }
 
     render() {
+
         return (
             <div className={""}>
                 {this.state.isUp === 'loading' ? (
