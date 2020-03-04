@@ -1,6 +1,30 @@
 :root{
     font-size: 16px;
+    --fgReact_v0_pureWhite: #ffffff;
+    --fgReact_V0_paleGreen: #d2e9e8;
+    --fgReact_V0_boldGreen: #89af34;
+    --fgReact_V0_dangerRed: #dc3545;
+    --fgReact_V0_bcrmbGrey: #e6e6e6;
+    --fgReact_V0_boldBlue: #217ec6;
+    --fgReact_v0_atnYellow: #f4a142;
+    --fgReact_V0_darkBlue: #173f4f;
+    --fgReact_v0_dashboardGrey: #fcfcfc;
+    --fgReact_v0_boldBlack: #333333;
+    --fgReact_V0_cmpntShadowGrey: rgba(37, 168, 168, 0.07);
+    --fgReact_v0_borderGrey: #E4E8F0;
+    --fgReact_v0_cmpntBorderGrey: rgba(37, 168, 168, 0.08);
+    --fgReact_v0_paleBlack: #BDBDBD;
 }
+
+/* text colors */
+.c-fgReact_V0_boldGreen{
+    color: var(--fgReact_V0_boldGreen);
+}
+
+.c-fgReact_V0_dangerRed{
+    color: var(--fgReact_V0_dangerRed);
+}
+
 
 .pos-fixed{
     position: fixed;
@@ -9,3 +33,22 @@
 .w-inherit{
     width: inherit
 }
+
+.fgReact_componentContainer{
+    text-align: center;
+    align-items: center;
+    display: flex;
+    z-index: 1;
+    min-height: 100px;
+    width: 100%;
+    background: var(--fgReact_v0_pureWhite);
+    border: 1px solid var(--fgReact_v0_cmpntBorderGrey);
+    box-sizing: border-box;
+    border-radius: 1px;
+    box-shadow: 0px 10px 20px var(--fgReact_V0_cmpntShadowGrey);
+    padding-left: 26px;
+    padding-right: 26px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    margin-bottom: 12px;
+  }

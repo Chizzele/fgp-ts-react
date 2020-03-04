@@ -39,3 +39,8 @@ type AutoCompleteDeviceItem = {
     label : string
 }
 ////////END AUTOCOMPLETE TYPES////////
+
+
+////////BEGIN API MONITORING TYPES////////
+
+////////END API MONITORING TYPES////////

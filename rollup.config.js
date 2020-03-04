@@ -4,6 +4,7 @@ import external from 'rollup-plugin-peer-deps-external'
 import resolve from 'rollup-plugin-node-resolve'
 import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json'
+import json from '@rollup/plugin-json';
 
 export default {
   input: 'src/index.ts',
@@ -23,7 +24,11 @@ export default {
   ],
   plugins: [
     external(),
-    resolve(),
+    resolve({
+      jsnext: true,
+      main: true,
+      browser: true
+    }),
     typescript({
       rollupCommonJSResolveHack: true,
       exclude: [
@@ -45,6 +50,7 @@ export default {
         ],
         'node_modules/react-dom/index.js': ['render']
       }
-    })
+    }),
+    json(),
   ]
 }
