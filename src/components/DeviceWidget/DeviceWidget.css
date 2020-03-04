@@ -1,0 +1,68 @@
+.DeviceWidget-section{
+    min-height: 10vh;
+    background: green;
+    width: 50px;
+    margin: 0 4px;
+}
+
+.DeviceWidget-section.closed {
+    background: red !important;
+}
+
+
+.DeviceWidget-section-breadCrumb.DeviceWidget-section-closed{
+    width: 50px;
+}
+
+.DeviceWidgetExpand{
+    position: relative;
+    width: 100%;
+    height: 0;
+    top: -23px;
+    right: 0;
+    text-align: right;
+}
+
+.DeviceWidgetExpand.closed{
+    top: -23px;
+}
+
+.DeviceWidgetExpand-icon{
+    cursor: pointer;
+    position: absolute;
+    right: 1px;
+    width: 30px;
+    text-align: center;
+    background: var(--fgReact_V0_boldBlue);
+    color: white;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    border-radius: 5px 5px 0px 0px;
+    height: 24px;
+    transition: 0.2s ease;
+}
+
+.DeviceWidgetExpand-icon:hover{
+    transform: scale(1.04);
+}
+
+.DeviceWidgetExpand-icon:active{
+    animation: click-pulse-blue 0.2s;
+}
+
+@keyframes click-pulse-blue {
+	0% {
+		transform: scale(1.04);
+		box-shadow: 0 0 0 0 rgba(33, 126, 198, 0.2);
+	}
+	
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(33, 126, 198, 0);
+	}
+	
+	100% {
+		transform: scale(1.04);
+		box-shadow: 0 0 0 0 rgba(33, 126, 198, 0);
+	}
+}

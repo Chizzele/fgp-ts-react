@@ -1,8 +1,9 @@
 import TestComponent from './components/TestComponent/TestComponent';
 import AutoComplete from './components/AutoComplete/AutoComplete';
 import MonitorApi from './components/FGPMonitoring/MonitorAPI/MonitorApi';
+import DeviceWidget from './components/DeviceWidget/DeviceWidget';
 import "./ext/bootstrap/bootstrap.css";
 import "./baseStyles.css";
 import "./components/AutoComplete/AutoComplete.css";
 import "./components/AutoComplete/AutoCompleteItem/AutoCompleteItem.css";
-export { TestComponent, AutoComplete, MonitorApi };
+export { TestComponent, AutoComplete, MonitorApi, DeviceWidget };

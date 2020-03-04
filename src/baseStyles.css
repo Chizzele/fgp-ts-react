@@ -34,21 +34,22 @@
     width: inherit
 }
 
-.fgReact_componentContainer{
+.TS-fgReact_componentContainer{
     text-align: center;
     align-items: center;
     display: flex;
     z-index: 1;
-    min-height: 100px;
+    min-height: 10vh;
     width: 100%;
     background: var(--fgReact_v0_pureWhite);
     border: 1px solid var(--fgReact_v0_cmpntBorderGrey);
     box-sizing: border-box;
     border-radius: 1px;
     box-shadow: 0px 10px 20px var(--fgReact_V0_cmpntShadowGrey);
-    padding-left: 26px;
-    padding-right: 26px;
-    padding-top: 35px;
-    padding-bottom: 35px;
-    margin-bottom: 12px;
+    padding: 16px 16px;
+  }
+
+  .TS-fgReact_componentContainer.closed{
+    min-height: 6vh;
+    padding: 4px 16px;
   }
