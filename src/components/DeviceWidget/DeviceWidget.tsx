@@ -9,22 +9,43 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             breadCrumbsExpanded : this.props.breadCrumbsExpanded !== undefined ? this.props.breadCrumbsExpanded : false,
             detailsExpanded : this.props.detailsExpanded !== undefined ? this.props.detailsExpanded : true,
             mapExpanded : this.props.mapExpanded !== undefined ? this.props.mapExpanded : true,
-            widgetExpanded : this.props.widgetExpanded !== undefined ? this.props.widgetExpanded : true
+            widgetExpanded : this.props.widgetExpanded !== undefined ? this.props.widgetExpanded : true,
+            zoomLevel : 1,
+            zoomHandler : this.props.zoomHandler !== undefined ? this.props.zoomHandler : true,
+            cssClassesToShrink : this.props.cssClassesToShrink !== undefined ? this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"]
         }
-        this.toggleWidgetExpanded = this.toggleWidgetExpanded.bind(this);
     }
 
-        // SHRINKING CODE
-        // const elementsToShrink = document.getElementsByClassName("__TS_SHRINK_ME_"); 
-        // if(elementsToShrink.length > 0){
-        //     for(var x = 0; x < elementsToShrink.length; x++){
-        //         let elem = elementsToShrink[x];
-        //         elem.setAttribute('style', "zoom:1")
-        //     }
-        // }
+    // adjusts the zoom css propery of all HTML elements with the provided classnames + __TS_SHRINK_ME_
+    resizeTargets = () => {
+        this.state.cssClassesToShrink.forEach(cssClassName =>{
+            const elementCollection:HTMLCollection = document.getElementsByClassName(cssClassName)
+            for(let x  = 0; x < elementCollection.length; x ++){
+                let elem = elementCollection[x];
+                elem.setAttribute('style', `zoom:${this.state.zoomLevel}`)
+            }
+        })
+        if(this.props.zoomHandlerCb !== undefined){
+            this.props.zoomHandlerCb(this.state.zoomLevel)
+        }
+    }
 
-    toggleWidgetExpanded = () => {
-        
+    // increases the zoom level
+    zoomInHandler = () =>{
+        this.setState({
+            zoomLevel : Math.round((this.state.zoomLevel + 0.2)*10)/10
+        }, this.resizeTargets)
+    }
+
+    // decreases the zoom level
+    zoomOutHandler = () =>{
+        this.setState({
+            zoomLevel : Math.round((this.state.zoomLevel - 0.2)*10)/10
+        }, this.resizeTargets)
+    }
+
+    // toggles the widget expansion, calls callback if provided
+    toggleWidgetExpanded = () => {        
         if(this.props.toggleWidgetExpandedCb === undefined){
             this.setState({
                 widgetExpanded : !this.state.widgetExpanded
@@ -39,18 +60,39 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
     render() {
         return (
             <div>
+                {/* Widget Zooming Buttons */}
+                {
+                    this.state.zoomHandler === true ? (
+                        <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
+                            <button className={this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus"} 
+                                onClick={this.zoomOutHandler}
+                                disabled={this.state.zoomLevel < 0.5}
+                            >
+                                <FontAwesomeIcon icon="search-minus" />
+                            </button>
+                            <button className={this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus"} 
+                                onClick={this.zoomInHandler}
+                                disabled={this.state.zoomLevel === 1}
+                            >
+                                <FontAwesomeIcon icon="search-plus" />
+                            </button>
+                        </div> 
+                    ) : (
+                        null
+                    )
+                }
                 {/* Widget Expanding Buttons */}
                 <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
                     {
                         this.state.widgetExpanded ? (
-                            <div className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
+                            <button className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
                                 <FontAwesomeIcon icon="compress-alt" />
-                            </div>
+                            </button>
                             
                         ) : (
-                            <div className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
+                            <button className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
                                 <FontAwesomeIcon icon="expand-alt" />
-                            </div>
+                            </button>
                         )
                     }
                 </div>

@@ -3,6 +3,9 @@ import { DeviceWidgetPropsInterface, DeviceWidgetStateInterface } from './Device
 import './DeviceWidget.css';
 export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props: DeviceWidgetPropsInterface);
+    resizeTargets: () => void;
+    zoomInHandler: () => void;
+    zoomOutHandler: () => void;
     toggleWidgetExpanded: () => void;
     render(): JSX.Element;
 }

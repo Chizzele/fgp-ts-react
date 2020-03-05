@@ -4269,21 +4269,39 @@ var MonitorApi = /** @class */ (function (_super) {
 }(Component));
 //# sourceMappingURL=MonitorApi.js.map
 
-var css$2 = ".DeviceWidget-section{\n    min-height: 10vh;\n    background: green;\n    width: 50px;\n    margin: 0 4px;\n}\n\n.DeviceWidget-section.closed {\n    background: red !important;\n}\n\n\n.DeviceWidget-section-breadCrumb.DeviceWidget-section-closed{\n    width: 50px;\n}\n\n.DeviceWidgetExpand{\n    position: relative;\n    width: 100%;\n    height: 0;\n    top: -23px;\n    right: 0;\n    text-align: right;\n}\n\n.DeviceWidgetExpand.closed{\n    top: -23px;\n}\n\n.DeviceWidgetExpand-icon{\n    cursor: pointer;\n    position: absolute;\n    right: 1px;\n    width: 30px;\n    text-align: center;\n    background: var(--fgReact_V0_boldBlue);\n    color: white;\n    font-size: 1rem;\n    line-height: 1.5rem;\n    border-radius: 5px 5px 0px 0px;\n    height: 24px;\n    transition: 0.2s ease;\n}\n\n.DeviceWidgetExpand-icon:hover{\n    transform: scale(1.04);\n}\n\n.DeviceWidgetExpand-icon:active{\n    animation: click-pulse-blue 0.2s;\n}\n\n@keyframes click-pulse-blue {\n\t0% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0.2);\n\t}\n\t\n\t70% {\n\t\ttransform: scale(1);\n\t\tbox-shadow: 0 0 0 10px rgba(33, 126, 198, 0);\n\t}\n\t\n\t100% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0);\n\t}\n}";
+var css$2 = ".DeviceWidget-section{\n    min-height: 10vh;\n    background: green;\n    width: 50px;\n    margin: 0 4px;\n}\n\n.DeviceWidget-section.closed {\n    background: red !important;\n}\n\n\n.DeviceWidget-section-breadCrumb.DeviceWidget-section-closed{\n    width: 50px;\n}\n\n.DeviceWidgetExpand{\n    position: relative;\n    width: 100%;\n    height: 0;\n    top: -23px;\n    right: 0;\n    text-align: right;\n}\n\n.DeviceWidgetExpand.closed{\n    top: -23px;\n}\n\n.DeviceWidgetExpand-icon{\n    border: none;\n    cursor: pointer;\n    position: absolute;\n    right: 1px;\n    width: 30px;\n    text-align: center;\n    background: var(--fgReact_V0_boldBlue);\n    color: white;\n    font-size: 1rem;\n    line-height: 1.5rem;\n    border-radius: 5px 5px 0px 0px;\n    height: 24px;\n    transition: 0.2s ease;\n}\n\n.DeviceWidgetExpand-icon:hover{\n    transform: scale(1.04);\n}\n\n.DeviceWidgetExpand-icon:active{\n    animation: click-pulse-blue 0.2s;\n}\n\n.DeviceWidgetExpand-icon.zoomPlus{\n    right: 35px;\n}\n\n.DeviceWidgetExpand-icon.zoomMinus{\n    right: 69px;\n}\n\n.DeviceWidgetExpand-icon.disabled{\n    cursor: not-allowed;\n    opacity: 0.65; \n    animation: none !important;\n    transform: none !important;\n}\n\n@keyframes click-pulse-blue {\n\t0% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0.2);\n\t}\n\t\n\t70% {\n\t\ttransform: scale(1);\n\t\tbox-shadow: 0 0 0 10px rgba(33, 126, 198, 0);\n\t}\n\t\n\t100% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0);\n\t}\n}";
 styleInject(css$2);
 
 var DeviceWidget = /** @class */ (function (_super) {
     __extends(DeviceWidget, _super);
     function DeviceWidget(props) {
         var _this = _super.call(this, props) || this;
-        // SHRINKING CODE
-        // const elementsToShrink = document.getElementsByClassName("__TS_SHRINK_ME_"); 
-        // if(elementsToShrink.length > 0){
-        //     for(var x = 0; x < elementsToShrink.length; x++){
-        //         let elem = elementsToShrink[x];
-        //         elem.setAttribute('style', "zoom:1")
-        //     }
-        // }
+        // adjusts the zoom css propery of all HTML elements with the provided classnames + __TS_SHRINK_ME_
+        _this.resizeTargets = function () {
+            _this.state.cssClassesToShrink.forEach(function (cssClassName) {
+                var elementCollection = document.getElementsByClassName(cssClassName);
+                for (var x = 0; x < elementCollection.length; x++) {
+                    var elem = elementCollection[x];
+                    elem.setAttribute('style', "zoom:" + _this.state.zoomLevel);
+                }
+            });
+            if (_this.props.zoomHandlerCb !== undefined) {
+                _this.props.zoomHandlerCb(_this.state.zoomLevel);
+            }
+        };
+        // increases the zoom level
+        _this.zoomInHandler = function () {
+            _this.setState({
+                zoomLevel: Math.round((_this.state.zoomLevel + 0.2) * 10) / 10
+            }, _this.resizeTargets);
+        };
+        // decreases the zoom level
+        _this.zoomOutHandler = function () {
+            _this.setState({
+                zoomLevel: Math.round((_this.state.zoomLevel - 0.2) * 10) / 10
+            }, _this.resizeTargets);
+        };
+        // toggles the widget expansion, calls callback if provided
         _this.toggleWidgetExpanded = function () {
             if (_this.props.toggleWidgetExpandedCb === undefined) {
                 _this.setState({
@@ -4300,15 +4318,22 @@ var DeviceWidget = /** @class */ (function (_super) {
             breadCrumbsExpanded: _this.props.breadCrumbsExpanded !== undefined ? _this.props.breadCrumbsExpanded : false,
             detailsExpanded: _this.props.detailsExpanded !== undefined ? _this.props.detailsExpanded : true,
             mapExpanded: _this.props.mapExpanded !== undefined ? _this.props.mapExpanded : true,
-            widgetExpanded: _this.props.widgetExpanded !== undefined ? _this.props.widgetExpanded : true
+            widgetExpanded: _this.props.widgetExpanded !== undefined ? _this.props.widgetExpanded : true,
+            zoomLevel: 1,
+            zoomHandler: _this.props.zoomHandler !== undefined ? _this.props.zoomHandler : true,
+            cssClassesToShrink: _this.props.cssClassesToShrink !== undefined ? _this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"]
         };
-        _this.toggleWidgetExpanded = _this.toggleWidgetExpanded.bind(_this);
         return _this;
     }
     DeviceWidget.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, this.state.widgetExpanded ? (React.createElement("div", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
-                React.createElement(FontAwesomeIcon, { icon: "compress-alt" }))) : (React.createElement("div", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
+            this.state.zoomHandler === true ? (React.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" },
+                React.createElement("button", { className: this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus", onClick: this.zoomOutHandler, disabled: this.state.zoomLevel < 0.5 },
+                    React.createElement(FontAwesomeIcon, { icon: "search-minus" })),
+                React.createElement("button", { className: this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus", onClick: this.zoomInHandler, disabled: this.state.zoomLevel === 1 },
+                    React.createElement(FontAwesomeIcon, { icon: "search-plus" })))) : (null),
+            React.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, this.state.widgetExpanded ? (React.createElement("button", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
+                React.createElement(FontAwesomeIcon, { icon: "compress-alt" }))) : (React.createElement("button", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
                 React.createElement(FontAwesomeIcon, { icon: "expand-alt" })))),
             React.createElement("div", { className: this.state.widgetExpanded === true ? "TS-fgReact_componentContainer" : "TS-fgReact_componentContainer closed" }, this.state.widgetExpanded === true ? (React.createElement("div", { className: "d-flex" },
                 React.createElement("div", { className: this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" },
@@ -4320,6 +4345,7 @@ var DeviceWidget = /** @class */ (function (_super) {
     };
     return DeviceWidget;
 }(Component));
+//# sourceMappingURL=DeviceWidget.js.map
 
 var fa500px = {
   prefix: 'fab',
@@ -7002,6 +7028,16 @@ var faExpandAlt = {
   iconName: 'expand-alt',
   icon: [448, 512, [], "f424", "M212.686 315.314L120 408l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C10.697 480 0 469.255 0 456V344c0-21.382 25.803-32.09 40.922-16.971L72 360l92.686-92.686c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.249 6.248 6.249 16.378 0 22.627zm22.628-118.628L328 104l-32.922-31.029C279.958 57.851 290.666 32 312.048 32h112C437.303 32 448 42.745 448 56v112c0 21.382-25.803 32.09-40.922 16.971L376 152l-92.686 92.686c-6.248 6.248-16.379 6.248-22.627 0l-25.373-25.373c-6.249-6.248-6.249-16.378 0-22.627z"]
 };
+var faSearchMinus = {
+  prefix: 'fas',
+  iconName: 'search-minus',
+  icon: [512, 512, [], "f010", "M304 192v32c0 6.6-5.4 12-12 12H124c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm201 284.7L476.7 505c-9.4 9.4-24.6 9.4-33.9 0L343 405.3c-4.5-4.5-7-10.6-7-17V372c-35.3 27.6-79.7 44-128 44C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208c0 48.3-16.4 92.7-44 128h16.3c6.4 0 12.5 2.5 17 7l99.7 99.7c9.3 9.4 9.3 24.6 0 34zM344 208c0-75.2-60.8-136-136-136S72 132.8 72 208s60.8 136 136 136 136-60.8 136-136z"]
+};
+var faSearchPlus = {
+  prefix: 'fas',
+  iconName: 'search-plus',
+  icon: [512, 512, [], "f00e", "M304 192v32c0 6.6-5.4 12-12 12h-56v56c0 6.6-5.4 12-12 12h-32c-6.6 0-12-5.4-12-12v-56h-56c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h56v-56c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v56h56c6.6 0 12 5.4 12 12zm201 284.7L476.7 505c-9.4 9.4-24.6 9.4-33.9 0L343 405.3c-4.5-4.5-7-10.6-7-17V372c-35.3 27.6-79.7 44-128 44C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208c0 48.3-16.4 92.7-44 128h16.3c6.4 0 12.5 2.5 17 7l99.7 99.7c9.3 9.4 9.3 24.6 0 34zM344 208c0-75.2-60.8-136-136-136S72 132.8 72 208s60.8 136 136 136 136-60.8 136-136z"]
+};
 var faSpinner = {
   prefix: 'fas',
   iconName: 'spinner',
@@ -7025,7 +7061,7 @@ styleInject(css$5);
 var css$6 = "/* drop down item */\n.autoCompleteDropDownItem {\n    background: #ebebeb;\n    border: 1px solid #dfdfdf;\n    border-top: 0;\n    padding-left: 10px;\n    cursor: pointer;\n    transition: 0.1s ease;\n    font-size: 1rem;\n}\n\n.autoCompleteDropDownItem:hover{\n    background: #80bdff;\n    color: #353535;\n}\n\n.autoCompleteDropDown{\n    position: absolute;\n    width: calc(100%);\n    height: fit-content;\n    z-index: 999999;\n    box-shadow: 0 0 0 0.2rem rgba(224,224,224,0.25);\n}\n\n.autoCompleteDropDown ul{\n    list-style: none;\n    text-align: left;\n    margin-bottom: 0;\n    padding: 0;\n}\n";
 styleInject(css$6);
 
-library.add(_iconsCache, faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt);
+library.add(_iconsCache, faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt, faSearchPlus, faSearchMinus);
 
 export { AutoComplete, DeviceWidget, MonitorApi, TestComponent };
 //# sourceMappingURL=index.es.js.map

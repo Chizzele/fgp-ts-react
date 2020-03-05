@@ -28,6 +28,7 @@
 }
 
 .DeviceWidgetExpand-icon{
+    border: none;
     cursor: pointer;
     position: absolute;
     right: 1px;
@@ -48,6 +49,21 @@
 
 .DeviceWidgetExpand-icon:active{
     animation: click-pulse-blue 0.2s;
+}
+
+.DeviceWidgetExpand-icon.zoomPlus{
+    right: 35px;
+}
+
+.DeviceWidgetExpand-icon.zoomMinus{
+    right: 69px;
+}
+
+.DeviceWidgetExpand-icon.disabled{
+    cursor: not-allowed;
+    opacity: 0.65; 
+    animation: none !important;
+    transform: none !important;
 }
 
 @keyframes click-pulse-blue {

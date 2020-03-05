@@ -3,7 +3,10 @@ export interface DeviceWidgetPropsInterface {
     detailsExpanded? : boolean;
     mapExpanded? : boolean;
     widgetExpanded? : boolean
+    zoomHandler? : boolean
+    zoomHandlerCb? : (zoomLevel:number) => void
     toggleWidgetExpandedCb? : (toggleState:boolean) => void;
+    cssClassesToShrink? : string[];
 }
 
 export interface DeviceWidgetStateInterface {
@@ -11,4 +14,7 @@ export interface DeviceWidgetStateInterface {
     detailsExpanded : boolean;
     mapExpanded : boolean;
     widgetExpanded : boolean
+    zoomHandler : boolean;
+    zoomLevel : number;
+    cssClassesToShrink : string[];
 }
