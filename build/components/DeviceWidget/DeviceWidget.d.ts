@@ -7,6 +7,9 @@ export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, 
     zoomInHandler: () => void;
     zoomOutHandler: () => void;
     toggleWidgetExpanded: () => void;
+    toggleMapExpanded: () => void;
+    toggleDetailsExpanded: () => void;
+    toggleBreadcrumbsExpanded: () => void;
     render(): JSX.Element;
 }
 export default DeviceWidget;

@@ -44,3 +44,10 @@ type AutoCompleteDeviceItem = {
 ////////BEGIN API MONITORING TYPES////////
 
 ////////END API MONITORING TYPES////////
+
+////////BEGIN DEVICE PAGE TYPES////////
+type ContentTab = {
+    title : string;
+    content : boolean;
+}
+////////END DEVICE PAGE TYPES////////

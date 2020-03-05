@@ -1,14 +1,17 @@
 .DeviceWidget-section{
     min-height: 10vh;
-    background: green;
     width: 50px;
     margin: 0 4px;
 }
 
 .DeviceWidget-section.closed {
-    background: red !important;
+    width: 10%;
 }
 
+.DeviceWidget-section-border{
+    border-left: 1px solid var(--fgReact_v0_paleBlack);
+    border-right: 1px solid var(--fgReact_v0_paleBlack);
+}
 
 .DeviceWidget-section-breadCrumb.DeviceWidget-section-closed{
     width: 50px;
@@ -43,6 +46,15 @@
     transition: 0.2s ease;
 }
 
+.DeviceWidgetExpand-icon-sections{
+    width: 18px;
+    border-radius: 0 5px 5px 0;
+    right: -27px;
+    padding: 0;
+    line-height: 0;
+    height: 18px;
+}
+
 .DeviceWidgetExpand-icon:hover{
     transform: scale(1.04);
 }
@@ -59,11 +71,59 @@
     right: 69px;
 }
 
+.DeviceWidgetExpand-icon.viewTabs{
+    left: 0px;
+    background-color: var(--fgReact_v0_dashboardGrey);
+    width: 130px;
+    color: var(--fgReact_v0_boldBlack);
+    border: 1px solid var(--fgReact_v0_cmpntBorderGrey);
+    border-bottom: none;
+}
+.DeviceWidgetExpand-icon.viewTabs:hover{
+    transform: none;
+}
+
+.DeviceWidgetExpand-icon.viewTabs.selected{
+    color: white;
+    background: #227dc6;
+}
+
 .DeviceWidgetExpand-icon.disabled{
     cursor: not-allowed;
     opacity: 0.65; 
     animation: none !important;
     transform: none !important;
+}
+
+.DeviceWidget-section-breadCrumb{
+    min-width: calc(20% - 24px);
+}
+
+.DeviceWidget-section-details{
+    min-width: calc(30% - 24px);
+}
+
+.DeviceWidget-section-map{
+    width: 100%;
+    min-width: calc(50% - 24px);
+}
+
+.DeviceWidget-section-breadCrumb.closed{
+    min-width: calc(12% - 24px);
+}
+
+.DeviceWidget-section-details.closed{
+    min-width: calc(18% - 24px);
+}
+
+.DeviceWidget-section-map.closed{
+    width: 100%;
+}
+
+.DeviceWidget-section-collapseCont{
+    width: 100%;
+    position: relative;
+    height: 0;
 }
 
 @keyframes click-pulse-blue {

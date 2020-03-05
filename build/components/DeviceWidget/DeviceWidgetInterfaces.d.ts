@@ -4,9 +4,13 @@ export interface DeviceWidgetPropsInterface {
     mapExpanded?: boolean;
     widgetExpanded?: boolean;
     zoomHandler?: boolean;
-    zoomHandlerCb?: (zoomLevel: number) => void;
-    toggleWidgetExpandedCb?: (toggleState: boolean) => void;
     cssClassesToShrink?: string[];
+    topTabs?: ContentTab[];
+    toggleWidgetExpandedCb?: (widgetToggleState: boolean) => void;
+    zoomHandlerCb?: (zoomLevel: number) => void;
+    toggleBreadCrumbsExpandedCb?: (breadCrumbToggleState: boolean) => void;
+    toggleDetailsExpandedCb?: (detailsToggleState: boolean) => void;
+    toggleMapExpandedCb?: (detailsToggleState: boolean) => void;
 }
 export interface DeviceWidgetStateInterface {
     breadCrumbsExpanded: boolean;
@@ -16,4 +20,5 @@ export interface DeviceWidgetStateInterface {
     zoomHandler: boolean;
     zoomLevel: number;
     cssClassesToShrink: string[];
+    topTabs: ContentTab[];
 }
