@@ -53,3 +53,15 @@
     min-height: 6vh;
     padding: 4px 16px;
   }
+
+.navigationAwareContainer{
+    width: calc(100vw - 70px);
+    position: relative;
+    left: 70px;
+    top: 70px;
+    height: calc(100vh - 70px);
+}
+
+.of-hidden{
+    overflow: hidden;
+}

@@ -7,167 +7,167 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return extendStatics(d, b);
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
-var TestComponent = /** @class */ (function (_super) {
-    __extends(TestComponent, _super);
-    function TestComponent(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {};
-        return _this;
-    }
-    TestComponent.prototype.render = function () {
-        return (React__default.createElement("div", { role: 'heading' },
-            this.props.headingText,
-            this.props.backupText));
-    };
-    return TestComponent;
-}(React.Component));
+var TestComponent = /** @class */ (function (_super) {
+    __extends(TestComponent, _super);
+    function TestComponent(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {};
+        return _this;
+    }
+    TestComponent.prototype.render = function () {
+        return (React__default.createElement("div", { role: 'heading' },
+            this.props.headingText,
+            this.props.backupText));
+    };
+    return TestComponent;
+}(React.Component));
 //# sourceMappingURL=TestComponent.js.map
 
-function configureDisplayField(displayField, item) {
-    var displayKey = displayField;
-    if (item[displayKey]) {
-        return item[displayKey];
-    }
-    else {
-        return item.description;
-    }
-}
+function configureDisplayField(displayField, item) {
+    var displayKey = displayField;
+    if (item[displayKey]) {
+        return item[displayKey];
+    }
+    else {
+        return item.description;
+    }
+}
 //# sourceMappingURL=AutoCompleteHelpers.js.map
 
-var AutoCompleteItem = /** @class */ (function (_super) {
-    __extends(AutoCompleteItem, _super);
-    function AutoCompleteItem(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {};
-        return _this;
-    }
-    AutoCompleteItem.prototype.render = function () {
-        var _this = this;
-        return (React__default.createElement("li", { className: "autoCompleteDropDownItem", onMouseDown: function () { return _this.props.onClick(_this.props.item); } }, this.props.displayField !== undefined ? (configureDisplayField(this.props.displayField, this.props.item)) : (this.props.item.description)));
-    };
-    return AutoCompleteItem;
-}(React.Component));
+var AutoCompleteItem = /** @class */ (function (_super) {
+    __extends(AutoCompleteItem, _super);
+    function AutoCompleteItem(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {};
+        return _this;
+    }
+    AutoCompleteItem.prototype.render = function () {
+        var _this = this;
+        return (React__default.createElement("li", { className: "autoCompleteDropDownItem", onMouseDown: function () { return _this.props.onClick(_this.props.item); } }, this.props.displayField !== undefined ? (configureDisplayField(this.props.displayField, this.props.item)) : (this.props.item.description)));
+    };
+    return AutoCompleteItem;
+}(React.Component));
 //# sourceMappingURL=AutoCompleteItem.js.map
 
-var AutoComplete = /** @class */ (function (_super) {
-    __extends(AutoComplete, _super);
-    function AutoComplete(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            index: _this.props.index,
-            searchRow: _this.props.searchRow
-        };
-        _this.defaultOnClick = _this.defaultOnClick.bind(_this);
-        return _this;
-    }
-    // default blur Action
-    AutoComplete.prototype.defaultOnBlurCapture = function () {
-        var tmpSearchRow = __assign({}, this.state.searchRow);
-        tmpSearchRow.showOptions = false;
-        this.setState({ searchRow: tmpSearchRow });
-    };
-    // the default method for handling the input change event
-    AutoComplete.prototype.defaultOnChange = function (event) {
-        // make a copy of the search row
-        var tmpSearchRow = __assign({}, this.state.searchRow);
-        var userInput = event.target.value;
-        // if there is not a custom matchOn - match on description
-        if (this.props.matchOn !== undefined) {
-            var matchType = this.props.matchOn;
-            var filteredItems = this.props.items.filter(function (item) { return item[matchType].toLowerCase().includes(userInput.toLowerCase()); });
-        }
-        else {
-            var filteredItems = this.props.items.filter(function (item) { return item.description.toLowerCase().includes(userInput.toLowerCase()); });
-        }
-        tmpSearchRow.filteredItems = filteredItems;
-        filteredItems.length > 0 ? tmpSearchRow.showOptions = true : tmpSearchRow.showOptions = false;
-        tmpSearchRow.value = userInput;
-        tmpSearchRow.confirmed = false;
-        // setting state
-        this.setState({ searchRow: tmpSearchRow });
-        if (this.props.changeCallBack) {
-            this.props.changeCallBack(filteredItems, userInput);
-        }
-    };
-    AutoComplete.prototype.defaultOnClick = function (item) {
-        var tmpSearchRow = __assign({}, this.state.searchRow);
-        if (this.props.displayField !== undefined) {
-            tmpSearchRow.value = configureDisplayField(this.props.displayField, item);
-        }
-        else {
-            tmpSearchRow.value = item.description;
-        }
-        tmpSearchRow.confirmed = true;
-        tmpSearchRow.showOptions = false;
-        tmpSearchRow.id = item.id;
-        tmpSearchRow.description = item.description;
-        tmpSearchRow.label = item.label;
-        tmpSearchRow.name = item.name;
-        this.setState({ searchRow: tmpSearchRow });
-        if (this.props.clickCallBack) {
-            this.props.clickCallBack(item);
-        }
-    };
-    AutoComplete.prototype.render = function () {
-        var _this = this;
-        return (React__default.createElement("div", { className: "w-inherit pos-fixed" },
-            React__default.createElement("input", { placeholder: this.props.placeHolderText ? this.props.placeHolderText : "", className: "w-100 form-control", type: "text", onChange: this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : function (e) { return _this.defaultOnChange(e); }, value: this.state.searchRow.value, onBlurCapture: this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : function () { return _this.defaultOnBlurCapture(); } }),
-            React__default.createElement("div", { className: this.state.searchRow.showOptions === true &&
-                    this.state.searchRow.value != ""
-                    ? "autoCompleteDropDown" : "d-none", style: { 'zIndex': (999999 - this.props.index) } },
-                React__default.createElement("ul", { className: "", style: { 'zIndex': (999999 - this.props.index) } }, 
-                // filter only the first 30
-                this.state.searchRow.filteredItems.map(function (filteredItem, index) {
-                    if (index < _this.props.threshold) {
-                        return (React__default.createElement(AutoCompleteItem, { key: index, item: filteredItem, onClick: _this.props.onClick ? _this.props.onClick : _this.defaultOnClick, searchRow: _this.state.searchRow, displayField: _this.props.displayField }));
-                    }
-                    else {
-                        return (null);
-                    }
-                })))));
-    };
-    return AutoComplete;
-}(React.Component));
+var AutoComplete = /** @class */ (function (_super) {
+    __extends(AutoComplete, _super);
+    function AutoComplete(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            index: _this.props.index,
+            searchRow: _this.props.searchRow
+        };
+        _this.defaultOnClick = _this.defaultOnClick.bind(_this);
+        return _this;
+    }
+    // default blur Action
+    AutoComplete.prototype.defaultOnBlurCapture = function () {
+        var tmpSearchRow = __assign({}, this.state.searchRow);
+        tmpSearchRow.showOptions = false;
+        this.setState({ searchRow: tmpSearchRow });
+    };
+    // the default method for handling the input change event
+    AutoComplete.prototype.defaultOnChange = function (event) {
+        // make a copy of the search row
+        var tmpSearchRow = __assign({}, this.state.searchRow);
+        var userInput = event.target.value;
+        // if there is not a custom matchOn - match on description
+        if (this.props.matchOn !== undefined) {
+            var matchType = this.props.matchOn;
+            var filteredItems = this.props.items.filter(function (item) { return item[matchType].toLowerCase().includes(userInput.toLowerCase()); });
+        }
+        else {
+            var filteredItems = this.props.items.filter(function (item) { return item.description.toLowerCase().includes(userInput.toLowerCase()); });
+        }
+        tmpSearchRow.filteredItems = filteredItems;
+        filteredItems.length > 0 ? tmpSearchRow.showOptions = true : tmpSearchRow.showOptions = false;
+        tmpSearchRow.value = userInput;
+        tmpSearchRow.confirmed = false;
+        // setting state
+        this.setState({ searchRow: tmpSearchRow });
+        if (this.props.changeCallBack) {
+            this.props.changeCallBack(filteredItems, userInput);
+        }
+    };
+    AutoComplete.prototype.defaultOnClick = function (item) {
+        var tmpSearchRow = __assign({}, this.state.searchRow);
+        if (this.props.displayField !== undefined) {
+            tmpSearchRow.value = configureDisplayField(this.props.displayField, item);
+        }
+        else {
+            tmpSearchRow.value = item.description;
+        }
+        tmpSearchRow.confirmed = true;
+        tmpSearchRow.showOptions = false;
+        tmpSearchRow.id = item.id;
+        tmpSearchRow.description = item.description;
+        tmpSearchRow.label = item.label;
+        tmpSearchRow.name = item.name;
+        this.setState({ searchRow: tmpSearchRow });
+        if (this.props.clickCallBack) {
+            this.props.clickCallBack(item);
+        }
+    };
+    AutoComplete.prototype.render = function () {
+        var _this = this;
+        return (React__default.createElement("div", { className: "w-inherit pos-fixed" },
+            React__default.createElement("input", { placeholder: this.props.placeHolderText ? this.props.placeHolderText : "", className: "w-100 form-control", type: "text", onChange: this.props.onChange ? this.props.onChange.bind(this, 'value', this.state.searchRow.indexKey) : function (e) { return _this.defaultOnChange(e); }, value: this.state.searchRow.value, onBlurCapture: this.props.onBlur ? this.props.onBlur.bind(this, 'value', this.state.searchRow.indexKey) : function () { return _this.defaultOnBlurCapture(); } }),
+            React__default.createElement("div", { className: this.state.searchRow.showOptions === true &&
+                    this.state.searchRow.value != ""
+                    ? "autoCompleteDropDown" : "d-none", style: { 'zIndex': (999999 - this.props.index) } },
+                React__default.createElement("ul", { className: "", style: { 'zIndex': (999999 - this.props.index) } }, 
+                // filter only the first 30
+                this.state.searchRow.filteredItems.map(function (filteredItem, index) {
+                    if (index < _this.props.threshold) {
+                        return (React__default.createElement(AutoCompleteItem, { key: index, item: filteredItem, onClick: _this.props.onClick ? _this.props.onClick : _this.defaultOnClick, searchRow: _this.state.searchRow, displayField: _this.props.displayField }));
+                    }
+                    else {
+                        return (null);
+                    }
+                })))));
+    };
+    return AutoComplete;
+}(React.Component));
 //# sourceMappingURL=AutoComplete.js.map
 
 var bind = function bind(fn, thisArg) {
@@ -4239,173 +4239,173 @@ function styleInject(css, ref) {
 var css$1 = ".pulser-green {\n    color: var(--fgReact_V0_boldGreen);\n    border-radius: 6px;\n\tbox-shadow: 0 0 0 0 rgba(137, 175, 52, 1);\n\tanimation: pulse-green 2s infinite;\n}\n\n@keyframes pulse-green {\n\t0% {\n\t\ttransform: scale(0.95);\n\t\tbox-shadow: 0 0 0 0 rgba(137, 175, 52, 0.7);\n\t}\n\t\n\t70% {\n\t\ttransform: scale(1);\n\t\tbox-shadow: 0 0 0 10px rgba(137, 175, 52, 0);\n\t}\n\t\n\t100% {\n\t\ttransform: scale(0.95);\n\t\tbox-shadow: 0 0 0 0 rgba(137, 175, 52, 0);\n\t}\n}\n\n.pulser-red {\n    color: var(--fgReact_V0_dangerRed);\n    border-radius: 6px;\n\tbox-shadow: 0 0 0 0 rgba(220, 53, 69, 1);\n\tanimation: pulse-red 2s infinite;\n}\n\n@keyframes pulse-red {\n\t0% {\n\t\ttransform: scale(0.95);\n\t\tbox-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);\n\t}\n\t\n\t70% {\n\t\ttransform: scale(1);\n\t\tbox-shadow: 0 0 0 10px rgba(220, 53, 69, 0);\n\t}\n\t\n\t100% {\n\t\ttransform: scale(0.95);\n\t\tbox-shadow: 0 0 0 0 rgba(220, 53, 69, 0);\n\t}\n}";
 styleInject(css$1);
 
-var MonitorApi = /** @class */ (function (_super) {
-    __extends(MonitorApi, _super);
-    function MonitorApi(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            refreshRate: _this.props.refreshRate !== undefined ? _this.props.refreshRate : 20000,
-            isUp: "loading"
-        };
-        _this.checkApiHealth = _this.checkApiHealth.bind(_this);
-        return _this;
-    }
-    MonitorApi.prototype.checkApiHealth = function () {
-        var _this = this;
-        axios$1.get("" + this.props.baseUrl + this.props.apiGetUrl)
-            .then(function () {
-            _this.setState({
-                isUp: "Up"
-            });
-        })
-            .catch(function () {
-            _this.setState({
-                isUp: "Down"
-            });
-        });
-    };
-    MonitorApi.prototype.componentDidMount = function () {
-        var _this = this;
-        this.checkApiHealth();
-        window.setInterval(function () { _this.checkApiHealth(); }, this.state.refreshRate);
-    };
-    MonitorApi.prototype.render = function () {
-        return (React__default.createElement("div", { className: "" }, this.state.isUp === 'loading' ? (React__default.createElement(FontAwesomeIcon, { spin: true, icon: "spinner" })) : this.state.isUp === "Up" ? (React__default.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-green" : "c-fgReact_V0_boldGreen" })) : (React__default.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-red" : "c-fgReact_V0_dangerRed" }))));
-    };
-    return MonitorApi;
-}(React.Component));
+var MonitorApi = /** @class */ (function (_super) {
+    __extends(MonitorApi, _super);
+    function MonitorApi(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            refreshRate: _this.props.refreshRate !== undefined ? _this.props.refreshRate : 20000,
+            isUp: "loading"
+        };
+        _this.checkApiHealth = _this.checkApiHealth.bind(_this);
+        return _this;
+    }
+    MonitorApi.prototype.checkApiHealth = function () {
+        var _this = this;
+        axios$1.get("" + this.props.baseUrl + this.props.apiGetUrl)
+            .then(function () {
+            _this.setState({
+                isUp: "Up"
+            });
+        })
+            .catch(function () {
+            _this.setState({
+                isUp: "Down"
+            });
+        });
+    };
+    MonitorApi.prototype.componentDidMount = function () {
+        var _this = this;
+        this.checkApiHealth();
+        window.setInterval(function () { _this.checkApiHealth(); }, this.state.refreshRate);
+    };
+    MonitorApi.prototype.render = function () {
+        return (React__default.createElement("div", { className: "" }, this.state.isUp === 'loading' ? (React__default.createElement(FontAwesomeIcon, { spin: true, icon: "spinner" })) : this.state.isUp === "Up" ? (React__default.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-green" : "c-fgReact_V0_boldGreen" })) : (React__default.createElement(FontAwesomeIcon, { icon: "wifi", className: this.props.pulse ? "pulser-red" : "c-fgReact_V0_dangerRed" }))));
+    };
+    return MonitorApi;
+}(React.Component));
 //# sourceMappingURL=MonitorApi.js.map
 
 var css$2 = ".DeviceWidget-section{\n    min-height: 10vh;\n    width: 50px;\n    margin: 0 4px;\n}\n\n.DeviceWidget-section.closed {\n    width: 10%;\n}\n\n.DeviceWidget-section-border{\n    border-left: 1px solid var(--fgReact_v0_paleBlack);\n    border-right: 1px solid var(--fgReact_v0_paleBlack);\n}\n\n.DeviceWidget-section-breadCrumb.DeviceWidget-section-closed{\n    width: 50px;\n}\n\n.DeviceWidgetExpand{\n    position: relative;\n    width: 100%;\n    height: 0;\n    top: -23px;\n    right: 0;\n    text-align: right;\n}\n\n.DeviceWidgetExpand.closed{\n    top: -23px;\n}\n\n.DeviceWidgetExpand-icon{\n    border: none;\n    cursor: pointer;\n    position: absolute;\n    right: 1px;\n    width: 30px;\n    text-align: center;\n    background: var(--fgReact_V0_boldBlue);\n    color: white;\n    font-size: 1rem;\n    line-height: 1.5rem;\n    border-radius: 5px 5px 0px 0px;\n    height: 24px;\n    transition: 0.2s ease;\n}\n\n.DeviceWidgetExpand-icon-sections{\n    width: 18px;\n    border-radius: 0 5px 5px 0;\n    right: -27px;\n    padding: 0;\n    line-height: 0;\n    height: 18px;\n}\n\n.DeviceWidgetExpand-icon:hover{\n    transform: scale(1.04);\n}\n\n.DeviceWidgetExpand-icon:active{\n    animation: click-pulse-blue 0.2s;\n}\n\n.DeviceWidgetExpand-icon.zoomPlus{\n    right: 35px;\n}\n\n.DeviceWidgetExpand-icon.zoomMinus{\n    right: 69px;\n}\n\n.DeviceWidgetExpand-icon.viewTabs{\n    left: 0px;\n    background-color: var(--fgReact_v0_dashboardGrey);\n    width: 130px;\n    color: var(--fgReact_v0_boldBlack);\n    border: 1px solid var(--fgReact_v0_cmpntBorderGrey);\n    border-bottom: none;\n}\n.DeviceWidgetExpand-icon.viewTabs:hover{\n    transform: none;\n}\n\n.DeviceWidgetExpand-icon.viewTabs.selected{\n    color: white;\n    background: #227dc6;\n}\n\n.DeviceWidgetExpand-icon.disabled{\n    cursor: not-allowed;\n    opacity: 0.65; \n    animation: none !important;\n    transform: none !important;\n}\n\n.DeviceWidget-section-breadCrumb{\n    min-width: calc(20% - 24px);\n}\n\n.DeviceWidget-section-details{\n    min-width: calc(30% - 24px);\n}\n\n.DeviceWidget-section-map{\n    width: 100%;\n    min-width: calc(50% - 24px);\n}\n\n.DeviceWidget-section-breadCrumb.closed{\n    min-width: calc(12% - 24px);\n}\n\n.DeviceWidget-section-details.closed{\n    min-width: calc(18% - 24px);\n}\n\n.DeviceWidget-section-map.closed{\n    width: 100%;\n}\n\n.DeviceWidget-section-collapseCont{\n    width: 100%;\n    position: relative;\n    height: 0;\n}\n\n@keyframes click-pulse-blue {\n\t0% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0.2);\n\t}\n\t\n\t70% {\n\t\ttransform: scale(1);\n\t\tbox-shadow: 0 0 0 10px rgba(33, 126, 198, 0);\n\t}\n\t\n\t100% {\n\t\ttransform: scale(1.04);\n\t\tbox-shadow: 0 0 0 0 rgba(33, 126, 198, 0);\n\t}\n}";
 styleInject(css$2);
 
-var DeviceWidget = /** @class */ (function (_super) {
-    __extends(DeviceWidget, _super);
-    function DeviceWidget(props) {
-        var _this = _super.call(this, props) || this;
-        // adjusts the zoom css propery of all HTML elements with the provided classnames + __TS_SHRINK_ME_
-        _this.resizeTargets = function () {
-            _this.state.cssClassesToShrink.forEach(function (cssClassName) {
-                var elementCollection = document.getElementsByClassName(cssClassName);
-                for (var x = 0; x < elementCollection.length; x++) {
-                    var elem = elementCollection[x];
-                    elem.setAttribute('style', "zoom:" + _this.state.zoomLevel);
-                }
-            });
-            if (_this.props.zoomHandlerCb !== undefined) {
-                _this.props.zoomHandlerCb(_this.state.zoomLevel);
-            }
-        };
-        // increases the zoom level
-        _this.zoomInHandler = function () {
-            _this.setState({
-                zoomLevel: Math.round((_this.state.zoomLevel + 0.2) * 10) / 10
-            }, _this.resizeTargets);
-        };
-        // decreases the zoom level
-        _this.zoomOutHandler = function () {
-            _this.setState({
-                zoomLevel: Math.round((_this.state.zoomLevel - 0.2) * 10) / 10
-            }, _this.resizeTargets);
-        };
-        // toggles the widget expansion, calls callback if provided
-        _this.toggleWidgetExpanded = function () {
-            if (_this.props.toggleWidgetExpandedCb === undefined) {
-                _this.setState({
-                    widgetExpanded: !_this.state.widgetExpanded
-                });
-            }
-            else {
-                _this.setState({
-                    widgetExpanded: !_this.state.widgetExpanded
-                }, function () { _this.props.toggleWidgetExpandedCb ? _this.props.toggleWidgetExpandedCb(_this.state.widgetExpanded) : null; });
-            }
-        };
-        // toggles the map expansion, calls callback if provided
-        _this.toggleMapExpanded = function () {
-            if (_this.props.toggleMapExpandedCb === undefined) {
-                _this.setState({
-                    mapExpanded: !_this.state.mapExpanded
-                });
-            }
-            else {
-                _this.setState({
-                    mapExpanded: !_this.state.mapExpanded
-                }, function () { _this.props.toggleMapExpandedCb ? _this.props.toggleMapExpandedCb(_this.state.mapExpanded) : null; });
-            }
-        };
-        // toggles the details expansion, calls callback if provided
-        _this.toggleDetailsExpanded = function () {
-            if (_this.props.toggleDetailsExpandedCb === undefined) {
-                _this.setState({
-                    detailsExpanded: !_this.state.detailsExpanded
-                });
-            }
-            else {
-                _this.setState({
-                    detailsExpanded: !_this.state.detailsExpanded
-                }, function () { _this.props.toggleDetailsExpandedCb ? _this.props.toggleDetailsExpandedCb(_this.state.detailsExpanded) : null; });
-            }
-        };
-        // toggles the breadcrumbs expansion, calls callback if provided
-        _this.toggleBreadcrumbsExpanded = function () {
-            if (_this.props.toggleBreadCrumbsExpandedCb === undefined) {
-                _this.setState({
-                    breadCrumbsExpanded: !_this.state.breadCrumbsExpanded
-                });
-            }
-            else {
-                _this.setState({
-                    breadCrumbsExpanded: !_this.state.breadCrumbsExpanded
-                }, function () { _this.props.toggleBreadCrumbsExpandedCb ? _this.props.toggleBreadCrumbsExpandedCb(_this.state.breadCrumbsExpanded) : null; });
-            }
-        };
-        var defaultTab = {
-            title: "Main View",
-            content: true
-        };
-        _this.state = {
-            breadCrumbsExpanded: _this.props.breadCrumbsExpanded !== undefined ? _this.props.breadCrumbsExpanded : true,
-            detailsExpanded: _this.props.detailsExpanded !== undefined ? _this.props.detailsExpanded : true,
-            mapExpanded: _this.props.mapExpanded !== undefined ? _this.props.mapExpanded : true,
-            widgetExpanded: _this.props.widgetExpanded !== undefined ? _this.props.widgetExpanded : true,
-            zoomLevel: 1,
-            zoomHandler: _this.props.zoomHandler !== undefined ? _this.props.zoomHandler : true,
-            cssClassesToShrink: _this.props.cssClassesToShrink !== undefined ? _this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"],
-            topTabs: _this.props.topTabs !== undefined ? _this.props.topTabs.concat([defaultTab]) : [defaultTab]
-        };
-        return _this;
-    }
-    DeviceWidget.prototype.render = function () {
-        var _this = this;
-        return (React__default.createElement("div", null,
-            this.state.topTabs.length > 1 ? (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, this.state.topTabs.map(function (tab, index) {
-                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs", onClick: _this.zoomOutHandler, disabled: false, style: { "left": index * 20 + "px" } }, tab.title);
-            }))) : (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" },
-                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs selected", onClick: this.zoomOutHandler, disabled: true }, "Main View"),
-                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs", onClick: this.zoomOutHandler, disabled: true, style: { "left": "130px" } }, "Second View"))),
-            this.state.zoomHandler === true ? (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" },
-                React__default.createElement("button", { className: this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus", onClick: this.zoomOutHandler, disabled: this.state.zoomLevel < 0.5 },
-                    React__default.createElement(FontAwesomeIcon, { icon: "search-minus" })),
-                React__default.createElement("button", { className: this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus", onClick: this.zoomInHandler, disabled: this.state.zoomLevel === 1 },
-                    React__default.createElement(FontAwesomeIcon, { icon: "search-plus" })))) : (null),
-            React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, React__default.createElement("button", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
-                React__default.createElement(FontAwesomeIcon, { icon: this.state.widgetExpanded ? "compress-alt" : "expand-alt" }))),
-            React__default.createElement("div", { className: this.state.widgetExpanded === true ? "TS-fgReact_componentContainer" : "TS-fgReact_componentContainer closed" }, this.state.widgetExpanded === true ? (React__default.createElement("div", { className: "d-flex w-100" },
-                React__default.createElement("div", { className: this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" },
-                    React__default.createElement("div", { className: "DeviceWidget-section-collapseCont" },
-                        React__default.createElement("button", { className: "DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections", onClick: this.toggleBreadcrumbsExpanded },
-                            React__default.createElement(FontAwesomeIcon, { icon: this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right" }))),
-                    React__default.createElement("div", null, "crumbs")),
-                React__default.createElement("div", { className: this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" },
-                    React__default.createElement("div", { className: "DeviceWidget-section-collapseCont" },
-                        React__default.createElement("button", { className: "DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections", onClick: this.toggleDetailsExpanded, style: { "right": "-19px" } },
-                            React__default.createElement(FontAwesomeIcon, { icon: this.state.detailsExpanded ? "angle-double-left" : "angle-double-right" }))),
-                    "details"),
-                React__default.createElement("div", { className: this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }, "map here"))) : ("Im collapsed"))));
-    };
-    return DeviceWidget;
-}(React.Component));
+var DeviceWidget = /** @class */ (function (_super) {
+    __extends(DeviceWidget, _super);
+    function DeviceWidget(props) {
+        var _this = _super.call(this, props) || this;
+        // adjusts the zoom css propery of all HTML elements with the provided classnames + __TS_SHRINK_ME_
+        _this.resizeTargets = function () {
+            _this.state.cssClassesToShrink.forEach(function (cssClassName) {
+                var elementCollection = document.getElementsByClassName(cssClassName);
+                for (var x = 0; x < elementCollection.length; x++) {
+                    var elem = elementCollection[x];
+                    elem.setAttribute('style', "zoom:" + _this.state.zoomLevel);
+                }
+            });
+            if (_this.props.zoomHandlerCb !== undefined) {
+                _this.props.zoomHandlerCb(_this.state.zoomLevel);
+            }
+        };
+        // increases the zoom level
+        _this.zoomInHandler = function () {
+            _this.setState({
+                zoomLevel: Math.round((_this.state.zoomLevel + 0.2) * 10) / 10
+            }, _this.resizeTargets);
+        };
+        // decreases the zoom level
+        _this.zoomOutHandler = function () {
+            _this.setState({
+                zoomLevel: Math.round((_this.state.zoomLevel - 0.2) * 10) / 10
+            }, _this.resizeTargets);
+        };
+        // toggles the widget expansion, calls callback if provided
+        _this.toggleWidgetExpanded = function () {
+            if (_this.props.toggleWidgetExpandedCb === undefined) {
+                _this.setState({
+                    widgetExpanded: !_this.state.widgetExpanded
+                });
+            }
+            else {
+                _this.setState({
+                    widgetExpanded: !_this.state.widgetExpanded
+                }, function () { _this.props.toggleWidgetExpandedCb ? _this.props.toggleWidgetExpandedCb(_this.state.widgetExpanded) : null; });
+            }
+        };
+        // toggles the map expansion, calls callback if provided
+        _this.toggleMapExpanded = function () {
+            if (_this.props.toggleMapExpandedCb === undefined) {
+                _this.setState({
+                    mapExpanded: !_this.state.mapExpanded
+                });
+            }
+            else {
+                _this.setState({
+                    mapExpanded: !_this.state.mapExpanded
+                }, function () { _this.props.toggleMapExpandedCb ? _this.props.toggleMapExpandedCb(_this.state.mapExpanded) : null; });
+            }
+        };
+        // toggles the details expansion, calls callback if provided
+        _this.toggleDetailsExpanded = function () {
+            if (_this.props.toggleDetailsExpandedCb === undefined) {
+                _this.setState({
+                    detailsExpanded: !_this.state.detailsExpanded
+                });
+            }
+            else {
+                _this.setState({
+                    detailsExpanded: !_this.state.detailsExpanded
+                }, function () { _this.props.toggleDetailsExpandedCb ? _this.props.toggleDetailsExpandedCb(_this.state.detailsExpanded) : null; });
+            }
+        };
+        // toggles the breadcrumbs expansion, calls callback if provided
+        _this.toggleBreadcrumbsExpanded = function () {
+            if (_this.props.toggleBreadCrumbsExpandedCb === undefined) {
+                _this.setState({
+                    breadCrumbsExpanded: !_this.state.breadCrumbsExpanded
+                });
+            }
+            else {
+                _this.setState({
+                    breadCrumbsExpanded: !_this.state.breadCrumbsExpanded
+                }, function () { _this.props.toggleBreadCrumbsExpandedCb ? _this.props.toggleBreadCrumbsExpandedCb(_this.state.breadCrumbsExpanded) : null; });
+            }
+        };
+        var defaultTab = {
+            title: "Main View",
+            content: true
+        };
+        _this.state = {
+            breadCrumbsExpanded: _this.props.breadCrumbsExpanded !== undefined ? _this.props.breadCrumbsExpanded : true,
+            detailsExpanded: _this.props.detailsExpanded !== undefined ? _this.props.detailsExpanded : true,
+            mapExpanded: _this.props.mapExpanded !== undefined ? _this.props.mapExpanded : true,
+            widgetExpanded: _this.props.widgetExpanded !== undefined ? _this.props.widgetExpanded : true,
+            zoomLevel: 1,
+            zoomHandler: _this.props.zoomHandler !== undefined ? _this.props.zoomHandler : true,
+            cssClassesToShrink: _this.props.cssClassesToShrink !== undefined ? _this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"],
+            topTabs: _this.props.topTabs !== undefined ? _this.props.topTabs.concat([defaultTab]) : [defaultTab]
+        };
+        return _this;
+    }
+    DeviceWidget.prototype.render = function () {
+        var _this = this;
+        return (React__default.createElement("div", null,
+            this.state.topTabs.length > 1 ? (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, this.state.topTabs.map(function (tab, index) {
+                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs", onClick: _this.zoomOutHandler, disabled: false, style: { "left": index * 20 + "px" } }, tab.title);
+            }))) : (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" },
+                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs selected", onClick: this.zoomOutHandler, disabled: true }, "Main View"),
+                React__default.createElement("button", { className: "DeviceWidgetExpand-icon viewTabs", onClick: this.zoomOutHandler, disabled: true, style: { "left": "130px" } }, "Second View"))),
+            this.state.zoomHandler === true ? (React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" },
+                React__default.createElement("button", { className: this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus", onClick: this.zoomOutHandler, disabled: this.state.zoomLevel < 0.5 },
+                    React__default.createElement(FontAwesomeIcon, { icon: "search-minus" })),
+                React__default.createElement("button", { className: this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus", onClick: this.zoomInHandler, disabled: this.state.zoomLevel === 1 },
+                    React__default.createElement(FontAwesomeIcon, { icon: "search-plus" })))) : (null),
+            React__default.createElement("div", { className: this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed" }, React__default.createElement("button", { className: "DeviceWidgetExpand-icon", onClick: this.toggleWidgetExpanded },
+                React__default.createElement(FontAwesomeIcon, { icon: this.state.widgetExpanded ? "compress-alt" : "expand-alt" }))),
+            React__default.createElement("div", { className: this.state.widgetExpanded === true ? "TS-fgReact_componentContainer" : "TS-fgReact_componentContainer closed" }, this.state.widgetExpanded === true ? (React__default.createElement("div", { className: "d-flex w-100" },
+                React__default.createElement("div", { className: this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" },
+                    React__default.createElement("div", { className: "DeviceWidget-section-collapseCont" },
+                        React__default.createElement("button", { className: "DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections", onClick: this.toggleBreadcrumbsExpanded },
+                            React__default.createElement(FontAwesomeIcon, { icon: this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right" }))),
+                    React__default.createElement("div", null, "crumbs")),
+                React__default.createElement("div", { className: this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" },
+                    React__default.createElement("div", { className: "DeviceWidget-section-collapseCont" },
+                        React__default.createElement("button", { className: "DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections", onClick: this.toggleDetailsExpanded, style: { "right": "-19px" } },
+                            React__default.createElement(FontAwesomeIcon, { icon: this.state.detailsExpanded ? "angle-double-left" : "angle-double-right" }))),
+                    "details"),
+                React__default.createElement("div", { className: this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }, "map here"))) : ("Im collapsed"))));
+    };
+    return DeviceWidget;
+}(React.Component));
 //# sourceMappingURL=DeviceWidget.js.map
 
 var fa500px = {
@@ -7132,7 +7132,7 @@ styleInject(css$5);
 var css$6 = "/* drop down item */\n.autoCompleteDropDownItem {\n    background: #ebebeb;\n    border: 1px solid #dfdfdf;\n    border-top: 0;\n    padding-left: 10px;\n    cursor: pointer;\n    transition: 0.1s ease;\n    font-size: 1rem;\n}\n\n.autoCompleteDropDownItem:hover{\n    background: #80bdff;\n    color: #353535;\n}\n\n.autoCompleteDropDown{\n    position: absolute;\n    width: calc(100%);\n    height: fit-content;\n    z-index: 999999;\n    box-shadow: 0 0 0 0.2rem rgba(224,224,224,0.25);\n}\n\n.autoCompleteDropDown ul{\n    list-style: none;\n    text-align: left;\n    margin-bottom: 0;\n    padding: 0;\n}\n";
 styleInject(css$6);
 
-library.add(_iconsCache, faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt, faSearchPlus, faSearchMinus, faAngleDoubleLeft, faAngleDoubleRight);
+library.add(_iconsCache, faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt, faSearchPlus, faSearchMinus, faAngleDoubleLeft, faAngleDoubleRight);
 //# sourceMappingURL=index.js.map
 
 exports.AutoComplete = AutoComplete;
