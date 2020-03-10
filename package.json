@@ -73,5 +73,6 @@
     ]
   },
   "dependencies": {
+    "@rollup/plugin-image": "^2.0.4"
   }
 }

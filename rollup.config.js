@@ -5,6 +5,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json'
 import json from '@rollup/plugin-json';
+import image from '@rollup/plugin-image';
 
 export default {
   input: 'src/index.ts',
@@ -52,5 +53,6 @@ export default {
       }
     }),
     json(),
+    image()
   ]
 }

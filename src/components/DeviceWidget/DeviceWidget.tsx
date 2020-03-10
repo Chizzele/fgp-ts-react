@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { DeviceWidgetPropsInterface, DeviceWidgetStateInterface } from './DeviceWidgetInterfaces';
+import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
 import './DeviceWidget.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props:DeviceWidgetPropsInterface){
         super(props);
-        const defaultTab:ContentTab = {
+        const defaultTab:ContentTab[] = [{
             title : "Main View",
-            content : true
-        }
+            id : "01",
+            hasContent : true,
+            active : true
+        }]
         this.state = {
             breadCrumbsExpanded : this.props.breadCrumbsExpanded !== undefined ? this.props.breadCrumbsExpanded : true,
             detailsExpanded : this.props.detailsExpanded !== undefined ? this.props.detailsExpanded : true,
@@ -17,8 +20,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             zoomLevel : 1,
             zoomHandler : this.props.zoomHandler !== undefined ? this.props.zoomHandler : true,
             cssClassesToShrink : this.props.cssClassesToShrink !== undefined ? this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"],
-            topTabs : this.props.topTabs !== undefined ? this.props.topTabs.concat([defaultTab]) : [defaultTab]
-
+            topTabs : this.props.topTabs !== undefined ? defaultTab.concat(this.props.topTabs) : defaultTab
         }
     }
 
@@ -102,7 +104,78 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
         }
     }
 
+    // swap the tab and whasts been shown
+    swapTab(id:string){
+        console.log('hit swapper', id)
+        let tabsCopy = [...this.state.topTabs];
+        let matchIndex = tabsCopy.findIndex((tab:ContentTab) => tab.id === id);
+        for(var x  = 0; x < tabsCopy.length; x ++){
+            if(x === matchIndex){
+                tabsCopy[x].active = true;
+            }else{
+                tabsCopy[x].active = false;
+            }
+        }
+        this.setState({
+            topTabs : tabsCopy
+        });
+    }
+
+    componentDidMount(){
+        console.log('props', this.props, this.state)
+    }
+
     render() {
+        const sampleBreadCrumbs:CrumbArr = [
+            {
+                deviceType : "ICP",
+                deviceTypeShortName : "ICP",
+                deviceName : "icp_9829383",
+                deviceDescription : "9829383",
+                linkTo : "/Icp/9829383",
+                image : "icp"
+            },
+            {
+                deviceType : "LV Circuit",
+                deviceTypeShortName : "LVC",
+                deviceName : "lvc_00293841dddde2",
+                deviceDescription : "Lowest V Circuit",
+                linkTo : "/Lvc/lvc_00293841dddde2",
+                image : "circuit"
+            },
+            {
+                deviceType : "Transformer",
+                deviceTypeShortName : "TX",
+                deviceName : "tx_00293841dddde2",
+                deviceDescription : "AutoBot DeceIcon",
+                linkTo : "/Transformer/tx_00293841",
+                image : "transformer"
+            },
+            {
+                deviceType : "Substation",
+                deviceTypeShortName : "SUB",
+                deviceName : "sb_9834",
+                deviceDescription : "Subzero Stat",
+                linkTo : "/Substation/sb_9834",
+                image : "substation"
+            },
+            {
+                deviceType : "Feeder",
+                deviceTypeShortName : "FDR",
+                deviceName : "fdr_983",
+                deviceDescription : "eBig Feeder",
+                linkTo : "/Feeder/fdr_983",
+                image : "feeder"
+            },
+            {
+                deviceType : "GXP",
+                deviceTypeShortName : "GXP",
+                deviceName : "gxp_01",
+                deviceDescription : "GxP 01",
+                linkTo : "/Gxp/gxp_01",
+                image : "gxp"
+            }
+        ]
         return (
             <div>
                 {/* Display Tab Buttons */}
@@ -111,13 +184,16 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                         <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
                         {
                             this.state.topTabs.map((tab, index) => {
-                                <button className={"DeviceWidgetExpand-icon viewTabs"} 
-                                    onClick={this.zoomOutHandler}
+                                return(
+                                <button className={ tab.active === true ? "DeviceWidgetExpand-icon viewTabs selected" : "DeviceWidgetExpand-icon viewTabs"} 
+                                    onClick={() => this.swapTab(tab.id)}
                                     disabled={false}
-                                    style={{"left" : `${index*20}px`}}
+                                    style={{"left" : `${index*130}px`}}
+                                    key={index}
                                 >
                                  {tab.title}
                                 </button>
+                                )
                             })
                         } 
                         
@@ -129,13 +205,6 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                 disabled={true}
                             >
                                 Main View
-                            </button>
-                            <button className={"DeviceWidgetExpand-icon viewTabs"} 
-                                onClick={this.zoomOutHandler}
-                                disabled={true}
-                                style={{"left": "130px"}}
-                            >
-                                Second View
                             </button>
                         </div> 
                     )
@@ -173,35 +242,105 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                     {
                         this.state.widgetExpanded === true ? (
                             <div className={"d-flex w-100"}>
-                                <div className={this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" }>
-                                    <div className={"DeviceWidget-section-collapseCont"}>
-                                        <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"} onClick={this.toggleBreadcrumbsExpanded}>
-                                            <FontAwesomeIcon icon={this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right"} />
-                                        </button>
+                            {
+                                this.state.topTabs.length > 1 ? (
+                                    <div className={"d-flex w-100"}>
+                                        {/* first tab */}
+                                        {
+                                            this.state.topTabs.map((tab, index) => {
+                                                if(index === 0){
+                                                    return(
+                                                    <div id={tab.id} key={index} className={tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent"}>
+                                                        <div className={this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" }>
+                                                            <div className={"DeviceWidget-section-collapseCont"}>
+                                                                <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"}  title={"toggle device hierarchy view"} onClick={this.toggleBreadcrumbsExpanded}>
+                                                                    <FontAwesomeIcon icon={this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right"} />
+                                                                </button>
+                                                            </div>
+                                                            <div className={"DeviceWidget-section-container"}>
+                                                                <Breadcrumbs 
+                                                                    isExtended={this.state.breadCrumbsExpanded}
+                                                                    crumbs={sampleBreadCrumbs}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className={this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" }>
+                                                            <div className={"DeviceWidget-section-collapseCont"}>
+                                                                <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"} title={"toggle device extension details view"} onClick={this.toggleDetailsExpanded} style={{"right" : "-19px"}}>
+                                                                    <FontAwesomeIcon icon={this.state.detailsExpanded ? "angle-double-left" : "angle-double-right"} />
+                                                                </button>
+                                                            </div>
+                                                            details
+                                                        </div>
+                                                        <div className={this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }>
+                                                            map here
+                                                        </div>
+                                                    </div>
+                                                    )
+                                                }
+                                                return(
+                                                    <div id={tab.id} key={index} className={tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent"}>
+                                                        {tab.content !== undefined ? tab.content : "no content provided"}
+                                                    </div>
+                                                )
+                                            })
+                                        }
+
                                     </div>
-                                    <div>
-                                        crumbs
+                                ) : (
+                                    <div className={"d-flex w-100"}>
+                                        <div className={this.state.breadCrumbsExpanded === true ? "DeviceWidget-section DeviceWidget-section-breadCrumb" : "DeviceWidget-section DeviceWidget-section-breadCrumb closed" }>
+                                            <div className={"DeviceWidget-section-collapseCont"}>
+                                                <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"} onClick={this.toggleBreadcrumbsExpanded}>
+                                                    <FontAwesomeIcon icon={this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right"} />
+                                                </button>
+                                            </div>
+                                            <div>
+                                                crumbs
+                                            </div>
+                                        </div>
+                                        <div className={this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" }>
+                                            <div className={"DeviceWidget-section-collapseCont"}>
+                                                <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"} onClick={this.toggleDetailsExpanded} style={{"right" : "-19px"}}>
+                                                    <FontAwesomeIcon icon={this.state.detailsExpanded ? "angle-double-left" : "angle-double-right"} />
+                                                </button>
+                                            </div>
+                                            details
+                                        </div>
+                                        <div className={this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }>
+                                            map here
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" }>
-                                    <div className={"DeviceWidget-section-collapseCont"}>
-                                        <button className={"DeviceWidgetExpand-icon DeviceWidgetExpand-icon-sections"} onClick={this.toggleDetailsExpanded} style={{"right" : "-19px"}}>
-                                            <FontAwesomeIcon icon={this.state.detailsExpanded ? "angle-double-left" : "angle-double-right"} />
-                                        </button>
-                                    </div>
-                                    details
-                                </div>
-                                <div className={this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }>
-                                    {/* <div className={"DeviceWidget-section-collapseCont"}>
-                                        <button className={"DeviceWidgetExpand-icon"} onClick={this.toggleMapExpanded}>
-                                            <FontAwesomeIcon icon={this.state.mapExpanded ? "angle-double-left" : "expand-alt"} />
-                                        </button>
-                                    </div> */}
-                                    map here
-                                </div>
+                                )
+                            }
+
                             </div>
                         ) : (
-                            "Im collapsed"
+                            this.state.topTabs.length > 1 ? (
+                                <div className={"d-flex w-100"}>
+                                    {/* first tab */}
+                                    {
+                                        this.state.topTabs.map((tab, index) => {
+                                            if(index === 0){
+                                                return(
+                                                    <div key={index} className={tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent"}>
+                                                         Device Type : Device Name/Description
+                                                    </div>
+                                                )
+                                            }else{
+                                                return(
+                                                    <div key={index} className={tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent"}>
+                                                        {tab.collapsedContent !== undefined ? tab.collapsedContent : "Device Type : Device Name/Description"}
+                                                    </div>
+                                                )
+                                            }
+                                            
+                                        })
+                                    }
+                                </div>
+                            ) : (
+                                "Device Type : Device Name/Description"
+                            )
                         )
                     }
                     

@@ -10,6 +10,8 @@ export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, 
     toggleMapExpanded: () => void;
     toggleDetailsExpanded: () => void;
     toggleBreadcrumbsExpanded: () => void;
+    swapTab(id: string): void;
+    componentDidMount(): void;
     render(): JSX.Element;
 }
 export default DeviceWidget;

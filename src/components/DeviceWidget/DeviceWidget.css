@@ -49,7 +49,7 @@
 .DeviceWidgetExpand-icon-sections{
     width: 18px;
     border-radius: 0 5px 5px 0;
-    right: -27px;
+    right: -19px;
     padding: 0;
     line-height: 0;
     height: 18px;
@@ -76,7 +76,7 @@
     background-color: var(--fgReact_v0_dashboardGrey);
     width: 130px;
     color: var(--fgReact_v0_boldBlack);
-    border: 1px solid var(--fgReact_v0_cmpntBorderGrey);
+    border: 1px solid rgb(181, 181, 181);
     border-bottom: none;
 }
 .DeviceWidgetExpand-icon.viewTabs:hover{
@@ -97,6 +97,14 @@
 
 .DeviceWidget-section-breadCrumb{
     min-width: calc(20% - 24px);
+    background: #f6f6f6;
+    background-color: #e6e6e6;
+    border: 1px solid var(--fg_v0_borderGrey);
+    box-sizing: border-box;
+    border-radius: 1px;
+    box-shadow: 0px 10px 20px var(--fg_V0_cmpntShadowGrey);
+    margin: 0;
+    margin-right: -4px;
 }
 
 .DeviceWidget-section-details{
@@ -109,7 +117,8 @@
 }
 
 .DeviceWidget-section-breadCrumb.closed{
-    min-width: calc(12% - 24px);
+    min-width: calc(40px);
+    max-width: calc(60px);
 }
 
 .DeviceWidget-section-details.closed{
@@ -124,6 +133,14 @@
     width: 100%;
     position: relative;
     height: 0;
+}
+
+.d-flex.w-100.tabbedContent.active{
+    display: flex !important;
+}
+
+.d-flex.w-100.tabbedContent{
+    display: none !important;
 }
 
 @keyframes click-pulse-blue {

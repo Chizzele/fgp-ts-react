@@ -1,3 +1,4 @@
+declare module '*.png' // allowing images
 ////////BEGIN AUTOCOMPLETE TYPES////////
 // Search Row of Autcomplete
 type AutoCompleteSearchRow = {
@@ -50,7 +51,11 @@ type AutoCompleteDeviceItem = {
 ////////BEGIN DEVICE PAGE TYPES////////
 type ContentTab = {
     title : string;
-    content : boolean;
+    id : string;
+    hasContent : boolean;
+    active : boolean;
+    content? : any;
+    collapsedContent? : any;
 }
 ////////END DEVICE PAGE TYPES////////
 ////////BEGIN SPLASHSCREEN TYPES////////
@@ -73,5 +78,20 @@ type SearchingTypeArray = SearchingType[]
 type SearchingType = {
     key : string;
     label : string;
+}
+////////END SEARCHINGTYPE TYPES////////
+
+
+////////BEGIN SEARCHINGTYPE TYPES////////
+type CrumbArr = Crumb[]
+
+type Crumb = {
+    deviceType : string;
+    deviceTypeShortName : string;
+    deviceName : string;
+    deviceDescription : string;
+    linkTo? : string;
+    image? : string // one of "icp", "circuit", "transformer", "substation", "feeder", "gxp"
+
 }
 ////////END SEARCHINGTYPE TYPES////////

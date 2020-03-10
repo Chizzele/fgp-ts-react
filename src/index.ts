@@ -2,6 +2,8 @@ import TestComponent from  './components/TestComponent/TestComponent';
 import AutoComplete from './components/AutoComplete/AutoComplete'
 import MonitorApi from './components/FGPMonitoring/MonitorAPI/MonitorApi';
 import DeviceWidget from './components/DeviceWidget/DeviceWidget';
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
+import Crumbs from './components/Breadcrumbs/Crumb/Crumb';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt, faSearchPlus, faSearchMinus, faAngleDoubleLeft, faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +17,8 @@ export {
     TestComponent,
     AutoComplete,
     MonitorApi,
-    DeviceWidget
-    AutoComplete,
-    Splash
+    DeviceWidget,
+    Splash,
+    Breadcrumbs,
+    Crumbs
  }
