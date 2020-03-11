@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { DeviceWidgetPropsInterface, DeviceWidgetStateInterface } from './DeviceWidgetInterfaces';
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
+import { DeviceDetails } from '../DeviceDetails/DeviceDetails';
 import './DeviceWidget.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { generateDevice } from './DeviceWidgetHelpers';
 export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props:DeviceWidgetPropsInterface){
         super(props);
@@ -12,6 +14,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             hasContent : true,
             active : true
         }]
+        const UrlDeviceType = window.location.pathname.split('/')[1]
+        const UrlDeviceName = window.location.pathname.split('/')[2]
         this.state = {
             breadCrumbsExpanded : this.props.breadCrumbsExpanded !== undefined ? this.props.breadCrumbsExpanded : true,
             detailsExpanded : this.props.detailsExpanded !== undefined ? this.props.detailsExpanded : true,
@@ -20,8 +24,11 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             zoomLevel : 1,
             zoomHandler : this.props.zoomHandler !== undefined ? this.props.zoomHandler : true,
             cssClassesToShrink : this.props.cssClassesToShrink !== undefined ? this.props.cssClassesToShrink.concat(["__TS_SHRINK_ME__"]) : ["__TS_SHRINK_ME__"],
-            topTabs : this.props.topTabs !== undefined ? defaultTab.concat(this.props.topTabs) : defaultTab
+            topTabs : this.props.topTabs !== undefined ? defaultTab.concat(this.props.topTabs) : defaultTab,
+            breadCrumbs : this.props.breadCrumbs !== undefined ? this.props.breadCrumbs : [{deviceType:"null", deviceName:"null", deviceDescription:"null", deviceTypeShortName:"null"}],
+            device : this.props.completeDevice !== undefined ? this.props.completeDevice : generateDevice(this.props.baseUrl, UrlDeviceName, UrlDeviceType)
         }
+        console.log('window url', window.location)
     }
 
     // adjusts the zoom css propery of all HTML elements with the provided classnames + __TS_SHRINK_ME_
@@ -126,56 +133,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
     }
 
     render() {
-        const sampleBreadCrumbs:CrumbArr = [
-            {
-                deviceType : "ICP",
-                deviceTypeShortName : "ICP",
-                deviceName : "icp_9829383",
-                deviceDescription : "9829383",
-                linkTo : "/Icp/9829383",
-                image : "icp"
-            },
-            {
-                deviceType : "LV Circuit",
-                deviceTypeShortName : "LVC",
-                deviceName : "lvc_00293841dddde2",
-                deviceDescription : "Lowest V Circuit",
-                linkTo : "/Lvc/lvc_00293841dddde2",
-                image : "circuit"
-            },
-            {
-                deviceType : "Transformer",
-                deviceTypeShortName : "TX",
-                deviceName : "tx_00293841dddde2",
-                deviceDescription : "AutoBot DeceIcon",
-                linkTo : "/Transformer/tx_00293841",
-                image : "transformer"
-            },
-            {
-                deviceType : "Substation",
-                deviceTypeShortName : "SUB",
-                deviceName : "sb_9834",
-                deviceDescription : "Subzero Stat",
-                linkTo : "/Substation/sb_9834",
-                image : "substation"
-            },
-            {
-                deviceType : "Feeder",
-                deviceTypeShortName : "FDR",
-                deviceName : "fdr_983",
-                deviceDescription : "eBig Feeder",
-                linkTo : "/Feeder/fdr_983",
-                image : "feeder"
-            },
-            {
-                deviceType : "GXP",
-                deviceTypeShortName : "GXP",
-                deviceName : "gxp_01",
-                deviceDescription : "GxP 01",
-                linkTo : "/Gxp/gxp_01",
-                image : "gxp"
-            }
-        ]
+       
         return (
             <div>
                 {/* Display Tab Buttons */}
@@ -260,7 +218,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                             <div className={"DeviceWidget-section-container"}>
                                                                 <Breadcrumbs 
                                                                     isExtended={this.state.breadCrumbsExpanded}
-                                                                    crumbs={sampleBreadCrumbs}
+                                                                    crumbs={this.state.breadCrumbs}
                                                                 />
                                                             </div>
                                                         </div>
@@ -270,7 +228,9 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                                     <FontAwesomeIcon icon={this.state.detailsExpanded ? "angle-double-left" : "angle-double-right"} />
                                                                 </button>
                                                             </div>
-                                                            details
+                                                            <DeviceDetails
+                                                                isExtended={this.state.detailsExpanded}
+                                                            />
                                                         </div>
                                                         <div className={this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }>
                                                             map here
@@ -295,8 +255,11 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                     <FontAwesomeIcon icon={this.state.breadCrumbsExpanded ? "angle-double-left" : "angle-double-right"} />
                                                 </button>
                                             </div>
-                                            <div>
-                                                crumbs
+                                            <div className={"DeviceWidget-section-container"}>
+                                                <Breadcrumbs 
+                                                    isExtended={this.state.breadCrumbsExpanded}
+                                                    crumbs={this.state.breadCrumbs}
+                                                />
                                             </div>
                                         </div>
                                         <div className={this.state.detailsExpanded === true ? "DeviceWidget-section DeviceWidget-section-details DeviceWidget-section-border" : "DeviceWidget-section DeviceWidget-section-details closed DeviceWidget-section-border" }>
@@ -305,7 +268,9 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                     <FontAwesomeIcon icon={this.state.detailsExpanded ? "angle-double-left" : "angle-double-right"} />
                                                 </button>
                                             </div>
-                                            details
+                                            <DeviceDetails
+                                                isExtended={this.state.detailsExpanded}
+                                            />
                                         </div>
                                         <div className={this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" }>
                                             map here

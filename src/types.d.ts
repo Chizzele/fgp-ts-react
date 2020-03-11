@@ -82,7 +82,7 @@ type SearchingType = {
 ////////END SEARCHINGTYPE TYPES////////
 
 
-////////BEGIN SEARCHINGTYPE TYPES////////
+////////BEGIN BREADCRUMBS TYPES////////
 type CrumbArr = Crumb[]
 
 type Crumb = {
@@ -92,6 +92,14 @@ type Crumb = {
     deviceDescription : string;
     linkTo? : string;
     image? : string // one of "icp", "circuit", "transformer", "substation", "feeder", "gxp"
-
 }
-////////END SEARCHINGTYPE TYPES////////
+////////END BREADCRUMBS TYPES////////
+
+
+////////BEGIN DEVICE TYPES////////
+type BasicDevice = {
+    description : string;
+    name : string;
+    type : string;
+}
+////////END DEVICE TYPES////////

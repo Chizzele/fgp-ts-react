@@ -7,6 +7,7 @@ import TransformerImage from "../../../images/transformer.png"
 import SubstationImage from "../../../images/substation.png"
 import FeederImage from "../../../images/feeder.png"
 import GxpImage from "../../../images/gxp.png"
+import { Link } from '@reach/router';
 export class Crumb extends Component<CrumbsPropsInterface, CrumbsStateInterface> {
     constructor(props:CrumbsPropsInterface){
         super(props);
@@ -20,6 +21,10 @@ export class Crumb extends Component<CrumbsPropsInterface, CrumbsStateInterface>
                 image : "icp"
             }
         };
+    }
+
+    forceMount(url:string){
+        window.location.href = url;
     }
 
     assignImage(imageString:string){
@@ -61,22 +66,51 @@ export class Crumb extends Component<CrumbsPropsInterface, CrumbsStateInterface>
     render() {
         return (
             <div className={"w-100 d-flex Breadcrumb-crumb-container"}>
+
             {this.props.isExtended === true ? (
                 <div className={"w-100 d-flex Breadcrumb-crumb-container-height"}>
-                    <div className={"Breadcrumb-crumb-container-image"}>
-                        <img 
-                            src={this.state.crumb.image !== undefined ? this.assignImage(this.state.crumb.image) : this.assignImage("icp")}
-                            className={this.state.crumb.image !== undefined ? this.assignStyle(this.state.crumb.image) : this.assignStyle("icp")}
-                        />
-                    </div>
-                    <div className={"Breadcrumb-crumb-container-text"} title={this.state.crumb.deviceDescription}>
-                        {this.state.crumb.deviceType}: {this.state.crumb.deviceDescription}
-                    </div>
+                    {
+                        this.state.crumb.deviceDescription === "null" && 
+                        this.state.crumb.deviceName === "null" &&
+                        this.state.crumb.deviceType === "null" &&
+                        this.state.crumb.deviceTypeShortName === "null" ? (
+                            <div className={"w-100 d-block fgReact_v0_boldBlack Breadcrumb-crumb-container-height text-center"}>
+                                No parents found
+                            </div>
+                        ) : (
+                            <Link className={"w-100 d-flex Breadcrumb-crumb-container-height"} to={this.state.crumb.linkTo ? this.state.crumb.linkTo : `/${this.state.crumb.deviceType}/${this.state.crumb.deviceName}`} onClick={() => this.state.crumb.linkTo ? this.forceMount(this.state.crumb.linkTo) : this.forceMount(`/${this.state.crumb.deviceType}/${this.state.crumb.deviceName}`)} > 
+                                <div className={"Breadcrumb-crumb-container-image"}>
+                                    <img 
+                                        src={this.state.crumb.image !== undefined ? this.assignImage(this.state.crumb.image) : this.assignImage("icp")}
+                                        className={this.state.crumb.image !== undefined ? this.assignStyle(this.state.crumb.image) : this.assignStyle("icp")}
+                                    />
+                                </div>
+                                <div className={"Breadcrumb-crumb-container-text"} title={this.state.crumb.deviceDescription}>
+                                
+                                    {this.state.crumb.deviceType}: {this.state.crumb.deviceDescription}
+                                </div>    
+                            </Link>
+                        )
+                    }
                     
                 </div>
             ):(
                 <div className={"text-center w-100 Breadcrumb-crumb-collapsed"} title={this.state.crumb.linkTo}>
-                    {this.state.crumb.deviceTypeShortName}
+                    {
+                        this.state.crumb.deviceDescription === "null" && 
+                        this.state.crumb.deviceName === "null" &&
+                        this.state.crumb.deviceType === "null" &&
+                        this.state.crumb.deviceTypeShortName === "null" ? (
+                            <span className={"c-fgReact_v0_boldBlack cursorNormal"}>
+                                none
+                            </span>
+                            
+                        ):(
+                            <Link to={this.state.crumb.linkTo ? this.state.crumb.linkTo : `/${this.state.crumb.deviceType}/${this.state.crumb.deviceName}`} onClick={() => this.state.crumb.linkTo ? this.forceMount(this.state.crumb.linkTo) : this.forceMount(`/${this.state.crumb.deviceType}/${this.state.crumb.deviceName}`)} > 
+                                {this.state.crumb.deviceTypeShortName}
+                            </Link>
+                        )
+                    }
                 </div>
             )}
                 

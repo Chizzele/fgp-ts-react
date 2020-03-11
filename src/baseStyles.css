@@ -25,6 +25,10 @@
     color: var(--fgReact_V0_dangerRed);
 }
 
+.c-fgReact_v0_boldBlack{
+    color: var(--fgReact_v0_boldBlack)
+}
+
 
 .pos-fixed{
     position: fixed;
@@ -64,4 +68,8 @@
 
 .of-hidden{
     overflow: hidden;
+}
+
+.cursorNormal{
+    cursor: default;
 }
