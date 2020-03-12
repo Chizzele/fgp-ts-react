@@ -103,3 +103,64 @@ type BasicDevice = {
     type : string;
 }
 ////////END DEVICE TYPES////////
+
+
+////////BEGIN CONFIG TYPES////////
+type DeviceConfig = {
+    excludedColumns : string[];
+    mutatedColumns : MutatedColumns[];
+    redirectColumns : RedirectColumns[];
+    relation_excludedColumns : RelationExcludedColumns[];
+    relation_mutatedColumns : RelationMutatedColumns[];
+    relation_redirectColumns : RelationRedirectColumns[];
+    relation_renameColumns : RelationRenameColumns[];
+}
+
+type MutatedColumns = {
+    key : string;
+    style : string;
+} 
+
+type RedirectColumns = {
+    key : string;
+    redirectTo : string;
+}
+
+type RelationRedirectColumns = {
+    key : string;
+    redirect : string;
+    extension : string
+} 
+
+type RelationRenameColumns = {
+    key : string;
+    extension : string;
+    desiredKey : string;
+}
+
+type RelationMutatedColumns = {
+    key : string;
+    extension : string;
+    style : string;
+}
+
+type RelationExcludedColumns = {
+    key : string;
+    extension : string;
+}
+
+type RawExtensionDataForProcessor = {
+    data : any;
+    relationship: string;
+}
+
+type CleanedExtensionDataForProcessor = {
+    data : any;
+    title : string;
+    style : string;
+    key : any;
+    redirect : string;
+    extension : any;
+}
+
+////////END CONFIG TYPES /////////

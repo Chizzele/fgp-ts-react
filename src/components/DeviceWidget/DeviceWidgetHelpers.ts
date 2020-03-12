@@ -14,3 +14,7 @@ export function generateDevice(baseUrl:string, name:string, type:string):BasicDe
     })
     return device;
 }
+
+export function getExtensions(baseUrl:string, name:string, type:string, extensionNames:string[]){
+    
+}
