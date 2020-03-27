@@ -3,6 +3,8 @@ import { DeviceDetailsPropsInterface, DeviceDetailsStateInterface } from './Devi
 import './DeviceDetails.css';
 export declare class DeviceDetails extends Component<DeviceDetailsPropsInterface, DeviceDetailsStateInterface> {
     constructor(props: DeviceDetailsPropsInterface);
+    componentDidMount(): void;
+    renderData(): void;
     render(): JSX.Element;
 }
 export default DeviceDetails;

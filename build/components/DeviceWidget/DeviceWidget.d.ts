@@ -3,6 +3,10 @@ import { DeviceWidgetPropsInterface, DeviceWidgetStateInterface } from './Device
 import './DeviceWidget.css';
 export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props: DeviceWidgetPropsInterface);
+    componentDidMount(): void;
+    buildMapLayer(): void;
+    getParents(): Promise<void>;
+    getDevice(): Promise<void>;
     resizeTargets: () => void;
     zoomInHandler: () => void;
     zoomOutHandler: () => void;
@@ -11,7 +15,8 @@ export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, 
     toggleDetailsExpanded: () => void;
     toggleBreadcrumbsExpanded: () => void;
     swapTab(id: string): void;
-    componentDidMount(): void;
+    componentDidUpdate(): void;
+    triggerMapResize(): void;
     render(): JSX.Element;
 }
 export default DeviceWidget;

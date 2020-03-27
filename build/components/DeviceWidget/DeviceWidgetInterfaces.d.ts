@@ -7,13 +7,23 @@ export interface DeviceWidgetPropsInterface {
     cssClassesToShrink?: string[];
     topTabs?: ContentTab[];
     breadCrumbs?: CrumbArr;
+    breadCrumbPath?: any[];
     toggleWidgetExpandedCb?: (widgetToggleState: boolean) => void;
     zoomHandlerCb?: (zoomLevel: number) => void;
     toggleBreadCrumbsExpandedCb?: (breadCrumbToggleState: boolean) => void;
     toggleDetailsExpandedCb?: (detailsToggleState: boolean) => void;
     toggleMapExpandedCb?: (detailsToggleState: boolean) => void;
-    completeDevice?: BasicDevice;
+    basicDevice?: BasicDevice;
+    deviceWithExtensions?: DeviceWithExtensions;
+    extensionNames: string[];
     baseUrl: string;
+    zoomLevel?: number;
+    mapCenter?: number[];
+    layers?: any[];
+    featureStyles?: FeatureStyle[];
+    deviceLatLonFields: string[];
+    projection?: string;
+    processorConfig?: any;
 }
 export interface DeviceWidgetStateInterface {
     breadCrumbsExpanded: boolean;
@@ -22,8 +32,15 @@ export interface DeviceWidgetStateInterface {
     widgetExpanded: boolean;
     zoomHandler: boolean;
     zoomLevel: number;
+    triggerMapResize: boolean;
     breadCrumbs: CrumbArr;
+    breadCrumbsLoaded: boolean;
     cssClassesToShrink: string[];
     topTabs: ContentTab[];
-    device: BasicDevice;
+    device: DeviceWithExtensions;
+    deviceIsLoaded: boolean;
+    couldntLoadDevice: boolean;
+    processorConfig?: any;
+    layers: any[];
+    projection: string;
 }

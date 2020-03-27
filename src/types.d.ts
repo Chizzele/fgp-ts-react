@@ -93,6 +93,15 @@ type Crumb = {
     linkTo? : string;
     image? : string // one of "icp", "circuit", "transformer", "substation", "feeder", "gxp"
 }
+
+type CrumbPathObj = {
+    relationName : string;
+    deviceType : string;
+    linkTo? : string;
+    image? : string // one of "icp", "circuit", "transformer", "substation", "feeder", "gxp"
+    parentDeviceTypeShortName : string;
+    parentDeviceTypeName : string
+}
 ////////END BREADCRUMBS TYPES////////
 
 
@@ -101,6 +110,13 @@ type BasicDevice = {
     description : string;
     name : string;
     type : string;
+}
+
+type DeviceWithExtensions = {
+    description : string;
+    name : string;
+    type : string;
+    extensions : any;
 }
 ////////END DEVICE TYPES////////
 
@@ -161,6 +177,25 @@ type CleanedExtensionDataForProcessor = {
     key : any;
     redirect : string;
     extension : any;
+    styleValue? : any;
 }
 
 ////////END CONFIG TYPES /////////
+
+////////BEGIN MAP TYPES////////
+type FeatureStyle = {
+    fillColor : string;
+    strokeColor : string;
+    strokeWidth : number;
+    initRadius : number;
+} 
+
+
+type FocusFeatureProperties = {
+    name : string;
+    id : string;
+    description : string;
+    type : string;
+    additionalInfo? : any
+}
+////////BEGIN MAP TYPES////////

@@ -45,7 +45,7 @@ export default class WidgetDataProcessor {
   // group all of the data from the API call into one neat little bundle thing
   cleanData (data:RawExtensionDataForProcessor[]) {
     // new array for where the cleanedData will be stored
-    let cleanedData = new Array();
+    var cleanedData:any[] = [];
 
     // iterate over each category
     data.map(category => {
@@ -59,18 +59,18 @@ export default class WidgetDataProcessor {
         if (typeof value === 'string' || value instanceof String){
           value = value.replace(/[^ -~]+/g, " ");
         }
-        cleanedData.push({
-            title : key,
+        var tempObj = {
+          title : key,
             data : value,
             style : this.getFormat(key),
             key : Date.now() + Math.random(), // key to make React happier :)
             redirect : this.getRedirect(key, value),
             extension: category.relationship
-        });
+        }
+        cleanedData.push(tempObj);
         }
     }
     });
-
     return this.cleanRelationshipData(cleanedData);
   }
 
@@ -81,12 +81,12 @@ export default class WidgetDataProcessor {
     // iterates over the list of excluded data
     cleanedData = cleanedData.map(point => {
       let newpoint:CleanedExtensionDataForProcessor = {
-        title : "",
-        style : "",
-        redirect : "",
-        data: "",
-        extension : "",
-        key : ""
+        title : point.title ,
+        style : point.style,
+        redirect : point.redirect,
+        data: point.data,
+        extension : point.extension,
+        key : point.key
       };
       Object.assign(point, newpoint); // copy data over instead of reference, makes JSON configs possible.
       // passes relevant values through functions configured by the JSON file

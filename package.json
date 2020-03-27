@@ -73,6 +73,10 @@
     ]
   },
   "dependencies": {
-    "@rollup/plugin-image": "^2.0.4"
+    "@rollup/plugin-image": "^2.0.4",
+    "@types/ol": "^6.1.0",
+    "moment": "^2.24.0",
+    "ol": "^6.2.1",
+    "react-moment": "^0.9.7"
   }
 }

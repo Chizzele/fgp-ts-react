@@ -1,0 +1,16 @@
+{
+    "excludedColumns" : [
+    ],
+    "mutatedColumns" : [
+    ],
+    "redirectColumns" : [
+    ],
+    "relation_excludedColumns" : [
+    ],
+    "relation_mutatedColumns" : [
+    ],
+    "relation_redirectColumns" : [
+    ],
+    "relation_renameColumns" : [
+    ]
+}

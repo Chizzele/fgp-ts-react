@@ -73,3 +73,7 @@
 .cursorNormal{
     cursor: default;
 }
+
+.fgReact_home-loading{
+    cursor: wait;
+}
