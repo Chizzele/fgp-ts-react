@@ -23,6 +23,8 @@ export interface DeviceWidgetPropsInterface {
     featureStyles?: FeatureStyle[];
     deviceLatLonFields: string[];
     projection?: string;
+    mapOnClickCallBack?: () => void;
+    mapOnDoubleClickCallBack?: () => void;
     processorConfig?: any;
 }
 export interface DeviceWidgetStateInterface {

@@ -79,19 +79,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                     name:  this.state.device.name
                 })
 
-                const deviceBaseFeature2 = new Feature({
-                    geometry : new Point([this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]),
-                    properties : {
-                        name : this.state.device.name,
-                        id : this.state.device.name,
-                        description : this.state.device.description,
-                        type : this.state.device.type
-                    },
-                    name:  this.state.device.name
-                })
-                
                 const deviceBaseSource = new VectorSource({
-                    features : [deviceBaseFeature,deviceBaseFeature2]
+                    features : [deviceBaseFeature]
                 })
                 const deviceBaseLayers = [
                     new VectorLayer({
@@ -361,6 +350,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                                             mapCenter={this.props.mapCenter !== undefined ? this.props.mapCenter : [this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]}
                                                                             zoomLevel={this.props.zoomLevel !== undefined ? this.props.zoomLevel : undefined}
                                                                             featureStyles={this.props.featureStyles !== undefined ? this.props.featureStyles : undefined}
+                                                                            onDoubleClickCallBack={this.props.mapOnDoubleClickCallBack !== undefined ?  this.props.mapOnDoubleClickCallBack : undefined}
+                                                                            onClickCallBack={this.props.mapOnClickCallBack !== undefined ?  this.props.mapOnClickCallBack : undefined}
                                                                         />
                                                                     </div>
                                                                 </div>

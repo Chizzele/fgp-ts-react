@@ -40530,6 +40530,7 @@ var MapPopup = /** @class */ (function (_super) {
     };
     return MapPopup;
 }(Component));
+//# sourceMappingURL=MapPopup.js.map
 
 var DeviceWidgetMap = /** @class */ (function (_super) {
     __extends(DeviceWidgetMap, _super);
@@ -40651,9 +40652,14 @@ var DeviceWidgetMap = /** @class */ (function (_super) {
             })
         });
         map.getView().on('change:resolution', this.styleHandlerZoom.bind(this));
-        map.on('click', function () {
-            console.log('CLICKEEDDD');
-        });
+        if (this.props.onClickCallBack !== undefined) {
+            console.log('its here');
+            map.on('click', this.props.onClickCallBack.bind(this));
+        }
+        if (this.props.onDoubleClickCallBack !== undefined) {
+            console.log('its there');
+            map.on('dblclick', this.props.onDoubleClickCallBack.bind(this));
+        }
         map.on('pointermove', this.hoverHandler.bind(this));
         this.setState({
             map: map
@@ -40902,18 +40908,8 @@ var DeviceWidget = /** @class */ (function (_super) {
                     },
                     name: this.state.device.name
                 });
-                var deviceBaseFeature2 = new Feature({
-                    geometry: new Point([this.state.device.extensions['location']["" + this.props.deviceLatLonFields[1]], this.state.device.extensions['location']["" + this.props.deviceLatLonFields[0]]]),
-                    properties: {
-                        name: this.state.device.name,
-                        id: this.state.device.name,
-                        description: this.state.device.description,
-                        type: this.state.device.type
-                    },
-                    name: this.state.device.name
-                });
                 var deviceBaseSource = new VectorSource({
-                    features: [deviceBaseFeature, deviceBaseFeature2]
+                    features: [deviceBaseFeature]
                 });
                 var deviceBaseLayers = [
                     new VectorLayer({
@@ -41039,7 +41035,7 @@ var DeviceWidget = /** @class */ (function (_super) {
                                         React.createElement(FontAwesomeIcon, { icon: _this.state.detailsExpanded ? "angle-double-left" : "angle-double-right" }))),
                                 React.createElement(DeviceDetails, { device: _this.state.device, isExtended: _this.state.detailsExpanded, processorConfig: _this.props.processorConfig !== undefined ? _this.props.processorConfig : undefined })),
                             React.createElement("div", { className: _this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" },
-                                React.createElement(DeviceWidgetMap, { mapId: "map-1", projection: _this.state.projection, triggerResize: _this.state.triggerMapResize, layers: _this.state.layers[0] !== undefined ? _this.state.layers : undefined, mapCenter: _this.props.mapCenter !== undefined ? _this.props.mapCenter : [_this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[1]], _this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[0]]], zoomLevel: _this.props.zoomLevel !== undefined ? _this.props.zoomLevel : undefined, featureStyles: _this.props.featureStyles !== undefined ? _this.props.featureStyles : undefined }))));
+                                React.createElement(DeviceWidgetMap, { mapId: "map-1", projection: _this.state.projection, triggerResize: _this.state.triggerMapResize, layers: _this.state.layers[0] !== undefined ? _this.state.layers : undefined, mapCenter: _this.props.mapCenter !== undefined ? _this.props.mapCenter : [_this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[1]], _this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[0]]], zoomLevel: _this.props.zoomLevel !== undefined ? _this.props.zoomLevel : undefined, featureStyles: _this.props.featureStyles !== undefined ? _this.props.featureStyles : undefined, onDoubleClickCallBack: _this.props.mapOnDoubleClickCallBack !== undefined ? _this.props.mapOnDoubleClickCallBack : undefined, onClickCallBack: _this.props.mapOnClickCallBack !== undefined ? _this.props.mapOnClickCallBack : undefined }))));
                     }
                     return (React.createElement("div", { id: tab.id, key: index, className: tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent" }, tab.content !== undefined ? tab.content : "no content provided"));
                 })))) : (this.state.topTabs.length > 1 ? (React.createElement("div", { className: "d-flex w-100" }, this.state.topTabs.map(function (tab, index) {
@@ -41067,7 +41063,6 @@ var DeviceWidget = /** @class */ (function (_super) {
     };
     return DeviceWidget;
 }(Component));
-//# sourceMappingURL=DeviceWidget.js.map
 
 var fa500px = {
   prefix: 'fab',

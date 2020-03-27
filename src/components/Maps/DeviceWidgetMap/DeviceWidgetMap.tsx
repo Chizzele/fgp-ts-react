@@ -136,9 +136,14 @@ export class DeviceWidgetMap extends Component<DeviceWidgetMapPropsInterface, De
             })
         });
         map.getView().on('change:resolution', this.styleHandlerZoom.bind(this))
-        map.on('click', () => {
-            console.log('CLICKEEDDD')
-        })
+        if(this.props.onClickCallBack !== undefined){
+            console.log('its here')
+            map.on('click', this.props.onClickCallBack.bind(this))
+        }
+        if(this.props.onDoubleClickCallBack !== undefined){
+            console.log('its there')
+            map.on('dblclick', this.props.onDoubleClickCallBack.bind(this))
+        }
         map.on('pointermove', this.hoverHandler.bind(this))
           this.setState({
               map : map

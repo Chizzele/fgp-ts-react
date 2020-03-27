@@ -6,6 +6,8 @@ export interface DeviceWidgetMapPropsInterface {
     layers ? : any[];
     featureStyles? : FeatureStyle[];
     projection? : string;
+    onClickCallBack? : () => void;
+    onDoubleClickCallBack? : () => void;
 }
 
 export interface DeviceWidgetMapStateInterface {

@@ -36,6 +36,8 @@ export interface DeviceWidgetPropsInterface {
     featureStyles? : FeatureStyle[];
     deviceLatLonFields : string[]; // pass [latName, lngName]
     projection? : string;
+    mapOnClickCallBack? : () => void;
+    mapOnDoubleClickCallBack? : () => void;
 
     //device extension config
     processorConfig? : any
