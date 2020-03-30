@@ -8,6 +8,8 @@ export interface DeviceWidgetMapPropsInterface {
     projection? : string;
     onClickCallBack? : () => void;
     onDoubleClickCallBack? : () => void;
+    redirectOnMapSingleClick?  : boolean;
+    redirectOnMapDoubleClick? : boolean;
 }
 
 export interface DeviceWidgetMapStateInterface {

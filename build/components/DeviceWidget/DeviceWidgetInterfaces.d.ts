@@ -25,6 +25,8 @@ export interface DeviceWidgetPropsInterface {
     projection?: string;
     mapOnClickCallBack?: () => void;
     mapOnDoubleClickCallBack?: () => void;
+    redirectOnMapSingleClick?: boolean;
+    redirectOnMapDoubleClick?: boolean;
     processorConfig?: any;
 }
 export interface DeviceWidgetStateInterface {

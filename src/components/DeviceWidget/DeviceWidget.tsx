@@ -352,6 +352,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                                             featureStyles={this.props.featureStyles !== undefined ? this.props.featureStyles : undefined}
                                                                             onDoubleClickCallBack={this.props.mapOnDoubleClickCallBack !== undefined ?  this.props.mapOnDoubleClickCallBack : undefined}
                                                                             onClickCallBack={this.props.mapOnClickCallBack !== undefined ?  this.props.mapOnClickCallBack : undefined}
+                                                                            redirectOnMapDoubleClick={this.props.redirectOnMapDoubleClick !== undefined ? this.props.redirectOnMapDoubleClick : false}
+                                                                            redirectOnMapSingleClick={this.props.redirectOnMapSingleClick !== undefined ? this.props.redirectOnMapSingleClick : false}
                                                                         />
                                                                     </div>
                                                                 </div>

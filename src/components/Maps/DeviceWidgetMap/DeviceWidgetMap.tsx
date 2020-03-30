@@ -125,6 +125,15 @@ export class DeviceWidgetMap extends Component<DeviceWidgetMapPropsInterface, De
         this.state.map ? this.state.map.updateSize() : null;
     }
 
+    redirectToPoint(event:any){
+        this.state.map.forEachFeatureAtPixel(event.pixel, (feature:ol.Feature) => {
+            const prop = feature.getProperties().properties;
+            if(prop && prop.name && prop.type){
+                prop.linkTo !== undefined ? window.open(`${window.location.href}/${prop.linkTo}`) : window.open(`${window.location.origin}/${prop.type}/${prop.name}`)
+            }    
+        });
+    }
+
     buildMap(){
         var map = new ol.Map({
             target: this.props.mapId,
@@ -136,14 +145,24 @@ export class DeviceWidgetMap extends Component<DeviceWidgetMapPropsInterface, De
             })
         });
         map.getView().on('change:resolution', this.styleHandlerZoom.bind(this))
-        if(this.props.onClickCallBack !== undefined){
-            console.log('its here')
-            map.on('click', this.props.onClickCallBack.bind(this))
+        // Checking what sort of events should be fired on click
+        // single click
+        if(this.props.redirectOnMapSingleClick === true){
+            map.on('click', this.redirectToPoint.bind(this))
+        }else{
+            if(this.props.onClickCallBack !== undefined){
+                map.on('click', this.props.onClickCallBack.bind(this))
+            }
         }
-        if(this.props.onDoubleClickCallBack !== undefined){
-            console.log('its there')
-            map.on('dblclick', this.props.onDoubleClickCallBack.bind(this))
+        // double click
+        if(this.props.redirectOnMapDoubleClick === true){
+            map.on('dblclick', this.redirectToPoint.bind(this))
+        }else{
+            if(this.props.onDoubleClickCallBack !== undefined){
+                map.on('dblclick', this.props.onDoubleClickCallBack.bind(this))
+            }
         }
+
         map.on('pointermove', this.hoverHandler.bind(this))
           this.setState({
               map : map

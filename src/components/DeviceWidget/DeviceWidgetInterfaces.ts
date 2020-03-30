@@ -38,6 +38,8 @@ export interface DeviceWidgetPropsInterface {
     projection? : string;
     mapOnClickCallBack? : () => void;
     mapOnDoubleClickCallBack? : () => void;
+    redirectOnMapSingleClick?  : boolean;
+    redirectOnMapDoubleClick? : boolean;
 
     //device extension config
     processorConfig? : any

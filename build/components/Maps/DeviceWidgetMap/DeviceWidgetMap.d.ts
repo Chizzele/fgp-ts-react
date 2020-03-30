@@ -7,6 +7,7 @@ export declare class DeviceWidgetMap extends Component<DeviceWidgetMapPropsInter
     hoverHandler(event: any): void;
     styleHandlerZoom(): void;
     triggerResize(): void;
+    redirectToPoint(event: any): void;
     buildMap(): void;
     componentWillReceiveProps(prevProps: any): void;
     render(): JSX.Element;

@@ -40647,6 +40647,14 @@ var DeviceWidgetMap = /** @class */ (function (_super) {
     DeviceWidgetMap.prototype.triggerResize = function () {
         this.state.map ? this.state.map.updateSize() : null;
     };
+    DeviceWidgetMap.prototype.redirectToPoint = function (event) {
+        this.state.map.forEachFeatureAtPixel(event.pixel, function (feature) {
+            var prop = feature.getProperties().properties;
+            if (prop && prop.name && prop.type) {
+                prop.linkTo !== undefined ? window.open(window.location.href + "/" + prop.linkTo) : window.open(window.location.origin + "/" + prop.type + "/" + prop.name);
+            }
+        });
+    };
     DeviceWidgetMap.prototype.buildMap = function () {
         var _this = this;
         var map = new Map({
@@ -40659,13 +40667,24 @@ var DeviceWidgetMap = /** @class */ (function (_super) {
             })
         });
         map.getView().on('change:resolution', this.styleHandlerZoom.bind(this));
-        if (this.props.onClickCallBack !== undefined) {
-            console.log('its here');
-            map.on('click', this.props.onClickCallBack.bind(this));
+        // Checking what sort of events should be fired on click
+        // single click
+        if (this.props.redirectOnMapSingleClick === true) {
+            map.on('click', this.redirectToPoint.bind(this));
         }
-        if (this.props.onDoubleClickCallBack !== undefined) {
-            console.log('its there');
-            map.on('dblclick', this.props.onDoubleClickCallBack.bind(this));
+        else {
+            if (this.props.onClickCallBack !== undefined) {
+                map.on('click', this.props.onClickCallBack.bind(this));
+            }
+        }
+        // double click
+        if (this.props.redirectOnMapDoubleClick === true) {
+            map.on('dblclick', this.redirectToPoint.bind(this));
+        }
+        else {
+            if (this.props.onDoubleClickCallBack !== undefined) {
+                map.on('dblclick', this.props.onDoubleClickCallBack.bind(this));
+            }
         }
         map.on('pointermove', this.hoverHandler.bind(this));
         this.setState({
@@ -41042,7 +41061,7 @@ var DeviceWidget = /** @class */ (function (_super) {
                                         React__default.createElement(FontAwesomeIcon, { icon: _this.state.detailsExpanded ? "angle-double-left" : "angle-double-right" }))),
                                 React__default.createElement(DeviceDetails, { device: _this.state.device, isExtended: _this.state.detailsExpanded, processorConfig: _this.props.processorConfig !== undefined ? _this.props.processorConfig : undefined })),
                             React__default.createElement("div", { className: _this.state.mapExpanded === true ? "DeviceWidget-section DeviceWidget-section-map" : "DeviceWidget-section DeviceWidget-section-map closed" },
-                                React__default.createElement(DeviceWidgetMap, { mapId: "map-1", projection: _this.state.projection, triggerResize: _this.state.triggerMapResize, layers: _this.state.layers[0] !== undefined ? _this.state.layers : undefined, mapCenter: _this.props.mapCenter !== undefined ? _this.props.mapCenter : [_this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[1]], _this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[0]]], zoomLevel: _this.props.zoomLevel !== undefined ? _this.props.zoomLevel : undefined, featureStyles: _this.props.featureStyles !== undefined ? _this.props.featureStyles : undefined, onDoubleClickCallBack: _this.props.mapOnDoubleClickCallBack !== undefined ? _this.props.mapOnDoubleClickCallBack : undefined, onClickCallBack: _this.props.mapOnClickCallBack !== undefined ? _this.props.mapOnClickCallBack : undefined }))));
+                                React__default.createElement(DeviceWidgetMap, { mapId: "map-1", projection: _this.state.projection, triggerResize: _this.state.triggerMapResize, layers: _this.state.layers[0] !== undefined ? _this.state.layers : undefined, mapCenter: _this.props.mapCenter !== undefined ? _this.props.mapCenter : [_this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[1]], _this.state.device.extensions['location']["" + _this.props.deviceLatLonFields[0]]], zoomLevel: _this.props.zoomLevel !== undefined ? _this.props.zoomLevel : undefined, featureStyles: _this.props.featureStyles !== undefined ? _this.props.featureStyles : undefined, onDoubleClickCallBack: _this.props.mapOnDoubleClickCallBack !== undefined ? _this.props.mapOnDoubleClickCallBack : undefined, onClickCallBack: _this.props.mapOnClickCallBack !== undefined ? _this.props.mapOnClickCallBack : undefined, redirectOnMapDoubleClick: _this.props.redirectOnMapDoubleClick !== undefined ? _this.props.redirectOnMapDoubleClick : false, redirectOnMapSingleClick: _this.props.redirectOnMapSingleClick !== undefined ? _this.props.redirectOnMapSingleClick : false }))));
                     }
                     return (React__default.createElement("div", { id: tab.id, key: index, className: tab.active ? "d-flex w-100 tabbedContent active" : "d-flex w-100 tabbedContent" }, tab.content !== undefined ? tab.content : "no content provided"));
                 })))) : (this.state.topTabs.length > 1 ? (React__default.createElement("div", { className: "d-flex w-100" }, this.state.topTabs.map(function (tab, index) {
