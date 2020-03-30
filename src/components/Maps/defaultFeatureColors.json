@@ -1,0 +1,40 @@
+{
+ "colors" : [
+    {
+            "fillColor": "lightblue",
+            "strokeColor": "black",
+            "strokeWidth": 1,
+            "initRadius" : 2
+    },
+    {
+            "fillColor": "pink",
+            "strokeColor": "black",
+            "strokeWidth": 1,
+            "initRadius": 2
+    },
+    {
+            "fillColor": "lightgreen",
+            "strokeColor": "black",
+            "strokeWidth": 1,
+            "initRadius": 2
+    },
+    {
+            "fillColor": "mediumpurple",
+            "strokeColor": "black",
+            "initRadius": 2,
+            "strokeWidth" : 1
+    },
+    {
+
+            "fillColor": "lightsalmon",
+            "strokeColor": "black",
+            "strokeWidth": 1,
+            "initRadius" : 2
+    },
+    {
+            "fillColor": "lightsalmon",
+            "strokeColor": "black",
+            "strokeWidth": 1,
+            "initRadius" : 2
+    }]
+}

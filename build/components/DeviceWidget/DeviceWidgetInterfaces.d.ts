@@ -50,5 +50,5 @@ export interface DeviceWidgetStateInterface {
     layers: any[];
     projection: string;
     isParent: boolean;
-    children: any[];
+    children: ChildDeviceCollection[];
 }

@@ -40842,6 +40842,48 @@ function getDeviceChildren(baseUrl, deviceName, childRelations) {
 }
 //# sourceMappingURL=DeviceWidgetHelpersV1.js.map
 
+var colors = [
+	{
+		fillColor: "lightblue",
+		strokeColor: "black",
+		strokeWidth: 1,
+		initRadius: 2
+	},
+	{
+		fillColor: "pink",
+		strokeColor: "black",
+		strokeWidth: 1,
+		initRadius: 2
+	},
+	{
+		fillColor: "lightgreen",
+		strokeColor: "black",
+		strokeWidth: 1,
+		initRadius: 2
+	},
+	{
+		fillColor: "mediumpurple",
+		strokeColor: "black",
+		initRadius: 2,
+		strokeWidth: 1
+	},
+	{
+		fillColor: "lightsalmon",
+		strokeColor: "black",
+		strokeWidth: 1,
+		initRadius: 2
+	},
+	{
+		fillColor: "lightsalmon",
+		strokeColor: "black",
+		strokeWidth: 1,
+		initRadius: 2
+	}
+];
+var defaultColors = {
+	colors: colors
+};
+
 var DeviceWidget = /** @class */ (function (_super) {
     __extends(DeviceWidget, _super);
     function DeviceWidget(props) {
@@ -40973,6 +41015,9 @@ var DeviceWidget = /** @class */ (function (_super) {
         this.getDevice();
     };
     DeviceWidget.prototype.buildMapLayer = function () {
+        var _this = this;
+        var mapLayerColors = defaultColors.colors;
+        console.log(mapLayerColors);
         if (this.props.deviceLatLonFields !== undefined) {
             if (this.state.device.extensions["location"] !== undefined) {
                 var deviceBaseStyle = new Style({
@@ -41000,6 +41045,41 @@ var DeviceWidget = /** @class */ (function (_super) {
                 var deviceBaseSource = new VectorSource({
                     features: [deviceBaseFeature]
                 });
+                // building the child layers 
+                var childrenLayers = [];
+                if (this.state.children.length > 0) {
+                    this.state.children.forEach(function (childrenType, index) {
+                        var childStyle = new Style({
+                            image: new CircleStyle({
+                                radius: mapLayerColors[index].initRadius,
+                                stroke: new Stroke({
+                                    color: mapLayerColors[index].strokeColor,
+                                    width: mapLayerColors[index].strokeWidth,
+                                }),
+                                fill: new Fill({
+                                    color: mapLayerColors[index].fillColor,
+                                })
+                            })
+                        });
+                        var features = childrenType.devices.map(function (device) { return (new Feature({
+                            geometry: new Point([device.extensions["location"]["" + _this.props.deviceLatLonFields[1]], device.extensions["location"]["" + _this.props.deviceLatLonFields[0]]]),
+                            properties: {
+                                name: device.name,
+                                id: device.name,
+                                description: device.description,
+                                type: device.type
+                            },
+                            name: device.name
+                        })); });
+                        var childSource = new VectorSource({
+                            features: features
+                        });
+                        childrenLayers.push(new VectorLayer({
+                            source: childSource,
+                            style: childStyle
+                        }));
+                    });
+                }
                 var deviceBaseLayers = [
                     new VectorLayer({
                         source: deviceBaseSource,
@@ -41007,7 +41087,7 @@ var DeviceWidget = /** @class */ (function (_super) {
                     })
                 ];
                 this.setState({
-                    layers: this.state.layers.concat(deviceBaseLayers),
+                    layers: this.state.layers.concat(deviceBaseLayers, childrenLayers),
                     deviceIsLoaded: true,
                     couldntLoadDevice: false
                 });

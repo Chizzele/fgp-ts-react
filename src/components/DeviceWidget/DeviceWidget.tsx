@@ -11,6 +11,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {Fill, Stroke, Circle, Style} from 'ol/style'; 
+import defaultColors from '../Maps/defaultFeatureColors.json'
 export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props:DeviceWidgetPropsInterface){
         super(props);
@@ -57,6 +58,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
     }
 
     buildMapLayer(){
+        const mapLayerColors:FeatureStyle[] = defaultColors.colors;
+        console.log(mapLayerColors)
         if(this.props.deviceLatLonFields !== undefined){
             if(this.state.device.extensions["location"] !== undefined){
                 const deviceBaseStyle = new Style({
@@ -85,6 +88,44 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                 const deviceBaseSource = new VectorSource({
                     features : [deviceBaseFeature]
                 })
+
+                // building the child layers 
+                var childrenLayers:any = [];
+                // var childCenter:[][] = [][];
+                if(this.state.children.length > 0 ){
+                    this.state.children.forEach((childrenType, index) => {
+                        var childStyle = new Style({
+                            image : new Circle({
+                                radius : mapLayerColors[index].initRadius,
+                                stroke: new Stroke({
+                                    color : mapLayerColors[index].strokeColor,
+                                    width :  mapLayerColors[index].strokeWidth,
+                                }),
+                                fill : new Fill({
+                                    color : mapLayerColors[index].fillColor,
+                                })
+                            })
+                        });
+                        let features:any[] = childrenType.devices.map(device => (new Feature({
+                            geometry : new Point([device.extensions["location"][`${this.props.deviceLatLonFields[1]}`],device.extensions["location"][`${this.props.deviceLatLonFields[0]}`]]),
+                            properties : {
+                                name : device.name,
+                                id : device.name,
+                                description : device.description,
+                                type : device.type
+                            },
+                            name: device.name
+                        })));
+                        let childSource = new VectorSource({
+                            features : features
+                        })
+                        childrenLayers.push(
+                            new VectorLayer({
+                                source : childSource,
+                                style : childStyle
+                        }))
+                    })  
+                }
                 const deviceBaseLayers = [
                     new VectorLayer({
                         source : deviceBaseSource,
@@ -92,7 +133,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                     })
                 ];
                 this.setState({
-                    layers : this.state.layers.concat(deviceBaseLayers),
+                    layers : this.state.layers.concat(deviceBaseLayers, childrenLayers),
                     deviceIsLoaded : true,
                     couldntLoadDevice : false
                 })

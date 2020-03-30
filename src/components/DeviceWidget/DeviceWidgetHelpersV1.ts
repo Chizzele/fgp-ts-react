@@ -67,12 +67,11 @@ export async function getDeviceChildren(baseUrl:string, deviceName:string, child
                     await axios.post(`${baseUrl}${resp.data[0].type}`, {'extensions' : extensions, 'devices' : childNames})
                     .then((resp) => {
                         let thisDeviceLevel:DeviceWithExtensions[] = resp.data.map((extensions:any) => ({
-                                description : extensions.device.description,
-                                name : extensions.device.name,
-                                type : extensions.device.type,
-                                extensions : extensions
-                            }
-                        ))
+                            description : extensions.device.description,
+                            name : extensions.device.name,
+                            type : extensions.device.type,
+                            extensions : extensions
+                        }))
                         childCollectionArray.push({
                             devices : thisDeviceLevel,
                             relationKey : relationName,

@@ -74,5 +74,5 @@ export interface DeviceWidgetStateInterface {
 
     isParent : boolean;
 
-    children : any[];
+    children : ChildDeviceCollection[];
 }
