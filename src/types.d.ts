@@ -118,8 +118,32 @@ type DeviceWithExtensions = {
     type : string;
     extensions : any;
 }
+
+type ChildDeviceCollection = {
+    devices : DeviceWithExtensions[];
+    relationKey : string;
+    childType : string;
+}
 ////////END DEVICE TYPES////////
 
+
+//////START DEVICE WIDGET TYPES////////
+type ChildRelationObj = {
+    relationName : string;
+    childType : string;
+    parentType : string;
+    childExtensions? : string[] 
+    isParentFlag : boolean
+}
+
+type DeviceFromGetRequest = {
+    deviceKey : {id : string},
+    name : string;
+    type : string;
+    description : string;
+}
+
+////////END DEVICE WIDGET TYPES////////
 
 ////////BEGIN CONFIG TYPES////////
 type DeviceConfig = {

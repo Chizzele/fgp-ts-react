@@ -50,3 +50,47 @@ export async function getDeviceParents(baseUrl:string, deviceName:string, breadC
     }
     return breadCrumbArray
 }
+
+// goes through the children and grabs them, returns device with extensions
+export async function getDeviceChildren(baseUrl:string, deviceName:string, childRelations:ChildRelationObj[]): Promise<ChildDeviceCollection[]>{
+    const childCollectionArray:ChildDeviceCollection[] = [];
+    if(childRelations.length > 0){
+        const parentDeviceType = childRelations[0].parentType;
+        for(var i  = 0; i < childRelations.length ; i ++){
+            var relationName = childRelations[i].relationName
+            await axios.get(`${baseUrl}${parentDeviceType}/${deviceName}/relation/${relationName}?isParent=${childRelations[i].isParentFlag}`)
+            .then( async (resp) => {
+                var childNames:DeviceFromGetRequest[] =  resp.data.map((device:DeviceFromGetRequest) => device.name);
+                var extensions:any = [];
+                childRelations[i].childExtensions !== undefined ? extensions = childRelations[i].childExtensions : extensions = ["location"]
+                if(childNames.length > 0){
+                    await axios.post(`${baseUrl}${resp.data[0].type}`, {'extensions' : extensions, 'devices' : childNames})
+                    .then((resp) => {
+                        let thisDeviceLevel:DeviceWithExtensions[] = resp.data.map((extensions:any) => ({
+                                description : extensions.device.description,
+                                name : extensions.device.name,
+                                type : extensions.device.type,
+                                extensions : extensions
+                            }
+                        ))
+                        childCollectionArray.push({
+                            devices : thisDeviceLevel,
+                            relationKey : relationName,
+                            childType : thisDeviceLevel[0].type
+                        })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+        return childCollectionArray
+    }else{
+        // return failed device extensions if the amount given is 0
+        return ([{devices : [], relationKey : "_fail_", childType : "_fail_"}])
+    }
+}

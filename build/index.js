@@ -5920,7 +5920,7 @@ var Breadcrumbs = /** @class */ (function (_super) {
 }(React.Component));
 //# sourceMappingURL=Breadcrumbs.js.map
 
-var css$3 = ".DeviceDetailsCont{\n    list-style: none;\n    font-size: 1rem;\n    padding-top: 8px;\n}";
+var css$3 = ".DeviceDetailsCont{\n    list-style: none;\n    font-size: 1rem;\n    padding: 8px 22px;\n}";
 styleInject(css$3);
 
 // Asset data processor for ThingsAt / FGP React Library
@@ -40705,6 +40705,7 @@ var DeviceWidgetMap = /** @class */ (function (_super) {
     };
     return DeviceWidgetMap;
 }(React.Component));
+//# sourceMappingURL=DeviceWidgetMap.js.map
 
 function getDeviceExtensions(baseUrl, deviceName, deviceType, extensionNames) {
     return __awaiter(this, void 0, void 0, function () {
@@ -40775,6 +40776,73 @@ function getDeviceParents(baseUrl, deviceName, breadCrumbPath) {
                     i++;
                     return [3 /*break*/, 1];
                 case 4: return [2 /*return*/, breadCrumbArray];
+            }
+        });
+    });
+}
+// goes through the children and grabs them, returns device with extensions
+function getDeviceChildren(baseUrl, deviceName, childRelations) {
+    return __awaiter(this, void 0, void 0, function () {
+        var childCollectionArray, parentDeviceType, i, relationName;
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    childCollectionArray = [];
+                    if (!(childRelations.length > 0)) return [3 /*break*/, 5];
+                    parentDeviceType = childRelations[0].parentType;
+                    i = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(i < childRelations.length)) return [3 /*break*/, 4];
+                    relationName = childRelations[i].relationName;
+                    return [4 /*yield*/, axios$1.get("" + baseUrl + parentDeviceType + "/" + deviceName + "/relation/" + relationName + "?isParent=" + childRelations[i].isParentFlag)
+                            .then(function (resp) { return __awaiter(_this, void 0, void 0, function () {
+                            var childNames, extensions;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        childNames = resp.data.map(function (device) { return device.name; });
+                                        extensions = [];
+                                        childRelations[i].childExtensions !== undefined ? extensions = childRelations[i].childExtensions : extensions = ["location"];
+                                        if (!(childNames.length > 0)) return [3 /*break*/, 2];
+                                        return [4 /*yield*/, axios$1.post("" + baseUrl + resp.data[0].type, { 'extensions': extensions, 'devices': childNames })
+                                                .then(function (resp) {
+                                                var thisDeviceLevel = resp.data.map(function (extensions) { return ({
+                                                    description: extensions.device.description,
+                                                    name: extensions.device.name,
+                                                    type: extensions.device.type,
+                                                    extensions: extensions
+                                                }); });
+                                                childCollectionArray.push({
+                                                    devices: thisDeviceLevel,
+                                                    relationKey: relationName,
+                                                    childType: thisDeviceLevel[0].type
+                                                });
+                                            })
+                                                .catch(function (err) {
+                                                console.log(err);
+                                            })];
+                                    case 1:
+                                        _a.sent();
+                                        _a.label = 2;
+                                    case 2: return [2 /*return*/];
+                                }
+                            });
+                        }); })
+                            .catch(function (err) {
+                            console.log(err);
+                        })];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/, childCollectionArray];
+                case 5: 
+                // return failed device extensions if the amount given is 0
+                return [2 /*return*/, ([{ devices: [], relationKey: "_fail_", childType: "_fail_" }])];
             }
         });
     });
@@ -40902,7 +40970,9 @@ var DeviceWidget = /** @class */ (function (_super) {
             deviceIsLoaded: false,
             layers: _this.props.layers !== undefined ? _this.props.layers : [],
             projection: _this.props.projection !== undefined ? _this.props.projection : "EPSG:4326",
-            breadCrumbsLoaded: _this.props.breadCrumbs !== undefined ? true : false
+            breadCrumbsLoaded: _this.props.breadCrumbs !== undefined ? true : false,
+            children: [],
+            isParent: _this.props.isParent !== undefined ? _this.props.isParent : false
         };
         return _this;
     }
@@ -40957,6 +41027,33 @@ var DeviceWidget = /** @class */ (function (_super) {
             });
         }
     };
+    DeviceWidget.prototype.getChildren = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var children;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(this.state.isParent === true && this.props.childrenRelations !== undefined || this.props.childrenRelations !== undefined)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, getDeviceChildren(this.props.baseUrl, this.state.device.name, this.props.childrenRelations)];
+                    case 1:
+                        children = _a.sent();
+                        this.setState({
+                            children: children[0].devices.length > 0 && children[0].relationKey === "_fail_" && children[0].childType === "_fail_" ? [] : children
+                        }, function () {
+                            _this.buildMapLayer();
+                            _this.getParents();
+                        });
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.buildMapLayer();
+                        this.getParents();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     DeviceWidget.prototype.getParents = function () {
         return __awaiter(this, void 0, void 0, function () {
             var crumbs;
@@ -40999,8 +41096,7 @@ var DeviceWidget = /** @class */ (function (_super) {
                             this.setState({
                                 device: device,
                             }, function () {
-                                _this.buildMapLayer();
-                                _this.getParents();
+                                _this.getChildren();
                             });
                         }
                         return [2 /*return*/];
@@ -43839,7 +43935,6 @@ var css$a = "/* drop down item */\n.autoCompleteDropDownItem {\n    background: 
 styleInject(css$a);
 
 library.add(_iconsCache, faCheckSquare, faCoffee, faWifi, faSpinner, faExpandAlt, faCompressAlt, faSearchPlus, faSearchMinus, faAngleDoubleLeft, faAngleDoubleRight, faInfoCircle);
-//# sourceMappingURL=index.js.map
 
 exports.AutoComplete = AutoComplete;
 exports.Breadcrumbs = Breadcrumbs;

@@ -5,6 +5,7 @@ export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, 
     constructor(props: DeviceWidgetPropsInterface);
     componentDidMount(): void;
     buildMapLayer(): void;
+    getChildren(): Promise<void>;
     getParents(): Promise<void>;
     getDevice(): Promise<void>;
     resizeTargets: () => void;

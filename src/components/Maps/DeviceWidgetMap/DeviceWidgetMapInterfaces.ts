@@ -1,7 +1,7 @@
 export interface DeviceWidgetMapPropsInterface {
     mapId : string
     triggerResize : boolean;
-    zoomLevel? : number;
+    zoomLevel? : number; 
     mapCenter? : number[]; 
     layers ? : any[];
     featureStyles? : FeatureStyle[];

@@ -14,6 +14,10 @@ export interface DeviceWidgetPropsInterface {
     breadCrumbs? : CrumbArr;
     breadCrumbPath? : any[];
 
+    //children props
+    isParent? : boolean;
+    childrenRelations? : ChildRelationObj[];
+
     //callbacks 
     toggleWidgetExpandedCb? : (widgetToggleState:boolean) => void;
     zoomHandlerCb? : (zoomLevel:number) => void
@@ -67,4 +71,8 @@ export interface DeviceWidgetStateInterface {
 
     layers : any[];
     projection : string;
+
+    isParent : boolean;
+
+    children : any[];
 }

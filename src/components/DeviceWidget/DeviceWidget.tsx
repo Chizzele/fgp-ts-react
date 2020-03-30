@@ -5,7 +5,7 @@ import { DeviceDetails } from '../DeviceDetails/DeviceDetails';
 import './DeviceWidget.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DeviceWidgetMap } from '../Maps/DeviceWidgetMap/DeviceWidgetMap'
-import { getDeviceExtensions, getDeviceParents } from './DeviceWidgetHelpersV1';
+import { getDeviceExtensions, getDeviceParents, getDeviceChildren } from './DeviceWidgetHelpersV1';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
@@ -45,7 +45,10 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             deviceIsLoaded : false,
             layers : this.props.layers !== undefined ? this.props.layers : [],
             projection : this.props.projection !== undefined ? this.props.projection : "EPSG:4326",
-            breadCrumbsLoaded : this.props.breadCrumbs !== undefined ? true : false
+            breadCrumbsLoaded : this.props.breadCrumbs !== undefined ? true : false,
+            children : [],
+            isParent : this.props.isParent !== undefined ? this.props.isParent : false 
+
         }
     }
 
@@ -102,6 +105,21 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
         }
     }
 
+    async getChildren(){
+        if(this.state.isParent === true && this.props.childrenRelations !== undefined || this.props.childrenRelations !== undefined){
+            const children = await getDeviceChildren(this.props.baseUrl, this.state.device.name, this.props.childrenRelations)
+            this.setState({
+                children : children[0].devices.length !> 0 && children[0].relationKey === "_fail_" && children[0].childType === "_fail_" ? [] : children
+            }, () => {
+                this.buildMapLayer()
+                this.getParents()
+            })
+        }else{
+            this.buildMapLayer()
+            this.getParents()
+        }
+    }
+    
     async getParents(){
         if(this.props.breadCrumbPath !== undefined){
             const crumbs = await getDeviceParents(this.props.baseUrl, this.state.device.name, this.props.breadCrumbPath)
@@ -125,8 +143,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             this.setState({
                 device : device,
             },() => {
-                this.buildMapLayer()
-                this.getParents()
+                this.getChildren()
             })
         }
 

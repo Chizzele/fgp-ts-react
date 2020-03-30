@@ -8,6 +8,8 @@ export interface DeviceWidgetPropsInterface {
     topTabs?: ContentTab[];
     breadCrumbs?: CrumbArr;
     breadCrumbPath?: any[];
+    isParent?: boolean;
+    childrenRelations?: ChildRelationObj[];
     toggleWidgetExpandedCb?: (widgetToggleState: boolean) => void;
     zoomHandlerCb?: (zoomLevel: number) => void;
     toggleBreadCrumbsExpandedCb?: (breadCrumbToggleState: boolean) => void;
@@ -47,4 +49,6 @@ export interface DeviceWidgetStateInterface {
     processorConfig?: any;
     layers: any[];
     projection: string;
+    isParent: boolean;
+    children: any[];
 }
