@@ -3,7 +3,9 @@ export interface SplashPropsInterface {
     referenceQuery: string;
     baseApiUrl: string;
     widgets?: SplashWidgetArray;
+    favLinks?: FavLink[];
 }
 export interface SplashStateInterface {
     isLoaded: boolean;
+    favLinks: FavLink[];
 }

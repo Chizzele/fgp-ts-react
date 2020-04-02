@@ -64,11 +64,15 @@
 }
 
 .DeviceWidgetExpand-icon.zoomPlus{
+    right: 69px;
+}
+
+.DeviceWidgetExpand-icon.fav{
     right: 35px;
 }
 
 .DeviceWidgetExpand-icon.zoomMinus{
-    right: 69px;
+    right: 103px;
 }
 
 .DeviceWidgetExpand-icon.viewTabs{

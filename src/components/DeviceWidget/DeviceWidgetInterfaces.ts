@@ -75,4 +75,7 @@ export interface DeviceWidgetStateInterface {
     isParent : boolean;
 
     children : ChildDeviceCollection[];
+    mapCenter : number[];
+
+    isFavorite : boolean;
 }

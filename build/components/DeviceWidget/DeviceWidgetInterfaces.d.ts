@@ -51,4 +51,6 @@ export interface DeviceWidgetStateInterface {
     projection: string;
     isParent: boolean;
     children: ChildDeviceCollection[];
+    mapCenter: number[];
+    isFavorite: boolean;
 }

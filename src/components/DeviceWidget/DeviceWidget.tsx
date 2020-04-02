@@ -48,20 +48,74 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             projection : this.props.projection !== undefined ? this.props.projection : "EPSG:4326",
             breadCrumbsLoaded : this.props.breadCrumbs !== undefined ? true : false,
             children : [],
-            isParent : this.props.isParent !== undefined ? this.props.isParent : false 
+            isParent : this.props.isParent !== undefined ? this.props.isParent : false ,
+            mapCenter : this.props.mapCenter !== undefined ? this.props.mapCenter : [] ,
 
+            // "favoriting" works by storing in local storage
+            isFavorite : this.checkFavorite()
         }
+        this.toggleFav = this.toggleFav.bind(this);
     }
 
     componentDidMount(){
         this.getDevice();
     }
 
+    checkFavorite(){
+        var item:any = localStorage.getItem('fgp_ts_ui_f')
+        // have no local storage, create it
+        if(item === null){
+            localStorage.setItem("fgp_ts_ui_f", JSON.stringify({favLinks : []}))
+            return false;
+        }else{
+            let x :any = JSON.parse(item)
+            if(x.favLinks.length > 0){
+                let favObjects:FavLink[] = x.favLinks;
+                if(favObjects.map(link => link.url).indexOf(window.location.pathname) === -1){
+                    return false
+                }else{
+                    return true
+                }
+            }else{
+                return false
+            }
+        }
+    }
+
+    toggleFav(){
+        var item:any = localStorage.getItem('fgp_ts_ui_f')
+        // have no local storage, create it and set the fav
+        if(item === null){
+            localStorage.setItem("fgp_ts_ui_f", JSON.stringify({favLinks : [{url:`${window.location.pathname}`, name : `${this.state.device.type}:${this.state.device.description} `}]}))
+            this.setState({
+                isFavorite : true
+            })
+        }else{
+            let x = JSON.parse(item)
+            let favObjects:FavLink[] = x.favLinks;
+            let objectIndex = favObjects.map(link => link.url).indexOf(window.location.pathname);
+            if(objectIndex === -1){
+                favObjects.push({url:`${window.location.pathname}`, name : `${this.state.device.type}:${this.state.device.description} `});
+                localStorage.setItem("fgp_ts_ui_f", JSON.stringify({favLinks : favObjects}));
+                this.setState({
+                    isFavorite : true
+                })
+            }else{
+                favObjects.splice(objectIndex, 1);
+                localStorage.setItem("fgp_ts_ui_f", JSON.stringify({favLinks : favObjects}));
+                this.setState({
+                    isFavorite : false
+                })
+            }
+            
+        }
+    }
+
     buildMapLayer(){
         const mapLayerColors:FeatureStyle[] = defaultColors.colors;
-        console.log(mapLayerColors)
         if(this.props.deviceLatLonFields !== undefined){
             if(this.state.device.extensions["location"] !== undefined){
+                var points:any[] = [];
                 const deviceBaseStyle = new Style({
                     image : new Circle({
                         radius : 2,
@@ -74,6 +128,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                         })
                     })
                 })
+                points.push([this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]);
                 const deviceBaseFeature = new Feature({
                     geometry : new Point([this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]),
                     properties : {
@@ -87,11 +142,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
 
                 const deviceBaseSource = new VectorSource({
                     features : [deviceBaseFeature]
-                })
-
-                // building the child layers 
+                })                
                 var childrenLayers:any = [];
-                // var childCenter:[][] = [][];
                 if(this.state.children.length > 0 ){
                     this.state.children.forEach((childrenType, index) => {
                         var childStyle = new Style({
@@ -106,6 +158,11 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                 })
                             })
                         });
+                        
+                        childrenType.devices.forEach(device => {
+                            points.push([device.extensions["location"][`${this.props.deviceLatLonFields[1]}`],device.extensions["location"][`${this.props.deviceLatLonFields[0]}`]])
+                        })
+
                         let features:any[] = childrenType.devices.map(device => (new Feature({
                             geometry : new Point([device.extensions["location"][`${this.props.deviceLatLonFields[1]}`],device.extensions["location"][`${this.props.deviceLatLonFields[0]}`]]),
                             properties : {
@@ -135,7 +192,8 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                 this.setState({
                     layers : this.state.layers.concat(deviceBaseLayers, childrenLayers),
                     deviceIsLoaded : true,
-                    couldntLoadDevice : false
+                    couldntLoadDevice : false,
+                    mapCenter : this.props.mapCenter ? this.props.mapCenter : this.getCentroid(points)
                 })
             }
         }else{
@@ -145,6 +203,19 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
             })
         }
     }
+
+    getCentroid = function(coord:any[]) {
+        var center = coord.reduce(
+            function(x, y) {
+                return [
+                    x[0] + y[0] / coord.length,
+                    x[1] + y[1] / coord.length
+                ];
+            },
+            [0, 0]
+        );
+        return center;
+    };
 
     async getChildren(){
         if(this.state.isParent === true && this.props.childrenRelations !== undefined || this.props.childrenRelations !== undefined){
@@ -307,7 +378,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
 
     render() {
         return (
-            <div>
+            <div style={{"marginTop" : "50px"}}>
                 {
                     this.state.deviceIsLoaded ? (
                         <div>
@@ -334,13 +405,13 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                             {
                                 this.state.zoomHandler === true ? (
                                     <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
-                                        <button className={this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus"} 
+                                        <button title={"Shrink Graphs "} className={this.state.zoomLevel < 0.5 ? "DeviceWidgetExpand-icon zoomMinus disabled" : "DeviceWidgetExpand-icon zoomMinus"} 
                                             onClick={this.zoomOutHandler}
                                             disabled={this.state.zoomLevel < 0.5}
                                         >
                                             <FontAwesomeIcon icon="search-minus" />
                                         </button>
-                                        <button className={this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus"} 
+                                        <button title={"Grow Graphs "} className={this.state.zoomLevel === 1 ? "DeviceWidgetExpand-icon zoomPlus disabled" : "DeviceWidgetExpand-icon zoomPlus"} 
                                             onClick={this.zoomInHandler}
                                             disabled={this.state.zoomLevel === 1}
                                         >
@@ -354,7 +425,15 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                             {/* Widget Expanding Button */}
                             <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
                                 {
-                                    <button className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
+                                    <button title={this.state.isFavorite !== true ? "Add To Favorites" : "Remove From Favorites"} className={"DeviceWidgetExpand-icon fav"} onClick={this.toggleFav}>
+                                        <FontAwesomeIcon icon={this.state.isFavorite !== true ? ["far", "star"] : "star"} />
+                                    </button>
+                                }
+                            </div>
+                            {/* Widget Expanding Button */}
+                            <div className={this.state.widgetExpanded ? "DeviceWidgetExpand" : "DeviceWidgetExpand closed"}>
+                                {
+                                    <button title={this.state.widgetExpanded ? "Collapse Device Info" : "Expand Device Info"} className={"DeviceWidgetExpand-icon"} onClick={this.toggleWidgetExpanded}>
                                         <FontAwesomeIcon icon={this.state.widgetExpanded ? "compress-alt" : "expand-alt"} />
                                     </button>
                                 }
@@ -405,7 +484,7 @@ export class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWi
                                                                             projection={this.state.projection}
                                                                             triggerResize={this.state.triggerMapResize}
                                                                             layers={this.state.layers[0] !== undefined ? this.state.layers : undefined}
-                                                                            mapCenter={this.props.mapCenter !== undefined ? this.props.mapCenter : [this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]}
+                                                                            mapCenter={this.state.mapCenter !== [] ? this.state.mapCenter : [this.state.device.extensions['location'][`${this.props.deviceLatLonFields[1]}`],this.state.device.extensions['location'][`${this.props.deviceLatLonFields[0]}`]]}
                                                                             zoomLevel={this.props.zoomLevel !== undefined ? this.props.zoomLevel : undefined}
                                                                             featureStyles={this.props.featureStyles !== undefined ? this.props.featureStyles : undefined}
                                                                             onDoubleClickCallBack={this.props.mapOnDoubleClickCallBack !== undefined ?  this.props.mapOnDoubleClickCallBack : undefined}

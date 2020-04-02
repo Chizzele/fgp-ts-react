@@ -4,7 +4,10 @@ import './DeviceWidget.css';
 export declare class DeviceWidget extends Component<DeviceWidgetPropsInterface, DeviceWidgetStateInterface> {
     constructor(props: DeviceWidgetPropsInterface);
     componentDidMount(): void;
+    checkFavorite(): boolean;
+    toggleFav(): void;
     buildMapLayer(): void;
+    getCentroid: (coord: any[]) => any;
     getChildren(): Promise<void>;
     getParents(): Promise<void>;
     getDevice(): Promise<void>;

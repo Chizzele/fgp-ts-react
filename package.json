@@ -26,6 +26,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.19.2",
     "awesome-typescript-loader": "^5.2.1",
@@ -73,6 +74,7 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@rollup/plugin-image": "^2.0.4",
     "@types/ol": "^6.1.0",
     "moment": "^2.24.0",

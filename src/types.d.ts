@@ -68,6 +68,11 @@ type SplashReferenceQuery = {
 
 type SplashWidgetArray = HTMLDivElement[]; // 
 
+type FavLink = {
+    name : string;
+    url : string;
+}
+
 ////////END SPLASHSCREEN TYPES////////
 
 

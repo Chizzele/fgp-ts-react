@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { SplashPropsInterface, SplashStateInterface } from './SplashInterfaces';
+import { FavLinks } from '../SplashScreenWidgets/FavLinks/FavLinks';
 import './Splash.css';
 
 export class Splash extends Component<SplashPropsInterface, SplashStateInterface> {
@@ -7,21 +8,18 @@ export class Splash extends Component<SplashPropsInterface, SplashStateInterface
         super(props);
         this.state = {
             isLoaded : false,
+            favLinks : this.props.favLinks !== undefined ? this.props.favLinks : []
         }
     }
+
+    
+
     render() {
         return (
-            <div className={"navigationAwareContainer of-hidden splashDefault"}>
-                {/* <div className={"splashHeading"}>
-                    
-                </div> */}
-                {/* {
-                    this.props.widgets ? (
-                        this.props.widgets.map( widget => {
-                            return(widget)
-                        })
-                    ) : (null)
-                } */}
+            <div className={""}>
+                <FavLinks 
+                    favLinks={this.state.favLinks}
+                />
             </div>
         )
     }
