@@ -9,7 +9,8 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
         super(props);
         this.state={
             index : this.props.index,
-            searchRow : this.props.searchRow
+            searchRow : this.props.searchRow,
+            className : this.props.className ? `${this.props.className} w-inherit pos-fixed` : "w-inherit pos-fixed"
         };
         this.defaultOnClick = this.defaultOnClick.bind(this)
     }
@@ -69,7 +70,7 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
 
     render() {
         return (
-            <div className={"w-inherit pos-fixed"}>
+            <div className={this.state.className}>
                 <input 
                     placeholder={this.props.placeHolderText ? this.props.placeHolderText :  ""}
                     className={"w-100 form-control"}

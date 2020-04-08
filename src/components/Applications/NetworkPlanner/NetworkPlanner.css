@@ -1,0 +1,259 @@
+ul.options li:hover {
+    font-weight: bold;
+    color: #00b4cc;
+    cursor: pointer;
+    transition: 0.3s all;
+  }
+  
+  ul.options li.option-active {
+    background: whitesmoke;
+    font-size: 1.5rem;
+    color: #00b4cc;
+  }
+  .no-options {
+    color: white;
+  }
+  
+  .NwpAutoCompleteDropDown{
+    position: absolute;
+    width: calc(100% - 30px);
+    height: fit-content;
+    z-index: 999999;
+    box-shadow: 0 0 0 0.2rem rgba(224, 224, 224, 0.25);
+  }
+
+  .NwpAutoCompleteDropDownItem{
+    background: #ebebeb;
+    border: 1px solid #dfdfdf;
+    border-top: 0;
+    padding-left: 10px;
+    cursor: pointer;
+    transition: 0.1s ease;
+    font-size: 16px;
+  }
+
+
+  .zInZ{
+    z-index: 0 !important;
+  }
+
+  .NwpAutoCompleteDropDownItem:hover{
+    /* background: var(--fgReact_V0_boldGreen);
+    color: white; */
+    background: #80bdff;
+    color: #353535;
+  }
+
+
+  .nwpSelectorScreen{
+      min-height: calc(100vh - 70px);
+      width: calc(100vw - 90px);
+      position: absolute;
+      top: 70px;
+      left: 70px;
+      /* background: red; */
+  }
+
+  .NwpAutoCompleteDropDown ul {
+      list-style: none;
+      text-align: left;
+      padding: 0;
+  }
+
+  .ff-content{
+      width: fit-content;
+      height: fit-content;
+  }
+
+  .nwpSection{
+    /* min-height: 120px; 
+    background: white; */
+    margin: 0;
+  }
+
+  .nwpSectionRow{
+    /* background: white; */
+    height: 50px;
+  }
+
+  .nwpGoButton{
+    width: 100%;
+    margin-top: 0px;
+    text-align: left;
+    padding-left: 0 !important;
+    color: var(--fgReact_V0_boldGreen);
+    margin-top: -15px;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    height: 40px;
+  }
+
+  .planningMapStyleHidden{
+    /* display: none; */
+    height: 0 !important;
+    opacity: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .planningMapStyleHidden .ol-viewport{
+    height: 0 !important;
+    opacity: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .nwpGoButton-disabled{
+    cursor: not-allowed !important;
+  }
+
+  .nwpGoButton button{
+    float: right;
+    top: 25px;
+    position: relative;
+  }
+
+  .nwpSelectionGraphs{
+    height: 300px;
+    /* background: red; */
+    width: 100%;
+    /* border: solid white 1px; */
+  }
+
+  .nwpPlanningGraphs{
+    width: 100% !important;
+    height: 250px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .nwpSelectionGraphs-mapHide{
+    position: relative;
+    top: -100px;
+  }
+  
+  .nwpSelectionGraphsInner{
+    width: 50%;
+    height: 300px;
+    display: inline-block;
+  }
+
+  .nwpSelectionGraphs-closed{
+    height: 0;
+    opacity: 0;
+    z-index: 0;
+    position: fixed;
+    top: -4000px;
+  }
+
+
+  .planningMapStyle{
+    height : 200px;
+    width: 100%;
+    padding: 0px !important;
+    box-shadow: none !important;
+    margin-bottom: 2px !important;
+  }
+
+  .m-bot-0{
+    margin-bottom:0; 
+    padding: 5px;
+  }
+
+  .planningDissubGraph{
+    width: 45%
+  }
+
+  .planningDissubGraphTitle{
+    width: 10%;
+    font-size: 16px;
+  }
+
+  .planningDissubGraph-title{
+    font-size: 16px;
+  }
+
+  .fgpReactMapPopup{
+    position: absolute;
+    right: 0;
+    width: 200px;
+    z-index: 999;
+    opacity: 0.8;
+    top: 4px;
+    font-size: 0.8rem;
+    line-height: 30px;
+    height: fit-content;
+    width: 250px;
+    right: 19px;
+    background: var(--fgReact_v0_pureWhite);
+    border: 1px solid var(--fgReact_v0_cmpntBorderGrey);
+    box-sizing: border-box;
+    text-align: left;
+    padding-left: 8px;
+    border-radius: 1px;
+    box-shadow: 0px 10px 20px var(--fgReact_V0_cmpntShadowGrey);
+}
+
+.fgpReactMapPopupFocusItem:not(:first-child) {
+    padding-top: 1px;
+    border-top: 1px black dashed; 
+}
+
+.zl-100{
+  zoom: 100%;
+}
+
+.zl-75{
+  zoom: 75%;
+}
+
+.zl-50{
+  zoom: 50%;
+}
+
+div.overrideWorkingArea{
+  left: 0 !important;
+  width: 92% !important;
+}
+
+.nwpDatePickerSelection{
+  top: 25px;
+  float: left;
+  position: relative;
+  width: 112px;
+  height: 38px;
+}
+
+.react-datepicker__input-container{
+  height: 100%;
+  width: 100%;
+}
+.react-datepicker__input-container input{
+  height: 100%;
+  width: 100%;
+}
+.react-datepicker-wrapper{
+  height: 100%;
+  width: 100%;
+}
+
+
+
+.nwpDatePickerSelectionText {
+  top: 25px;
+  width: 110px;
+  line-height: 24px !important;
+  float: left;
+  position: relative;
+  height: 38px;
+  border-radius: .25rem 0 0 .25rem !important;
+}
+
+.errorMessageDiv{
+  width: 100%;
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+  font-weight: bold;
+}

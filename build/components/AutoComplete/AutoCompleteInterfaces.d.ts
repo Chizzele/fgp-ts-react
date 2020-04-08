@@ -16,10 +16,12 @@ export interface AutoCompletePropsInterface {
     items: AutoCompleteDeviceItem[];
     matchOn?: string;
     displayField?: string;
-    clickCallBack?: (items: AutoCompleteDeviceItem) => void;
+    clickCallBack?: (item: AutoCompleteDeviceItem) => void;
     changeCallBack?: (item: AutoCompleteDeviceItem[], userInput: string) => void;
+    className?: string;
 }
 export interface AutoCompleteStateInterface {
     index: number;
     searchRow: AutoCompleteSearchRow;
+    className: string;
 }

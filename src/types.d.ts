@@ -228,3 +228,29 @@ type FocusFeatureProperties = {
     additionalInfo? : any
 }
 ////////BEGIN MAP TYPES////////
+
+
+
+////////START Network Planner Types ////////
+type NetworkPlannerSelectorRow = {
+    name : string; // 
+    id : string;
+    description : string; // what is filtered on and displayed
+    
+    value : string; // the search input
+    label : string; // ?
+    indexKey : number, // index in the array?
+    filteredItems : AutoCompleteDeviceItem[],
+
+    showOptions : boolean; //false
+    showCheck : boolean; // loading / checked
+    allowConfirm : boolean; // has been selected from list 
+    allowedToGo : boolean; // can begin typing
+    confirmed : boolean, // whether or not the device "locked in"
+    graphCannotBeRendered : boolean ; // whether or not the device can be planned on
+
+    showGraph : boolean ; // whether or not the graph for the device is to be shown 
+
+}
+
+////////END Network Planner Types ////////

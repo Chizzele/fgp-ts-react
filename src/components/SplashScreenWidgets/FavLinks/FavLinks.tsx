@@ -28,9 +28,9 @@ export class FavLinks extends Component<FavLinksPropsInterface, FavLinksStateInt
         return (
             <ul>
             {
-                this.state.favLinks.map(link => {
+                this.state.favLinks.map((link, index) => {
                     return(
-                        <li>
+                        <li key={index}>
                             <a href={link.url}>{link.name}</a>
                         </li>
                     )

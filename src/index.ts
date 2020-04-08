@@ -4,6 +4,7 @@ import MonitorApi from './components/FGPMonitoring/MonitorAPI/MonitorApi';
 import DeviceWidget from './components/DeviceWidget/DeviceWidget';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import Crumbs from './components/Breadcrumbs/Crumb/Crumb';
+import {NetworkPlanner }  from './components/Applications/NetworkPlanner/NetworkPlanner';
 import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faStar } from '@fortawesome/free-regular-svg-icons'
@@ -21,5 +22,6 @@ export {
     DeviceWidget,
     Splash,
     Breadcrumbs,
-    Crumbs
+    Crumbs,
+    NetworkPlanner
  }

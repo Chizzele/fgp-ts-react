@@ -34,6 +34,10 @@
     position: fixed;
 }
 
+.pos-relative{
+    position: relative;
+}
+
 .w-inherit{
     width: inherit
 }
@@ -77,3 +81,30 @@
 .fgReact_home-loading{
     cursor: wait;
 }
+
+.fs-reg{
+    font-size: 1rem;
+}
+
+.fs-larger{
+    font-size: 1.2rem;
+}
+
+.fs-xlarge{
+    font-size: 1.8rem;
+}
+
+
+
+/* Boot Strap Overrides */
+.rowFix{
+    margin-left: 13px !important;
+    width: calc(100% - 26px) !important;
+}
+
+.btnPrimaryHoverCancel:hover, .btnPrimaryHoverCancel:active{
+    color: #fff !important;
+    background-color: #007bff !important; 
+    border-color: #007bff !important;
+}
+
