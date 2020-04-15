@@ -253,4 +253,31 @@ type NetworkPlannerSelectorRow = {
 
 }
 
+type NetworkPlannerConfiguration = {
+    parent : {
+        referenceName : string;
+        deviceCount? : number;
+        deviceIdField : string;
+        deviceDescriptionField : string;
+        deviceType : string;
+        relationName : string;
+        intervalName : string;
+        interval : number;
+        threshold : {min:number, max:number}
+        planningField : string;
+    },
+    child : {
+        referenceName : string;
+        deviceCount? : number;
+        deviceIdField : string;
+        deviceDescriptionField : string;
+        deviceType : string;
+        relationName : string;
+        intervalName : string;
+        interval : number;
+        threshold : {min:number, max:number}
+        planningField : string;
+    }
+}
+
 ////////END Network Planner Types ////////

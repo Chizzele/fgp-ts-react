@@ -38,6 +38,10 @@
     position: relative;
 }
 
+.pos-initial{
+    position: initial;
+}
+
 .w-inherit{
     width: inherit
 }

@@ -3,11 +3,11 @@ import { NetworkPlannerPropsInterface, NetworkPlannerStateInterface, NetworkPlan
 import './NetworkPlanner.css';
 export declare class NetworkPlanner extends Component<NetworkPlannerPropsInterface, NetworkPlannerStateInterface> {
     constructor(props: NetworkPlannerPropsInterface);
-    retrieveAutoCompleteItems(): never[];
+    retrieveAutoCompleteItems(): AutoCompleteDeviceItem[];
     componentDidMount(): void;
     confirmSelection(): void;
     changeTimeWindow(timeWindow: Date[], cb: (timeWindow: number[]) => void): void;
-    setRows(rows: NetworkPlannerSelectorRow[]): void;
+    setRows(rows: NetworkPlannerSelectorRow[], index?: number, cb?: (myIndex: number) => void): void;
     render(): JSX.Element;
 }
 export default NetworkPlanner;

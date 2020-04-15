@@ -3,12 +3,13 @@ export interface NetworkPlannerSelectorPropsInterface {
     baseUrl : string;
     autocompleteDevices : AutoCompleteDeviceItem[];
     selectionRows : NetworkPlannerSelectorRow[];
-    updateRowsHandler : (rows:NetworkPlannerSelectorRow[]) => void;
+    updateRowsHandler : (rows:NetworkPlannerSelectorRow[], index?:number, cb?:(rowIndex:number)=>void) => void;
     dateWindow : number[];
-    dateWindowHandler : (timeWindow:Date[], cb:(timeWindow:number[])=>void) => void;
+    dateWindowHandler : (timeWindow:Date[], cb?:(timeWindow:number[])=>void) => void;
+    subsLoaded : boolean;
+    config : NetworkPlannerConfiguration;
 }
 
 export interface NetworkPlannerSelectorStateInterface {
-    subsLoading : boolean;
-    autocompleteDevices : AutoCompleteDeviceItem[]
+    
 }

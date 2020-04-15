@@ -28,14 +28,15 @@ export class AutoComplete extends Component<AutoCompletePropsInterface, AutoComp
         let tmpSearchRow = {...this.state.searchRow};
         const userInput = event.target.value;
         // if there is not a custom matchOn - match on description
+        
         if(this.props.matchOn !== undefined){
             var matchType = this.props.matchOn
             var filteredItems = this.props.items.filter(
-                (item) => item[matchType].toLowerCase().includes(userInput.toLowerCase())
+                (item) => item[matchType] !== null && item[matchType].toLowerCase().includes(userInput.toLowerCase())
             );
         }else{
             var filteredItems = this.props.items.filter(
-                (item) => item.description.toLowerCase().includes(userInput.toLowerCase())
+                (item) => item.description !== null && item.description.toLowerCase().includes(userInput.toLowerCase())
             );
         }
         tmpSearchRow.filteredItems = filteredItems;

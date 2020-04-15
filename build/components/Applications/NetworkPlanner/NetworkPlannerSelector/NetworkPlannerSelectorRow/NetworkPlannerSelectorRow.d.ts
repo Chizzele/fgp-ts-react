@@ -4,6 +4,7 @@ import '../../NetworkPlanner.css';
 export declare class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelectorRowCmpPropsInterface, NetworkPlannerSelectorRowCmpStateInterface> {
     constructor(props: NetworkPlannerSelectorRowCmpPropsInterface);
     componentDidMount(): void;
+    passBack(item: AutoCompleteDeviceItem): void;
     render(): JSX.Element;
 }
 export default NetworkPlannerSelectorRowCmp;

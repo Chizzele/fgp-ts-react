@@ -1,7 +1,7 @@
 export interface NetworkPlannerPropsInterface {
     baseUrl: string;
-    referenceName: string;
     selectionDevices?: AutoCompleteDeviceItem[];
+    config: NetworkPlannerConfiguration;
 }
 export interface NetworkPlannerStateInterface {
     selectionMade: boolean;
@@ -12,6 +12,7 @@ export interface NetworkPlannerStateInterface {
     parentDataLines: any[];
     childDevices: DeviceWithExtensions[];
     childDataLines: any[];
+    substationsLoaded: boolean;
 }
 export declare class NetworkPlannerSelectorRow {
     name: string;

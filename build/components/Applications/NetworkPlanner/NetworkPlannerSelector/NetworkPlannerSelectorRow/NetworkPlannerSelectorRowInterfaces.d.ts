@@ -10,6 +10,7 @@ export interface NetworkPlannerSelectorRowCmpPropsInterface {
     onToggleGraphHandler: (indexKey: number) => void;
     totalRows: number;
     autoCompleteItems: AutoCompleteDeviceItem[];
+    onAutoCompleteSelectionHandler: (value: AutoCompleteDeviceItem, indexKey: number) => void;
 }
 export interface NetworkPlannerSelectorRowCmpStateInterface {
 }

@@ -10,19 +10,24 @@ export class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelect
         this.state =  {
 
         };
+        this.passBack = this.passBack.bind(this)
     }
  
     componentDidMount(){
-        console.log('hello world')
+        
+    }
+    // passes back to the call handler from clicking on a device with the row index
+    passBack(item:AutoCompleteDeviceItem){
+        this.props.onAutoCompleteSelectionHandler(item, this.props.row.indexKey)
     }
 
     render() {
         return (
             <div className={
                 this.props.row.showOptions === true ? (
-                    "col-12 row fgReact_componentContainer nwpSection rowFix"
+                    "col-12 row fgReact_componentContainer nwpSection pos-initial rowFix"
                 ) : (
-                    "col-12 row fgReact_componentContainer nwpSection rowFix zInZ"
+                    "col-12 row fgReact_componentContainer nwpSection rowFix pos-initial zInZ"
                 )
                 }
             >   
@@ -53,6 +58,7 @@ export class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelect
                         threshold={20}
                         index={this.props.row.indexKey}
                         searchRow={this.props.row}
+                        clickCallBack={this.passBack}
                     />
 
                     {/* Buttons */}
@@ -136,9 +142,9 @@ export class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelect
                     <div className={"nwpSelectionGraphsInner"} id={`vg_${this.props.row.id}`}>
                             
                     </div>
-                    <div className={"nwpSelectionGraphsInner"} id={`cg_${this.props.row.id}`}>
+                    {/* <div className={"nwpSelectionGraphsInner"} id={`cg_${this.props.row.id}`}>
                             
-                    </div>
+                    </div> */}
                 </div>
             </div>
         )

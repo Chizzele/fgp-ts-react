@@ -1,7 +1,9 @@
 export interface NetworkPlannerPropsInterface {
     baseUrl : string; 
-    referenceName : string;
-    selectionDevices? :  AutoCompleteDeviceItem[]
+
+    selectionDevices? :  AutoCompleteDeviceItem[]; // if you want to provide your own
+    
+    config : NetworkPlannerConfiguration;
 }
 
 export interface NetworkPlannerStateInterface {
@@ -15,6 +17,7 @@ export interface NetworkPlannerStateInterface {
     //child info
     childDevices : DeviceWithExtensions[];
     childDataLines : any[];
+    substationsLoaded : boolean;
 }
 
 // making a class so it is easier to add new Rows
@@ -42,10 +45,11 @@ export class NetworkPlannerSelectorRow{
         this.indexKey = indexKey !== undefined ?  indexKey : Math.random();
         this.filteredItems = [];
         this.showOptions = false;
-        this.showCheck = false;
-        this.allowConfirm = false;
+        this.showCheck = true;
+        this.allowConfirm = true;
         this.confirmed = false;
         this.graphCannotBeRendered = false;
         this.showGraph = true;
+        this.allowedToGo = false;
     }
 }
