@@ -10,4 +10,9 @@ export interface NetworkPlannerSelectorPropsInterface {
     config: NetworkPlannerConfiguration;
 }
 export interface NetworkPlannerSelectorStateInterface {
+    graphList: {
+        graph: any;
+        elemId: string;
+    }[];
+    tempValidChildren: any[];
 }

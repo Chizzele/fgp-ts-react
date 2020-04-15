@@ -1,5 +1,6 @@
 import { DataHandler } from '@future-grid/fgp-graph/lib/services/dataService';
 import { GraphSeries, DataRequestTarget } from '@future-grid/fgp-graph/lib/metadata/configurations';
+import '@future-grid/fgp-graph/lib/css/graph.css';
 export default class NwpDataSelectorService implements DataHandler {
     source: string;
     baseUrl: string;

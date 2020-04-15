@@ -18,6 +18,7 @@ export interface NetworkPlannerStateInterface {
     childDevices : DeviceWithExtensions[];
     childDataLines : any[];
     substationsLoaded : boolean;
+    confirmedDevices : any[];
 }
 
 // making a class so it is easier to add new Rows

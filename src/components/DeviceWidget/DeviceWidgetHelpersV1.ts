@@ -35,13 +35,14 @@ export async function getDeviceParents(baseUrl:string, deviceName:string, breadC
         i === 0 ? deviceName = deviceName : deviceName = breadCrumbArray[i -1].deviceName
         await axios.get(`${baseUrl}${breadCrumbPath[i].deviceType}/${deviceName}/relation/${breadCrumbPath[i].relationName}?isParent=true`)
         .then ((resp) => {
+            let relDevs :relationResponseDevice = resp.data
             breadCrumbArray.push({
                 deviceType : breadCrumbPath[i].parentDeviceTypeName,
                 deviceTypeShortName : breadCrumbPath[i].parentDeviceTypeShortName,
-                deviceName : resp.data.name,
-                deviceDescription : resp.data.description,
+                deviceName : relDevs.name,
+                deviceDescription : relDevs.description,
                 image : breadCrumbPath[i].image,
-                linkTo : `${breadCrumbPath[i].linkTo}${resp.data.name}`
+                linkTo : `${breadCrumbPath[i].linkTo}${relDevs.name}`
             })
         })
         .catch(err =>{

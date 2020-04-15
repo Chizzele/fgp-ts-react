@@ -12,12 +12,14 @@ export declare class NetworkPlannerSelector extends Component<NetworkPlannerSele
     onAutoCompleteSelectionHandler(value: AutoCompleteDeviceItem, indexKey: number): void;
     onConfirmHandler(indexKey: number): void;
     onToggleGraphHandler(indexKey: number): void;
-    testCb(): void;
+    testCb(timestampArr: number[]): void;
     testCb2(data: {
         substationId: string;
         rowIndex: number;
         data: [];
     }): void;
+    validateGraphDevice(rowIndex: number): void;
+    collector(rowIndex: number, incomingName: string, iteratorIndex: number, total: number, foundFlag: boolean): void;
     fetchGraph(rowIndex: number): void;
     render(): JSX.Element;
 }

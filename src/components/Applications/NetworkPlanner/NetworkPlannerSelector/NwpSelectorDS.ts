@@ -2,6 +2,7 @@ import axios from 'axios';
 // import moment from 'moment';
 import {DataHandler} from '@future-grid/fgp-graph/lib/services/dataService'
 import {GraphSeries, DataRequestTarget} from '@future-grid/fgp-graph/lib/metadata/configurations'
+import '@future-grid/fgp-graph/lib/css/graph.css'
 export default class NwpDataSelectorService implements DataHandler {
     source : string;
     baseUrl : string;
@@ -17,12 +18,11 @@ export default class NwpDataSelectorService implements DataHandler {
         this.baseUrl = baseUrl;
         this.cb = cb;
 
+        
         this.fetchFirstNLast = (ids:string[], deviceType:string, interval:string, fields:string[]) => {
-            console.log('fetching fnl', ids, deviceType, interval, fields )
+            fields ? console.log(fields) : null;
             let url = `${this.baseUrl}${deviceType}/${interval}/${ids[0]}/first-last`
             return new Promise((resolve, reject) => {
-                // console.log(reject,fields)
-                // sample data for first and last
                 axios.get(
                     url
                 ).then((resp:any)=>{
@@ -38,11 +38,9 @@ export default class NwpDataSelectorService implements DataHandler {
     
         };
 
-        this.fetchdata = (ids: Array<string>, deviceType: string, interval: string, range: {start: number, end: number }, fields?: Array<string>, seriesConfig?: Array<GraphSeries>, target?: DataRequestTarget) => {
-            console.log('fetch', seriesConfig, target)
+        this.fetchdata = (ids: Array<string>, deviceType: string, interval: string, range: {start: number, end: number }, fields?: Array<string>) => {
             let url = `${this.baseUrl}${deviceType}/${interval}`
             return new Promise((resolve, reject) => {
-                console.log(reject)
                 axios.post(url,
                 {
                     "start" : range.start,

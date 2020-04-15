@@ -139,12 +139,12 @@ export class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelect
                 </div>
                 {/* Graph Area */}
                 <div className={this.props.row.showCheck === true && this.props.row.confirmed === true && this.props.row.showGraph === true ? "nwpSelectionGraphs" : this.props.row.showCheck === true && this.props.row.confirmed === true && this.props.row.showGraph === false ? "nwpSelectionGraphs-closed" : "nwpSelectionGraphs-closed"}>
-                    <div className={"nwpSelectionGraphsInner"} id={`vg_${this.props.row.id}`}>
+                    <div className={"nwpSelectionGraphsInner"} id={`vg_${this.props.row.indexKey}`}>
                             
                     </div>
-                    {/* <div className={"nwpSelectionGraphsInner"} id={`cg_${this.props.row.id}`}>
+                    <div className={"nwpSelectionGraphsInner"} id={`cg_${this.props.row.indexKey}`}>
                             
-                    </div> */}
+                    </div>
                 </div>
             </div>
         )

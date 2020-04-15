@@ -129,6 +129,13 @@ type ChildDeviceCollection = {
     relationKey : string;
     childType : string;
 }
+
+type relationResponseDevice = {
+    deviceKey : {id: string};
+    name: string;
+    type: string
+    description: string
+}
 ////////END DEVICE TYPES////////
 
 

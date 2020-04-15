@@ -24,20 +24,15 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
             substationsLoaded : this.props.selectionDevices !== undefined ? 
             true : 
             false,
+            confirmedDevices : [],
         }
         this.retrieveAutoCompleteItems = this.retrieveAutoCompleteItems.bind(this);
         this.confirmSelection = this.confirmSelection.bind(this);
         this.changeTimeWindow = this.changeTimeWindow.bind(this);
         this.setRows = this.setRows.bind(this);
-
     }
 
     retrieveAutoCompleteItems() {
-    //     name : "item One",
-    //     id : "id1",
-    //     description : "Item 1 description",
-    //     label :  "Label for item one"
-
         console.log('retrieving...')
         let devices:AutoCompleteDeviceItem[] = [];
         let deviceNum = this.props.config.parent.deviceCount !== undefined?this.props.config.parent.deviceCount : 10000;
@@ -89,7 +84,6 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
             deviceSelectionRows : rows
         }, cb && index !== undefined ? ()=>cb(index) : undefined )
     }
-
 
     render() {
         return (

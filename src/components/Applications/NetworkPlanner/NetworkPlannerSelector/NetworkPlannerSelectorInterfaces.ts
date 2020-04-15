@@ -11,5 +11,6 @@ export interface NetworkPlannerSelectorPropsInterface {
 }
 
 export interface NetworkPlannerSelectorStateInterface {
-    
+        graphList : {graph : any, elemId : string}[];
+        tempValidChildren: any[];
 }

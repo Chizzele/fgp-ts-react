@@ -13,6 +13,7 @@ export interface NetworkPlannerStateInterface {
     childDevices: DeviceWithExtensions[];
     childDataLines: any[];
     substationsLoaded: boolean;
+    confirmedDevices: any[];
 }
 export declare class NetworkPlannerSelectorRow {
     name: string;
