@@ -29,6 +29,7 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
         this.validateGraphDevice = this.validateGraphDevice.bind(this)
         this.onAutoCompleteSelectionHandler = this.onAutoCompleteSelectionHandler.bind(this)
         this.collector = this.collector.bind(this)
+        this.prepareVisualizer = this.prepareVisualizer.bind(this)
     }
 
     addSelectionRow(){
@@ -127,8 +128,17 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
         }
     }
 
-    testCb2(data:{substationId : string, rowIndex : number, data : []}){
-        console.log(data)
+    prepareVisualizer(data:{substationId : string, rowIndex : number, data : [], timeWindow:number[], deviceType:string}){
+        
+        let lineCollection:NetworkPlannerDataLineCollection = {
+            id : data.substationId,
+            type : data.deviceType,
+            isParent : this.props.config.parent.deviceType === data.deviceType ? true : false,
+            originLines : data.data,
+            planningLines: data.data,
+        }
+        this.props.dataLineUpdateHandler(lineCollection)
+
     }
 
     validateGraphDevice(rowIndex:number){
@@ -174,7 +184,8 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
 
     // takes the row index, grabs data related top the row index's selected field
     fetchGraph(rowIndex:number){
-        var dataService = new NwpDataSelectorService(this.props.baseUrl, this.props.selectionRows[rowIndex].id, rowIndex, this.testCb2);
+        var dataService = new NwpDataSelectorService(this.props.baseUrl, this.props.selectionRows[rowIndex].id, rowIndex, this.props.config.parent.deviceType, this.prepareVisualizer);
+        var dataService_child = new NwpDataSelectorService(this.props.baseUrl, this.props.selectionRows[rowIndex].id, rowIndex, this.props.config.child.deviceType, this.prepareVisualizer);
         var elem:any = document.getElementById(`vg_${this.props.selectionRows[rowIndex].indexKey}`);
         var domElem:HTMLElement = elem;
         var childElem:any = document.getElementById(`cg_${this.props.selectionRows[rowIndex].indexKey}`);
@@ -329,7 +340,7 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
                                 }
                             ],
                         },
-                        dataService: dataService,
+                        dataService: dataService_child,
                         show: true,
                         ranges: [
                             { name: '3 days', value: (3 * 1000 * 60 * 60 * 24 ), show: true }
@@ -364,6 +375,7 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
                     rows[rowIndex].showGraph = true;
                     rows[rowIndex].showCheck = true;
                     rows[rowIndex].allowedToGo = true;
+                    rows[0].allowedToGo = true;
                     rows[rowIndex].graphCannotBeRendered = false;
                     graphList.push(
                         {graph:selectorGraph, elemId: `vg_${this.props.selectionRows[rowIndex].indexKey}`},
@@ -424,9 +436,9 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
                                     />
                                 </div>
                                 <div className={'nwpGoButton'}>
-                                        {this.props.selectionRows.every((row)=>row.confirmed) && this.props.selectionRows[0].allowedToGo === true ? (
+                                        {this.props.selectionRows.every((row)=>row.confirmed) && this.props.selectionRows[0].allowedToGo === true && this.props.selectionRows.length >= 2 ? (
                                             <button className={"btn-primary btn"}
-                                                onMouseDown={()=>{this.props.confirmHandler}}
+                                                onMouseDown={()=>{this.props.confirmHandler()}}
                                                 title={"start network planning"}
                                             >
                                                 Start Planning

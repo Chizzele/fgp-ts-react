@@ -287,4 +287,12 @@ type NetworkPlannerConfiguration = {
     }
 }
 
+type NetworkPlannerDataLineCollection = {
+    id : string;
+    type : string;
+    originLines : any[];
+    planningLines : any[];
+    isParent : boolean;
+}
+
 ////////END Network Planner Types ////////

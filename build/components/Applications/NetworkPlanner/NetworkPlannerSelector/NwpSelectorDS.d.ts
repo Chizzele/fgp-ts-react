@@ -8,6 +8,8 @@ export default class NwpDataSelectorService implements DataHandler {
         substationId: string;
         rowIndex: number;
         data: [];
+        timeWindow: number[];
+        deviceType: string;
     }) => void;
     fetchFirstNLast: (ids: Array<string>, deviceType: string, interval: string, fields?: Array<string>) => Promise<Array<any>>;
     fetchdata: (ids: Array<string>, deviceType: string, interval: string, range: {
@@ -17,9 +19,12 @@ export default class NwpDataSelectorService implements DataHandler {
         id: string;
         data: Array<any>;
     }>>;
-    constructor(baseUrl: string, substationId: string, rowIndex: number, cb: (data: {
+    deviceType: string;
+    constructor(baseUrl: string, substationId: string, rowIndex: number, deviceType: string, cb: (data: {
         substationId: string;
         rowIndex: number;
         data: [];
+        timeWindow: number[];
+        deviceType: string;
     }) => void);
 }

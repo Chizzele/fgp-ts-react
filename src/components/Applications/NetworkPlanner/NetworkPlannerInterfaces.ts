@@ -12,11 +12,12 @@ export interface NetworkPlannerStateInterface {
     deviceSelectionRows : NetworkPlannerSelectorRow[];
     timeWindow : number[];
     // parent info
-    parentDevices : DeviceWithExtensions[];
-    parentDataLines : any[];
+    // parentDevices : DeviceWithExtensions[];
+    parentDataLines : NetworkPlannerDataLineCollection[];
     //child info
-    childDevices : DeviceWithExtensions[];
-    childDataLines : any[];
+    // childDevices : DeviceWithExtensions[];
+    // childDataLines : any[];
+    dataLines : NetworkPlannerDataLineCollection[];
     substationsLoaded : boolean;
     confirmedDevices : any[];
 }

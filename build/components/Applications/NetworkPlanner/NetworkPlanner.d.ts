@@ -8,6 +8,7 @@ export declare class NetworkPlanner extends Component<NetworkPlannerPropsInterfa
     confirmSelection(): void;
     changeTimeWindow(timeWindow: Date[], cb: (timeWindow: number[]) => void): void;
     setRows(rows: NetworkPlannerSelectorRow[], index?: number, cb?: (myIndex: number) => void): void;
+    setLinesFromSelector(lineCollection: NetworkPlannerDataLineCollection): void;
     render(): JSX.Element;
 }
 export default NetworkPlanner;

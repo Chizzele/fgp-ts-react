@@ -6,17 +6,19 @@ import '@future-grid/fgp-graph/lib/css/graph.css'
 export default class NwpDataSelectorService implements DataHandler {
     source : string;
     baseUrl : string;
-    cb : (data:{substationId : string, rowIndex : number, data : []}) => void;
+    cb : (data:{substationId : string, rowIndex : number, data : [], timeWindow:number[], deviceType:string}) => void;
     fetchFirstNLast : (ids: Array<string>, deviceType: string, interval: string, fields?: Array<string>) => Promise<Array<any>>
     fetchdata : (ids: Array<string>, deviceType: string, interval: string, range: {start: number, end: number }, fields?: Array<string>, seriesConfig?: Array<GraphSeries>, target?: DataRequestTarget) => 
     Promise<Array<{
         id: string;
         data: Array<any>;
     }>>
+    deviceType: string;
 
-    constructor(baseUrl:string, substationId:string, rowIndex:number, cb:(data:{substationId : string, rowIndex : number, data : []}) => void){
+    constructor(baseUrl:string, substationId:string, rowIndex:number, deviceType:string , cb:(data:{substationId : string, rowIndex : number, data : [], timeWindow:number[], deviceType:string}) => void){
         this.baseUrl = baseUrl;
         this.cb = cb;
+        this.deviceType = deviceType;
 
         
         this.fetchFirstNLast = (ids:string[], deviceType:string, interval:string, fields:string[]) => {
@@ -56,7 +58,7 @@ export default class NwpDataSelectorService implements DataHandler {
                         result.push(res.data[key]);
                     });
                     resolve(result)
-                    this.cb({substationId : substationId, rowIndex : rowIndex, data : result})
+                    this.cb({substationId : substationId, rowIndex : rowIndex, data : result, deviceType:this.deviceType, timeWindow:[range.start,range.end]})
                 })
                 .catch((err:any) => {
                     reject(err)

@@ -1,5 +1,5 @@
 export interface NetworkPlannerSelectorPropsInterface {
-    confirmHandler : (searchRows:NetworkPlannerSelectorRow[], timeRange:number[]) => void;
+    confirmHandler : () => void;
     baseUrl : string;
     autocompleteDevices : AutoCompleteDeviceItem[];
     selectionRows : NetworkPlannerSelectorRow[];
@@ -8,6 +8,7 @@ export interface NetworkPlannerSelectorPropsInterface {
     dateWindowHandler : (timeWindow:Date[], cb?:(timeWindow:number[])=>void) => void;
     subsLoaded : boolean;
     config : NetworkPlannerConfiguration;
+    dataLineUpdateHandler : (lineCollection:NetworkPlannerDataLineCollection) => void
 }
 
 export interface NetworkPlannerSelectorStateInterface {

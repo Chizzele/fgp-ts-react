@@ -13,14 +13,15 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
             selectionDevices : this.props.selectionDevices !== undefined ? 
             this.props.selectionDevices : 
             this.retrieveAutoCompleteItems(),
-            parentDevices : [],
+            // parentDevices : [],
             deviceSelectionRows : [
                 new  NetworkPlannerSelectorRow(0)
             ],
             timeWindow : [ moment().subtract(3, 'days').valueOf(), moment().valueOf()],
             parentDataLines : [],
-            childDataLines : [],
-            childDevices : [],
+            // childDataLines : [],
+            // childDevices : [],
+            dataLines : [],
             substationsLoaded : this.props.selectionDevices !== undefined ? 
             true : 
             false,
@@ -29,6 +30,7 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
         this.retrieveAutoCompleteItems = this.retrieveAutoCompleteItems.bind(this);
         this.confirmSelection = this.confirmSelection.bind(this);
         this.changeTimeWindow = this.changeTimeWindow.bind(this);
+        this.setLinesFromSelector = this.setLinesFromSelector.bind(this);
         this.setRows = this.setRows.bind(this);
     }
 
@@ -85,6 +87,23 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
         }, cb && index !== undefined ? ()=>cb(index) : undefined )
     }
 
+    setLinesFromSelector(lineCollection:NetworkPlannerDataLineCollection){
+        let tempLines = [...this.state.dataLines]
+        let index = tempLines.map(r => r.id).indexOf(lineCollection.id);
+        if(index === -1){
+            tempLines.push(lineCollection)
+        }else{
+            if(tempLines[index].isParent === lineCollection.isParent){
+                tempLines[index] = lineCollection;    
+            }else{
+                tempLines.push(lineCollection)
+            }
+        }
+        this.setState({
+            dataLines : tempLines
+        }, ()=> {console.log('done')})
+    }
+
     render() {
         return (
             <div className={"w-100 d-flex"}>
@@ -101,6 +120,7 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
                             dateWindowHandler={this.changeTimeWindow}
                             subsLoaded={this.state.substationsLoaded}
                             config={this.props.config}
+                            dataLineUpdateHandler={this.setLinesFromSelector}
                         />
                     ) : (
                         <NetworkPlannerVisualizer 

@@ -13,10 +13,12 @@ export declare class NetworkPlannerSelector extends Component<NetworkPlannerSele
     onConfirmHandler(indexKey: number): void;
     onToggleGraphHandler(indexKey: number): void;
     testCb(timestampArr: number[]): void;
-    testCb2(data: {
+    prepareVisualizer(data: {
         substationId: string;
         rowIndex: number;
         data: [];
+        timeWindow: number[];
+        deviceType: string;
     }): void;
     validateGraphDevice(rowIndex: number): void;
     collector(rowIndex: number, incomingName: string, iteratorIndex: number, total: number, foundFlag: boolean): void;

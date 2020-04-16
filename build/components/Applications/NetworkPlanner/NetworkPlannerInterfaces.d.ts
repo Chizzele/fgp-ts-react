@@ -8,10 +8,8 @@ export interface NetworkPlannerStateInterface {
     selectionDevices: AutoCompleteDeviceItem[];
     deviceSelectionRows: NetworkPlannerSelectorRow[];
     timeWindow: number[];
-    parentDevices: DeviceWithExtensions[];
-    parentDataLines: any[];
-    childDevices: DeviceWithExtensions[];
-    childDataLines: any[];
+    parentDataLines: NetworkPlannerDataLineCollection[];
+    dataLines: NetworkPlannerDataLineCollection[];
     substationsLoaded: boolean;
     confirmedDevices: any[];
 }
