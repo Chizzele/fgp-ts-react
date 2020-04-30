@@ -49,6 +49,9 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
         var childExist:number = graphList.map(r => r.elemId).indexOf(`cg_${this.props.selectionRows[rowIndex].indexKey}`)
         var childElem:any = document.getElementById(`cg_${this.props.selectionRows[rowIndex].indexKey}`);
         var childDomElem:HTMLElement = childElem;
+        if(rows.every((row)=>row.confirmed)){
+            rows[0].allowedToGo = true;
+        }
         if(exist !== -1 || childExist !== -1){
             domElem.innerHTML = "";
             graphList.splice(exist, 1)
@@ -170,6 +173,9 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
         let temp = [...this.state.tempValidChildren];
         foundFlag === true ? temp.push(incomingName) : null;
         if(iteratorIndex === total - 1 ){
+            let tempRows = [...this.props.selectionRows]
+            tempRows[rowIndex].childrenAssigned = temp;
+            this.props.updateRowsHandler(tempRows);
             this.setState({
                 tempValidChildren : temp
             }, ()=> {
@@ -257,9 +263,9 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
                     // selectCallback: (series:any) => {
                     //     console.log(series)
                     // },
-                    syncDateWindow : (dateWindow:number[]) => {                                                        
-                        this.props.dateWindowHandler([new Date(dateWindow[0]), new Date(dateWindow[1])], ()=>{})
-                    }
+                    // syncDateWindow : (dateWindow:number[]) => {                                                        
+                    //     this.props.dateWindowHandler([new Date(dateWindow[0]), new Date(dateWindow[1])], ()=>{})
+                    // }
                 }
             },
             timezone: 'Australia/Melbourne'
@@ -358,9 +364,9 @@ export class NetworkPlannerSelector extends Component<NetworkPlannerSelectorProp
                                 // selectCallback: (series:any) => {
                                 //     console.log(series)
                                 // },
-                                syncDateWindow : (dateWindow:number[]) => {                                                        
-                                    this.props.dateWindowHandler([new Date(dateWindow[0]), new Date(dateWindow[1])], ()=>{})
-                                }
+                                // syncDateWindow : (dateWindow:number[]) => {                                                        
+                                //     this.props.dateWindowHandler([new Date(dateWindow[0]), new Date(dateWindow[1])], ()=>{})
+                                // }
                             }
                         },
                         timezone: 'Australia/Melbourne'

@@ -37,16 +37,16 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
     retrieveAutoCompleteItems() {
         console.log('retrieving...')
         let devices:AutoCompleteDeviceItem[] = [];
-        let deviceNum = this.props.config.parent.deviceCount !== undefined?this.props.config.parent.deviceCount : 10000;
-        axios.get(`${this.props.baseUrl}${this.props.config.parent.referenceName}/data/${deviceNum}/0`)
+        let deviceNum = this.props.selectorConfig.parent.deviceCount !== undefined?this.props.selectorConfig.parent.deviceCount : 10000;
+        axios.get(`${this.props.baseUrl}${this.props.selectorConfig.parent.referenceName}/data/${deviceNum}/0`)
         .then(resp =>{
             console.log(resp, devices)
             resp.data.map((result:any) => {
                 devices.push({
-                    id : result[`${this.props.config.parent.deviceIdField}`],
-                    name : result[`${this.props.config.parent.deviceDescriptionField}`],
-                    description  : result[`${this.props.config.parent.deviceDescriptionField}`],
-                    label : result[`${this.props.config.parent.deviceDescriptionField}`]
+                    id : result[`${this.props.selectorConfig.parent.deviceIdField}`],
+                    name : result[`${this.props.selectorConfig.parent.deviceDescriptionField}`],
+                    description  : result[`${this.props.selectorConfig.parent.deviceDescriptionField}`],
+                    label : result[`${this.props.selectorConfig.parent.deviceDescriptionField}`]
                 })
             })
             this.setState({
@@ -89,19 +89,20 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
 
     setLinesFromSelector(lineCollection:NetworkPlannerDataLineCollection){
         let tempLines = [...this.state.dataLines]
-        let index = tempLines.map(r => r.id).indexOf(lineCollection.id);
-        if(index === -1){
-            tempLines.push(lineCollection)
-        }else{
-            if(tempLines[index].isParent === lineCollection.isParent){
-                tempLines[index] = lineCollection;    
-            }else{
-                tempLines.push(lineCollection)
+        let indexArr:number[] = [];
+        tempLines.forEach((line:NetworkPlannerDataLineCollection, index:number) => {
+            if( line.id === lineCollection.id && line.isParent == lineCollection.isParent){
+                indexArr.push(index);
             }
+        })
+        indexArr.sort(function(a,b){ return b - a; });
+        for (var i = indexArr.length -1; i >= 0; i--){
+            tempLines.splice(indexArr[i],1);
         }
+        tempLines.push(lineCollection)
         this.setState({
             dataLines : tempLines
-        }, ()=> {console.log('done')})
+        })
     }
 
     render() {
@@ -119,12 +120,16 @@ export class NetworkPlanner extends Component<NetworkPlannerPropsInterface, Netw
                             dateWindow={this.state.timeWindow}
                             dateWindowHandler={this.changeTimeWindow}
                             subsLoaded={this.state.substationsLoaded}
-                            config={this.props.config}
+                            config={this.props.selectorConfig}
                             dataLineUpdateHandler={this.setLinesFromSelector}
                         />
                     ) : (
                         <NetworkPlannerVisualizer 
-                        
+                            baseUrl={this.props.baseUrl}
+                            rawDataLines={this.state.dataLines}
+                            dateWindow={this.state.timeWindow}
+                            config={this.props.visualizerConfig}
+                            selectionRows={this.state.deviceSelectionRows}
                         />
                     )
                 }

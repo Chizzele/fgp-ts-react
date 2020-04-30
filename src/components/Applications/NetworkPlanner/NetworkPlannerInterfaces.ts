@@ -3,7 +3,8 @@ export interface NetworkPlannerPropsInterface {
 
     selectionDevices? :  AutoCompleteDeviceItem[]; // if you want to provide your own
     
-    config : NetworkPlannerConfiguration;
+    selectorConfig : NetworkPlannerConfiguration;
+    visualizerConfig : NetworkPlannerVisualizerMapConfig;
 }
 
 export interface NetworkPlannerStateInterface {
@@ -37,6 +38,8 @@ export class NetworkPlannerSelectorRow{
     allowedToGo : boolean; // can begin typing
     confirmed : boolean; // whether or not the device "locked in"
     showGraph : boolean; //whether or not the graph is shown.
+    childrenAssigned : string[];
+    childrenDevices : DeviceWithExtensions[];
     graphCannotBeRendered : boolean
     constructor(indexKey?:number){
         this.name = "";
@@ -53,5 +56,7 @@ export class NetworkPlannerSelectorRow{
         this.graphCannotBeRendered = false;
         this.showGraph = true;
         this.allowedToGo = false;
+        this.childrenAssigned = [];
+        this.childrenDevices = [];
     }
 }

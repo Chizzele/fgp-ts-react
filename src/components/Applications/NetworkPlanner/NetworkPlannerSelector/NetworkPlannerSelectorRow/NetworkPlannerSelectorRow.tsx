@@ -42,16 +42,6 @@ export class NetworkPlannerSelectorRowCmp extends Component<NetworkPlannerSelect
                 <div className={"w-100 nwpSectionRow d-md-inline-flex align-items-center"}>
 
                     {/* Autocomplete */}
-                    {/* <NetworkPlanningAutoComplete
-                        onChange={this.props.onChange}
-                        onClick={this.props.onClick}
-                        index={this.props.index}
-                        row={this.props.row}
-                        // onKeyDown={this.onKeyDownHandler}
-                        onBlur={this.props.onBlur}
-                        // onDelete={this.props.onDelete}
-                        options={this.props.onDelete}
-                    /> */}
                     <AutoComplete 
                         className={"pos-relative"}
                         items={this.props.autoCompleteItems}

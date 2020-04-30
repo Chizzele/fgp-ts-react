@@ -1,7 +1,8 @@
 export interface NetworkPlannerPropsInterface {
     baseUrl: string;
     selectionDevices?: AutoCompleteDeviceItem[];
-    config: NetworkPlannerConfiguration;
+    selectorConfig: NetworkPlannerConfiguration;
+    visualizerConfig: NetworkPlannerVisualizerMapConfig;
 }
 export interface NetworkPlannerStateInterface {
     selectionMade: boolean;
@@ -27,6 +28,8 @@ export declare class NetworkPlannerSelectorRow {
     allowedToGo: boolean;
     confirmed: boolean;
     showGraph: boolean;
+    childrenAssigned: string[];
+    childrenDevices: DeviceWithExtensions[];
     graphCannotBeRendered: boolean;
     constructor(indexKey?: number);
 }

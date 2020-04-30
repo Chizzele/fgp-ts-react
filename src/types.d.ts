@@ -255,6 +255,7 @@ type NetworkPlannerSelectorRow = {
     allowedToGo : boolean; // can begin typing
     confirmed : boolean, // whether or not the device "locked in"
     graphCannotBeRendered : boolean ; // whether or not the device can be planned on
+    childrenAssigned : string[];
 
     showGraph : boolean ; // whether or not the graph for the device is to be shown 
 
@@ -294,5 +295,65 @@ type NetworkPlannerDataLineCollection = {
     planningLines : any[];
     isParent : boolean;
 }
+
+type NetworkPlannerVisualizerMapConfig = {
+    map: {
+        projection : string;
+        initialZoom : number;    
+    },
+    devices : {
+        parent : {
+            planningField : string;
+            deviceType : string;
+            locationExtensionName : string;
+            locationExtensionLatLonFields : string[];
+        },
+        child : {
+            planningField : string;
+            deviceType : string;
+            locationExtensionName : string;
+            locationExtensionLatLonFields : string[];
+        }
+    }
+}
+
+type NetworkPlannerVisualizerParentPreType = {
+    deviceType : string;
+    location : number[];
+    name : string;
+    id : string; 
+    currentChildren: DeviceWithExtensions[]
+    completeCurrentChildren: NetworkPlannerVisualizerChildFeature[]
+}
+
+type NetworkPlannerVisualizerChildPreType = {
+    deviceType : string ;
+    location : number[];
+    name : string;
+    id : string;
+    currentParent : string;
+    originParent : string;
+}
+
+type NetworkPlannerVisualizerParentFeature = {
+    deviceType : string ;
+    location : number[];
+    name : string;
+    id : string;
+    isParent : boolean;
+    currentChildren: DeviceWithExtensions[]
+    completeCurrentChildren: NetworkPlannerVisualizerChildFeature[]
+}
+type NetworkPlannerVisualizerChildFeature = {
+    deviceType : string ;
+    location : number[];
+    name : string;
+    id : string;
+    isParent : boolean;
+    currentParent : string;
+    originParent : string;
+}
+
+
 
 ////////END Network Planner Types ////////
