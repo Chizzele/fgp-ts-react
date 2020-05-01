@@ -180,3 +180,6 @@ export function createChildLayer(devices:NetworkPlannerVisualizerChildFeature[],
     return layer;
 }
 
+export function buildGraphConfig(){
+    // var normaliser:any =  
+}

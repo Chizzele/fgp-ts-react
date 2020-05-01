@@ -139,8 +139,6 @@ export class NetworkPlannerVisualizerMap extends Component<NetworkPlannerVisuali
         if(props.layersParents.length > this.props.layersParents.length){
             console.log('more layers nigs', props.layersParents.length, this.props.layersParents.length)
             this.state.map.addLayer(props.layersParents[props.layersParents.length-1])
-        }else{
-            console.log('something else happened')
         }
         if(props.layerChildren.length > this.props.layerChildren.length){
             console.log('more layers nigs', props.layerChildren.length, this.props.layerChildren.length)

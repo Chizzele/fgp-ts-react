@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NetworkPlannerVisualizerPropsInterface, NetworkPlannerVisualizerStateInterface } from './NetworkPlannerVisualizerInterfaces';
-import {createParentLayer, createChildLayer} from '../NetworkPlannerLoadHelpers/NwpVisualizerLoadHelper';
+import {createParentLayer, createChildLayer, buildGraphConfig} from '../NetworkPlannerLoadHelpers/NwpVisualizerLoadHelper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {NetworkPlannerVisualizerMap} from './NetworkPlannerVisualizerMap/NetworkPlannerVisualizerMap'
@@ -28,7 +28,8 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
             completeChildren : [],
             layersChildren : [],
             layersParent : [],
-            mapCenter : []
+            mapCenter : [],
+            tracker : []
         }
         this.prepareVisualizer = this.prepareVisualizer.bind(this)
         this.visualizeData = this.visualizeData.bind(this);
@@ -132,6 +133,7 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
 
         // Making maps, layers, features
         let parentDevices = [...this.state.completeParents];
+        let dataLines = [...this.props.rawDataLines];
         let layers:VectorLayer[] = [];
         let layersParent:VectorLayer[] = [];
         let layersChildren:VectorLayer[] = [];
@@ -139,6 +141,30 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
         parentDevices.forEach((device:NetworkPlannerVisualizerParentFeature, index:number) =>{
             const layer = createParentLayer(device, index);
             const childLayer = createChildLayer(device.completeCurrentChildren, index)
+            const graphConfigs:any =  buildGraphConfig();
+            var parentLinesIndex:number = 0;
+            var childLinesIndex:number = 0;
+            console.log( "graphConfig",  graphConfigs)
+            dataLines.forEach((entry:NetworkPlannerDataLineCollection, indexX:number) => {
+                if(entry.id === device.id){
+                    if(entry.isParent === true){
+                        parentLinesIndex = indexX;
+                    }else if(entry.isParent === false){
+                        childLinesIndex = indexX;
+                    }
+                }
+                
+            })
+            console.log(childLinesIndex,parentLinesIndex )
+            let parentLines:NetworkPlannerDataLineCollection = dataLines[parentLinesIndex];
+            let childLines:NetworkPlannerDataLineCollection = dataLines[childLinesIndex];
+            let maxIntervalsParent:number = parentLines.originLines[0].data.length;
+            let childIntervalLengths:number[] = childLines.originLines.map((entry:any)=>entry.data.length)
+            let maxIntervalsChild:number = Math.max(...childIntervalLengths);
+            console.log(maxIntervalsChild, maxIntervalsParent, "max intervals (child/parent)")
+
+            
+
             layersParent.push(layer)
             layersChildren.push(childLayer)
             layers.push(layer,childLayer);
@@ -148,6 +174,8 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
         
         // making graphs
         
+
+
         // setting state 
         this.setState({
             layers : layers,
@@ -169,50 +197,129 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
         console.log('graphs updating')
     }
 
+    getChildDataLine(childFeature:NetworkPlannerVisualizerChildFeature){
+        let subset:any = this.props.rawDataLines.filter(r=>r.id === childFeature.originParent && r.isParent === false)
+        let featureDataLine = subset[0].originLines.filter((l:any) =>l.id === childFeature.name)
+        return featureDataLine
+    }
+
+    processFeature(feature:any, featureProperties:NetworkPlannerVisualizerChildFeature, source:any, indexL:number, indexF:number):processDataResultNWP{
+        let completeParents = [...this.state.completeParents];
+        let completeChildren = [...this.state.completeChildren];
+        let childLayers:any[] = [...this.state.layersChildren];
+        let newParent:string;
+        let fromLayerMatchIndex:number = indexL
+        let featureMatchIndex:number = indexF;
+        let toLayerMatchIndex:number ;
+        // setting layer to either next layer if exists, or cycle to start
+        childLayers[fromLayerMatchIndex + 1] !== undefined ? toLayerMatchIndex = fromLayerMatchIndex + 1 : toLayerMatchIndex = 0;
+        let toLayerSource = childLayers[toLayerMatchIndex].getSource();
+        // copying properties to the feature
+        let newFeatureProps:any = {...featureProperties};
+        newParent = childLayers[toLayerMatchIndex].getProperties().parentDeviceId
+        newFeatureProps.currentParent = newParent
+        // finding in the complete devices
+        let fromCompleteParentIndex:number = completeParents.map(r => r.name).indexOf(featureProperties.currentParent);
+        let fromCompleteParent:NetworkPlannerVisualizerParentPreType = completeParents[fromCompleteParentIndex]
+        let toCompleteParentIndex:number = completeParents.map(r => r.name).indexOf(newParent);
+        let toCompleteParent:NetworkPlannerVisualizerParentPreType = completeParents[toCompleteParentIndex];
+        // removing from original device
+        let oldIndex:number = fromCompleteParent.currentChildren.map(d => d.name).indexOf(featureProperties.name)
+        let oldIndexComplete:number = fromCompleteParent.completeCurrentChildren.map(d => d.name).indexOf(featureProperties.name)
+        //modify the feature to update the parent
+        fromCompleteParent.completeCurrentChildren[oldIndexComplete].currentParent = newParent
+        // adding in the feature
+        toCompleteParent.currentChildren.push(fromCompleteParent.currentChildren[oldIndex])
+        toCompleteParent.completeCurrentChildren.push(fromCompleteParent.completeCurrentChildren[oldIndexComplete])
+        // removing the feature 
+        fromCompleteParent.currentChildren.splice(oldIndex,1);
+        fromCompleteParent.completeCurrentChildren.splice(oldIndexComplete, 1);
+        feature.setProperties({properties: newFeatureProps});
+        // setting the child right
+        let childOldIndex:number = completeChildren.map(r => r.name).indexOf(featureProperties.name);
+        completeChildren[childOldIndex].currentParent = newParent;
+        // adding feature to layer and splicing from old 
+        source.removeFeature(source.getFeatures()[featureMatchIndex])
+        toLayerSource.addFeature(feature)
+        return {
+            fromParent : featureProperties.originParent,
+            toParent : newParent,
+            childId : featureProperties.name,
+            childLayers : childLayers,
+            completeParents : completeParents,
+            completeChildren : completeChildren
+        }
+    }
+
+    getParentsFromFeature(featureProperties:NetworkPlannerVisualizerChildFeature):processDataResultNWP{
+        let childLayers:any[] = [...this.state.layersChildren];
+        let returnThing:processDataResultNWP = {
+            childId : "",
+            childLayers : [],
+            completeChildren : [],
+            completeParents : [],
+            fromParent : "",
+            toParent : ""
+        };
+        childLayers.forEach(async(layer:any , indexL:number) =>{
+            if(layer.getProperties().parentDeviceId === featureProperties.currentParent){
+                let features:any = layer.getSource().getFeatures()
+                let source:any = layer.getSource();
+                await features.forEach((feature:any, indexF:number) =>{
+                    if(feature.getProperties().properties.name === featureProperties.name){
+                        let blah:processDataResultNWP = this.processFeature(feature, featureProperties, source, indexL, indexF) 
+                        returnThing.childId = blah.childId;
+                        returnThing.childLayers = blah.childLayers;
+                        returnThing.completeChildren = blah.completeChildren;
+                        returnThing.completeParents = blah.completeParents;
+                        returnThing.fromParent = blah.fromParent
+                        returnThing.toParent = blah.toParent
+
+                    }else{
+                        returnThing.childId = "";
+                        returnThing.childLayers = [];
+                        returnThing.completeChildren = [];
+                        returnThing.completeParents = [];
+                        returnThing.fromParent = ""
+                        returnThing.toParent = ""
+                    }
+                })
+            }
+        })
+        return returnThing
+    }
+
     moveChild(map:any, event:any){
         map.forEachFeatureAtPixel(event.pixel, (feature:any) => {
             let featureProperties = feature.getProperties().properties;
-            var fromLayerMatchIndex:number
-            var featureMatchIndex:number;
-            var toLayerMatchIndex:number;
-            var toLayerSource:any;
             if (featureProperties.isParent === false){
-                console.log('im a child yay')
                 // now to find where the feature is to push it 
-                let childLayers:any[] = [...this.state.layersChildren];
-                childLayers.forEach((layer:any , indexL:number) =>{
-                    if(layer.getProperties().parentDeviceId === featureProperties.currentParent){
-                        // layer found
-                        let features:any = layer.getSource().getFeatures()
-                        let source:any = layer.getSource();
-                        features.forEach( (feature:any, indexF:number) =>{
-                            if(feature.getProperties().properties.name === featureProperties.name){
-                                // found layer and meter, setting indexes
-                                fromLayerMatchIndex = indexL
-                                featureMatchIndex = indexF;
-                                // setting layer to either next layer if exists, or cycle to start
-                                childLayers[fromLayerMatchIndex + 1] !== undefined ? toLayerMatchIndex = fromLayerMatchIndex + 1 : toLayerMatchIndex = 0;
-                                toLayerSource = childLayers[toLayerMatchIndex].getSource();
-                                // copying properties to the feature
-                                let newFeatureProps:any = {...featureProperties};
-                                newFeatureProps.currentParent = childLayers[toLayerMatchIndex].getProperties().parentDeviceId
-                                feature.setProperties({properties: newFeatureProps});
-                                // adding feature to layer and splicing from old 
-                                source.removeFeature(source.getFeatures()[featureMatchIndex])
-                                toLayerSource.addFeature(feature)
-                                this.setState({
-                                    layersChildren : childLayers
-                                },() => {
-                                    console.log('layers updated')
-                                    this.updateGraphs()
-                                })
-                            }
-                        })
-                    }   
-                })
+                let processedResults:processDataResultNWP = this.getParentsFromFeature(featureProperties)
+                let tracker = [...this.state.tracker];
+                let trackerIndex = tracker.map(r=>r.childId).indexOf(featureProperties.name)
+                let childDataLine = this.getChildDataLine(featureProperties)
+                let trackerObj:trackerNWP = {
+                    childId : processedResults.childId,
+                    fromParent : processedResults.fromParent,
+                    toParent : processedResults.toParent,
+                    data : childDataLine,
+                    index : tracker.length + 1
+                }
+                if(trackerIndex === -1){
+                    tracker.push(trackerObj)
+                }else{
+                    tracker[trackerIndex] = trackerObj
+                }
 
+                this.setState({
+                    completeChildren : processedResults.completeChildren,
+                    completeParents : processedResults.completeParents,
+                    layersChildren : processedResults.childLayers,
+                    tracker
+                })
+                
             }else{
-                console.log('im not a child nooo')
+                
             }
         })
     }
@@ -362,13 +469,13 @@ export class NetworkPlannerVisualizer extends Component<NetworkPlannerVisualizer
                                         />
                                     }
                                     {
-                                        this.props.selectionRows.map((device, index) => {
+                                        this.state.completeParents.map((device, index) => {
                                             return (
                                                 <div key={index} className={this.state.mapVisible ? " zl-"+(this.state.scaleFactor*100)+" nwpPlanningGraphs fgReact_componentContainer m-bot-0" : " zl-"+(this.state.scaleFactor*100)+" nwpPlanningGraphs fgReact_componentContainer m-bot-0 nwpSelectionGraphs-mapHide"}>
                                                     {/* <div className={"nwpSelectionGraphsInner"} id={`pvg_${substation.id}`}>
                                                             <FontAwesomeIcon className="" icon={["fas", "eye-slash"]}/>
                                                     </div> */}
-                                                    <div className={"planningDissubGraphTitle"}> {device.description} </div>
+                                                    <div className={"planningDissubGraphTitle"}> {device.name} </div>
 
                                                     <div className={"planningDissubGraph nwpSelectionGraphsInner "} id={`pcg_${device.id}`}>
 

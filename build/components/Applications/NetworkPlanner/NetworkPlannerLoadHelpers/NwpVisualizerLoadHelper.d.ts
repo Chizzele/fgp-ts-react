@@ -12,3 +12,4 @@ export declare const planningColors: {
 export declare function getCentroid(coord: any[]): any;
 export declare function createParentLayer(device: NetworkPlannerVisualizerParentFeature, colorIndex: number): VectorLayer;
 export declare function createChildLayer(devices: NetworkPlannerVisualizerChildFeature[], colorIndex: number, dummyId?: string): VectorLayer;
+export declare function buildGraphConfig(): void;

@@ -8,6 +8,9 @@ export declare class NetworkPlannerVisualizer extends Component<NetworkPlannerVi
     visualizeData(): void;
     findFeatureInLayer(): void;
     updateGraphs(): void;
+    getChildDataLine(childFeature: NetworkPlannerVisualizerChildFeature): any;
+    processFeature(feature: any, featureProperties: NetworkPlannerVisualizerChildFeature, source: any, indexL: number, indexF: number): processDataResultNWP;
+    getParentsFromFeature(featureProperties: NetworkPlannerVisualizerChildFeature): processDataResultNWP;
     moveChild(map: any, event: any): void;
     addDummy(map: any, event: any): void;
     onClickHandler(map: any, event: any): void;

@@ -20,4 +20,5 @@ export interface NetworkPlannerVisualizerStateInterface {
     completeParents : NetworkPlannerVisualizerParentPreType[];
     completeChildren : NetworkPlannerVisualizerChildPreType[];
     mapCenter : number[]
+    tracker  : trackerNWP[]
 }

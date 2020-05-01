@@ -354,6 +354,21 @@ type NetworkPlannerVisualizerChildFeature = {
     originParent : string;
 }
 
+type trackerNWP = {
+    childId : string
+    fromParent : string
+    toParent : string;
+    data : any[]
+    index : number 
+}
 
+type processDataResultNWP = {
+    fromParent : string,
+    toParent : string,
+    childId : string,
+    childLayers : any[],
+    completeParents : NetworkPlannerVisualizerParentPreType[],
+    completeChildren : NetworkPlannerVisualizerChildPreType[]
+}
 
 ////////END Network Planner Types ////////
